@@ -10,7 +10,8 @@ create table Customers (
 	custid integer primary key,
 	name varchar(100) not null,
 	phone integer not null,
-	points integer not null
+	points integer not null,
+	on delete cascade
 );
 
 create table Restaurants (
@@ -20,7 +21,8 @@ create table Restaurants (
 	rLocation varchar(100),
 	openTime int,
 	closeTime int,
-	primary key(rid)
+	primary key(rid),
+	on delete cascade
 );
 
 create table Reviews (
@@ -30,7 +32,8 @@ create table Reviews (
 	rating integer not null,
 	foreign key (rid) references Restaurants,
 	foreign key (custid) references Customers,
-	primary key (rid, custid)
+	primary key (rid, custid),
+	on delete cascade
 );
 
 create table RTable (
@@ -50,7 +53,8 @@ create table Reserves (
 	custid integer,
 	foreign key (tableid, rid) references RTable (tableid, rid),
 	foreign key (rid) references Restaurants (rid),
-	foreign key (custid) references Customers (custid)
+	foreign key (custid) references Customers (custid),
+	on delete cascade
 );
 
 create table Food (
@@ -73,10 +77,10 @@ create table Preferences (
 	on delete cascade
 );
 
-create table CuisineTags {
+create table CuisineTags (
 	rid integer,
 	tag varchar(100),
 	primary key (rid, tag),
 	foreign key (rid) references Restaurants
-}
+);
 

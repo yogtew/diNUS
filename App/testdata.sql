@@ -2,29 +2,30 @@
 
 -- Load data for testcase 1
 
-DELETE FROM Customers;
-DELETE FROM Restaurants;
-DELETE FROM Reviews;
-DELETE FROM RTable;
-DELETE FROM Reserves;
-DELETE FROM Food;
-DELETE FROM Preferences;
+DELETE FROM Reviews CASCADE;
+DELETE FROM Reserves CASCADE;
+DELETE FROM Customers CASCADE;
+DELETE FROM CuisineTags CASCADE;
+DELETE FROM Restaurants CASCADE;
+DELETE FROM RTable CASCADE;
+DELETE FROM Food CASCADE;
+DELETE FROM Preferences CASCADE;
 
 
 INSERT INTO Customers (custid, name, phone, points) VALUES
-(1, "Alice Tan", 81234567, 0),
-(2, "Bernard Lee", 98512383, 0),
-(3, "Charles Wong", 82347632, 0);
+(1, 'Alice Tan', 81234567, 0),
+(2, 'Bernard Lee', 98512383, 0),
+(3, 'Charles Wong', 82347632, 0);
 
 INSERT INTO Restaurants(rid, rname, rRating, rLocation, openTime, closeTime) VALUES
-(1, "McDolans", 8, "Buona Vista", 600, 2200),
-(2, "Dining Hall", 2, "Riche Vue", 700, 2130),
-(3, "Ameens", 8, "Supper Stretch", 800, 0300);
+(1, 'McDolans', 8, 'Buona Vista', 600, 2200),
+(2, 'Dining Hall', 2, 'Riche Vue', 700, 2130),
+(3, 'Ameens', 8, 'Supper Stretch', 800, 0300);
 
 INSERT INTO Reviews(rid, review, custid, rating) VALUES
-(1, "Very good", 1, 7),
-(2, "Food too salty", 1, 3),
-(3, "Expensive", 2, 5);
+(1, 'Very good', 1, 7),
+(2, 'Food too salty', 1, 3),
+(3, 'Expensive', 2, 5);
 
 INSERT INTO RTable(tableid, rid) VALUES
 (1, 1),
@@ -44,26 +45,24 @@ INSERT INTO RTable(tableid, rid) VALUES
 (5, 3);
 
 INSERT INTO Reserves(resid, restime, tableid, rid, custid) VALUES
-(1, 1800, 1, 1, 1),
-(2, 1800, 2, 1, 2),
-(3, 1800, 1, 2, 3);
+(1, '2019-03-19 18:00:00', 1, 1, 1);
 
 INSERT INTO Food(foodname, price, rid) VALUES
-("McWangs", 4, 1),
-("McGreedles", 5, 1),
-("Asian Stall", 0, 2),
-("Malay Stall", 0, 2),
-("Cheese Fries S", 4, 3),
-("Cheese Fries M", 5, 3),
-("Cheese Fries L", 6, 3);
+('McWangs', 4, 1),
+('McGreedles', 5, 1),
+('Asian Stall', 0, 2),
+('Malay Stall', 0, 2),
+('Cheese Fries S', 4, 3),
+('Cheese Fries M', 5, 3),
+('Cheese Fries L', 6, 3);
 
 INSERT INTO CuisineTags(rid, tag) VALUES
-(1, "Western"),
-(1, "Fast Food"),
-(2, "Asian"),
-(2, "Malay"),
-(2, "Indian"),
-(2, "Affordable"),
-(3, "Supper"),
-(3, "Halal"),
-(3, "Healthy");
+(1, 'Western'),
+(1, 'Fast Food'),
+(2, 'Asian'),
+(2, 'Malay'),
+(2, 'Indian'),
+(2, 'Affordable'),
+(3, 'Supper'),
+(3, 'Halal'),
+(3, 'Healthy');
