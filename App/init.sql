@@ -8,6 +8,7 @@ drop table if exists Preferences cascade;
 
 create table Customers (
 	custid integer primary key,
+	name varchar(100) not null,
 	phone integer not null,
 	points integer not null
 );
@@ -16,9 +17,9 @@ create table Restaurants (
 	rid integer,
 	rname varchar(100),
 	rRating integer,
-	rCuisineType varchar(100),
 	rLocation varchar(100),
-	rOpeninghours varchar(100),
+	openTime int,
+	closeTime int,
 	primary key(rid)
 );
 
@@ -71,4 +72,11 @@ create table Preferences (
 	foreign key (custid) references Customers(custid)
 	on delete cascade
 );
+
+create table CuisineTags {
+	rid integer,
+	tag varchar(100),
+	primary key (rid, tag),
+	foreign key (rid) references Restaurants
+}
 
