@@ -1,24 +1,24 @@
 function check(event) {
 	// Get Values
-	var matric  = document.getElementById('matric' ).value;
-	var name    = document.getElementById('name'   ).value;
-	var faculty = document.getElementById('faculty').value;
+	var rName  = document.getElementById('rName').value;
+	var resTime    = document.getElementById('resTime').value;
+	var resNum = document.getElementById('resNum').value;
 	
 	// Simple Check
-	if(matric.length != 9) {
-		alert("Invalid matric number");
+	if(rName.length == 0) {
+		alert("Invalid restaurant name");
 		event.preventDefault();
 		event.stopPropagation();
 		return false;
 	}
-	if(name.length == 0) {
-		alert("Invalid name");
+	if(resTime.length == 0) {
+		alert("Invalid reservation timing");
 		event.preventDefault();
 		event.stopPropagation();
 		return false;
 	}
-	if(faculty.length != 3) {
-		alert("Invalid faculty code");
+	if(isNAN(resNum)) {
+		alert("Invalid number of pax for restaurant");
 		event.preventDefault();
 		event.stopPropagation();
 		return false;
