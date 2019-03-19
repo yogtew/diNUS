@@ -20,17 +20,16 @@
     <h1>CS2102: <%= title%></h1>
 		<form id="html_form" action="insert" role="form" method="post">
 			<div class="form-group">
-				<label for="matric">Matric Number</label>
-				<input type="text" class="form-control" id="matric" name="matric" aria-describedby="matricHelp" placeholder="Enter your matric number">
-				<small id="matricHelp" class="form-text text-muted">Do not share your matric number with anyone else.</small>
+				<label for="rName">Restaurant Name</label>
+				<input type="text" class="form-control" id="rName" name="rName" aria-describedby="rNameHelp" placeholder="Enter restaurant name for booking">
 			</div>
 			<div class="form-group">
-				<label for="name">Name</label>
-				<input type="text" class="form-control" id="name" name="name" placeholder="Enter your name">
+				<label for="resTime">Reservation Timing</label>
+				<input type="text" class="form-control" id="resTime" name="resTime" placeholder="Enter timing for reservation">
 			</div>
 			<div class="form-group">
-				<label for="faculty">Faculty</label>
-				<input type="text" class="form-control" id="faculty" name="faculty" placeholder="Enter your faculty">
+				<label for="resNum">Number of pax</label>
+				<input type="text" class="form-control" id="resNum" name="resNum" placeholder="Enter number of pax for reseration">
 			</div>
 			<button type="submit" class="btn btn-primary">Submit</button>
 		</form>
