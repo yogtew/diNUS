@@ -1,66 +1,74 @@
-drop table IF EXISTS Reviews CASCADE;
-drop table IF EXISTS Customers CASCADE;
-drop table IF EXISTS Menu CASCADE;
-drop table IF EXISTS Restuarant cascade;
-drop table IF EXISTS RTable cascade;
-
-create table Reviews (
-	rid INTEGER PRIMARY KEY,
-	review VARCHAR(140),
-	userid INTEGER NOT NULL,
-	rating INTEGER NOT NULL
-	FOREIGN KEY (userid) REFERENCES Users
-);
+drop table if exists Reviews cascade;
+drop table if exists Customers cascade;
+drop table if exists Food cascade;
+drop table if exists Restaurants cascade;
+drop table if exists RTable cascade;
+drop table if exists Reserves cascade;
+drop table if exists Preferences cascade;
 
 create table Customers (
-	userid INTEGER PRIMARY KEY,
-	phone INTEGER NOT NULL,
-	points INTEGER NOT NULL
+	custid integer primary key,
+	phone integer not null,
+	points integer not null
 );
 
-
-create table Reservation (
-	resid INTEGER PRIMARY KEY,
-	resTime DATETIME,
-	tableid INTEGER,
-	rid INTEGER,
-	userid INTEGER,
-	FOREIGN KEY (tableid) REFERENCES rTable,
-	FOREIGN KEY (rid) REFERENCES Restaurants,
-	FOREIGN KEY (userid) REFERENCES Customers
-);
-
-create table Administrator (
-	userid INTEGER PRIMARY KEY
-);
-
-create table Restaurant(
-	rid 	integer
-	rRating integer
-	rCuisineType varchar(100)
-	rLocation vchar(100)
-	rOpeninghours varchar(100)
+create table Restaurants (
+	rid integer,
+	rname varchar(100),
+	rRating integer,
+	rCuisineType varchar(100),
+	rLocation varchar(100),
+	rOpeninghours varchar(100),
 	primary key(rid)
 );
 
-create table rTable(
-	tableId integer
-	rid integer not null 
-	primary key(tableId)
-	foreign key (rid) references restaurant
+create table Reviews (
+	rid integer,
+	review varchar(140),
+	custid integer,
+	rating integer not null,
+	foreign key (rid) references Restaurants,
+	foreign key (custid) references Customers,
+	primary key (rid, custid)
 );
 
-create table Menu (
-	name VARCHAR(60) PRIMARY KEY,
-	price INTEGER NOT NULL,
-	rid INTEGER NOT NULL,
-	FOREIGN KEY (rid) REFERENCES Restaurants
+create table RTable (
+	tableid integer,
+	rid integer not null,
+	primary key(tableid, rid),
+	foreign key (rid) references Restaurants
+	on delete cascade
+);
+
+
+create table Reserves (
+	resid integer primary key,
+	restime timestamp,
+	tableid integer,
+	rid integer,
+	custid integer,
+	foreign key (tableid, rid) references RTable (tableid, rid),
+	foreign key (rid) references Restaurants (rid),
+	foreign key (custid) references Customers (custid)
+);
+
+create table Food (
+	foodname varchar(60),
+	price integer not null,
+	rid integer not null,
+	primary key(foodname, rid),
+	foreign key (rid) references Restaurants
+	on delete cascade
 );
 
 create table Preferences (
-	userid VARCHAR(100) PRIMARY KEY REFERENCES Customers(userId) ON DELETE CASCADE,
-	cuisineType VARCHAR(100),
-	pLocation VARCHAR(100),
-	openingHours VARCHAR(100)
+	prefid integer,
+	cuisineType varchar(100),
+	pLocation varchar(100),
+	openingHours varchar(100),
+	custid integer,
+	primary key (prefid, custid),
+	foreign key (custid) references Customers(custid)
+	on delete cascade
 );
 
