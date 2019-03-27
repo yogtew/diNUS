@@ -1,9 +1,23 @@
+/* GET home page. */
 var express = require('express');
 var router = express.Router();
+const { Pool } = require('pg')
+const pool = new Pool({
+	connectionString: process.env.DATABASE_URL
+});
 
-/* GET home page. */
+
+var query = "select table_name from information_schema.tables where table_schema = 'public';"
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+	pool.query(query, (err, data) => {
+		console.log(data)
+		if (err) {
+			res.render('error', {message: "Table \"" + req.query.table + "\" not found", error: {status: "", stack: ""}})
+		} else {
+			res.render('index', { title: 'Express' , data: data.rows});
+		}
+		
+	});
 });
 
 module.exports = router;

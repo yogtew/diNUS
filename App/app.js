@@ -56,7 +56,7 @@ app.use('/loops', loopsRouter);
 /* ---------------------------- */
 
 /* --- V4: Database Connect --- */
-app.use('/select', selectRouter);
+app.use('/select*', selectRouter);
 /* ---------------------------- */
 
 /* --- V5: Adding Forms     --- */
