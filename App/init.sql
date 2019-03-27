@@ -5,13 +5,13 @@ drop table if exists Restaurants cascade;
 drop table if exists RTable cascade;
 drop table if exists Reserves cascade;
 drop table if exists Preferences cascade;
+drop table if exists CuisineTags cascade;
 
 create table Customers (
 	custid integer primary key,
 	name varchar(100) not null,
 	phone integer not null,
-	points integer not null,
-	on delete cascade
+	points integer not null
 );
 
 create table Restaurants (
@@ -21,8 +21,7 @@ create table Restaurants (
 	rLocation varchar(100),
 	openTime int,
 	closeTime int,
-	primary key(rid),
-	on delete cascade
+	primary key(rid)
 );
 
 create table Reviews (
@@ -32,8 +31,7 @@ create table Reviews (
 	rating integer not null,
 	foreign key (rid) references Restaurants,
 	foreign key (custid) references Customers,
-	primary key (rid, custid),
-	on delete cascade
+	primary key (rid, custid)
 );
 
 create table RTable (
@@ -53,8 +51,7 @@ create table Reserves (
 	custid integer,
 	foreign key (tableid, rid) references RTable (tableid, rid),
 	foreign key (rid) references Restaurants (rid),
-	foreign key (custid) references Customers (custid),
-	on delete cascade
+	foreign key (custid) references Customers (custid)
 );
 
 create table Food (
