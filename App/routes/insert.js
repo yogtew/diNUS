@@ -3,13 +3,8 @@ var router = express.Router();
 
 const { Pool } = require('pg')
 const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'postgres',
-  password: '********',
-  port: 5432,
-})
-
+	connectionString: process.env.DATABASE_URL
+});
 /* SQL Query */
 var sql_query = 'INSERT INTO Restaurants VALUES';
 
@@ -25,10 +20,10 @@ router.post('/', function(req, res, next) {
 	var rName  = req.body.rName;
 	var resTime = req.body.resTime;
 	var resNum = req.body.resNum;
-	
+
 	// Construct Specific SQL Query
 	var insert_query = sql_query + "('" + rName + "')";
-	
+
 	pool.query(insert_query, (err, data) => {
 		res.redirect('/select')
 	});

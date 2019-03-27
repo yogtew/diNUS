@@ -15,7 +15,7 @@ router.get('/', function(req, res, next) {
 		if (err) {
 			res.render('error', {message: "Table \"" + req.query.table + "\" not found", error: {status: "", stack: ""}})
 		} else {
-			res.render('select', { title: 'View Table', data: data.rows, fields: data.fields });
+			res.render('select', { title: 'View Table', data: data.rows, fields: data.fields, test: 123 });
 		}
 	});
 });
