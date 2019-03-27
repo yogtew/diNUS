@@ -14,9 +14,9 @@ router.get('/', function(req, res, next) {
 		if (err) {
 			res.render('error', {message: "Table \"" + req.query.table + "\" not found", error: {status: "", stack: ""}})
 		} else {
-			res.render('index', { title: 'Express' , data: data.rows});
+			res.render('index2', { title: 'Express' , data: data.rows});
 		}
-		
+
 	});
 });
 
