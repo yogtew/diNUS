@@ -5,6 +5,7 @@ drop table if exists Restaurants cascade;
 drop table if exists RTable cascade;
 drop table if exists Reserves cascade;
 drop table if exists Preferences cascade;
+drop table if exists CuisineTags cascade;
 
 create table Customers (
 	custid integer primary key,
