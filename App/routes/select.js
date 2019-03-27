@@ -2,26 +2,21 @@ var express = require('express');
 var router = express.Router();
 
 const { Pool } = require('pg')
-/* --- V7: Using Dot Env ---
-const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'postgres',
-  password: '********',
-  port: 5432,
-})
-*/
 const pool = new Pool({
 	connectionString: process.env.DATABASE_URL
 });
 
 
-/* SQL Query */
-var sql_query = 'SELECT * FROM student_info';
 
 router.get('/', function(req, res, next) {
+	/* SQL Query */
+	var sql_query = 'SELECT * FROM ' + req.query.table || "restaurants"
 	pool.query(sql_query, (err, data) => {
-		res.render('select', { title: 'Database Connect', data: data.rows });
+		if (err) {
+			res.render('error', {message: "Table \"" + req.query.table + "\" not found", error: {status: "", stack: ""}})
+		} else {
+			res.render('select', { title: 'View Table', data: data.rows, fields: data.fields });
+		}
 	});
 });
 
