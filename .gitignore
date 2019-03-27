@@ -1,0 +1,4 @@
+App/.env
+App/node_modules/*/package.json
+
+

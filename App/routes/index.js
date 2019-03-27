@@ -10,7 +10,7 @@ const pool = new Pool({
 var query = "select table_name from information_schema.tables where table_schema = 'public';"
 router.get('/', function(req, res, next) {
 	pool.query(query, (err, data) => {
-		console.log(data)
+	    console.log(data)
 		if (err) {
 			res.render('error', {message: "Table \"" + req.query.table + "\" not found", error: {status: "", stack: ""}})
 		} else {
