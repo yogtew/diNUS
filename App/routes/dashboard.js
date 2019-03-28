@@ -20,7 +20,7 @@ router.get('/', function(req, res, next) {
             });
         } else {
             var user = user_data.rows[0];
-            var sql_query = 'SELECT Restaurants.rname, to_char(Reserves.restime, \'HH12:MI\') FROM Reserves natural join Restaurants where Reserves.rid = ' + req.query.user
+            var sql_query = 'SELECT Restaurants.rname, to_char(Reserves.restime, \'HH12:MI\') FROM Reserves natural join Restaurants where Reserves.custid = ' + req.query.user
         	pool.query(sql_query, (err, data) => {
         		if (err) {
         			res.render('error', {message: "Table \"" + req.query.table + "\" not found", error: {status: "", stack: ""}})
