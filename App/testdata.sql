@@ -44,8 +44,8 @@ INSERT INTO RTable(tableid, rid) VALUES
 (4, 3),
 (5, 3);
 
-INSERT INTO Reserves(resid, restime, tableid, rid, custid) VALUES
-(1, '2019-03-19 18:00:00', 1, 1, 1);
+--INSERT INTO Reserves(resid, restime, tableid, rid, custid) VALUES
+--(1, '2019-03-19 18:00:00', 1, 1, 1);
 
 INSERT INTO Food(foodname, price, rid) VALUES
 ('McWangs', 4, 1),
