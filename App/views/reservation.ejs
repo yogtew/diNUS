@@ -1,0 +1,148 @@
+DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Reservations</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/small-business.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="#">Start Bootstrap</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Page Content -->
+<div class="container">
+
+    <!-- Heading Row -->
+    <div class="row align-items-center my-5">
+        <div class="col-lg-8">
+            <img class="img-fluid rounded mb-4 mb-lg-0" src="http://placehold.it/900x400" alt="">
+        </div>
+        <!-- /.col-lg-8 -->
+        <div class="col-lg-8">
+            <h1 class="font-weight-light">Make a reservation</h1>
+            <p>To make a reservation, simply key in the restaurant name, timing, and number of pax!</p>
+        </div>
+        <!-- /.col-md-4 -->
+    </div>
+    <!-- /.row -->
+
+    <!-- Insert reservation details  -->
+
+    <form id="html_form" action="reservation" role="form" method="post">
+        <div class="form-group">
+            <label for="rName">Restaurant Name</label>
+            <input type="text" class="form-control" id="rName" name="rName" aria-describedby="rNameHelp" placeholder="Enter restaurant name for booking">
+        </div>
+        <div class="form-group">
+            <label for="resTime">Reservation Timing</label>
+            <input type="text" class="form-control" id="resTime" name="resTime" placeholder="Enter timing for reservation">
+        </div>
+        <div class="form-group">
+            <label for="resNum">Number of pax</label>
+            <input type="text" class="form-control" id="resNum" name="resNum" placeholder="Enter number of pax for reservation">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <script>
+        (function() {
+            window.addEventListener('load', function() {
+                var forms = [document.getElementById('html_form')];
+                var validation = Array.prototype.filter.call(forms, function(form) {
+                    form.addEventListener('submit', check, false);
+                });
+            }, false);
+        })();
+    </script>
+
+        <div class="card-body">
+            <p class="text-white m-0">This call to action card is a great place to showcase some important information or display a clever tagline!</p>
+        </div>
+    </div>
+
+    <!-- Content Row -->
+    <div class="row">
+        <div class="col-md-6 mb-5">
+            <div class="card h-50">
+                <div class="card-body">
+                    <h2 class="card-title">Restaurants </h2>
+                    <p class="card-text"> For more information on the restaurants, opening hours, location and cuisine</p>
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="btn btn-primary btn-sm">Click here!</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-5">
+            <div class="card h-50">
+                <div class="card-body">
+                    <h2 class="card-title">My past reservations </h2>
+                    <p class="card-text"> Here are my past reservations</p>
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="btn btn-primary btn-sm">Click here!</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /.row -->
+
+</div>
+<!-- /.container -->
+
+<!-- Footer -->
+<footer class="py-5 bg-dark">
+    <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; Your Website 2019</p>
+    </div>
+    <!-- /.container -->
+</footer>
+
+<!-- Bootstrap core JavaScript -->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
