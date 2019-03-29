@@ -44,15 +44,16 @@ create table RTable (
 
 
 create table Reserves (
-	resid integer primary key,
+	resid serial primary key,
 	restime timestamp,
-	tableid integer,
+	restpax integer,
+	tableid integer default 2,
 	rid integer,
 	custid integer,
 	foreign key (tableid, rid) references RTable (tableid, rid),
 	foreign key (rid) references Restaurants (rid),
 	foreign key (custid) references Customers (custid)
-);
+	);
 
 create table Food (
 	foodname varchar(60),
