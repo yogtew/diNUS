@@ -23,14 +23,19 @@ var sql_query = "insert into reserves (resid, restime, restpax, rid, custid) val
 router.post('/', function (req, res, next) {
     // Retrieve Information
     var rname = req.body.rName;
-    var restDate = req.body.date;
+    var resdate = req.body.resDate;
     var restime = req.body.resTime;
     var respax = req.body.resNum;
 
-    //change implementation of timing: not key in but drop bar, and conversion takes place
-    console.log("I'm here" + restDate.data);
 
-    // Construct Specific SQL Query
+
+    //conversion of date and time into sql's date and time format yyyy-mm-dd
+    var resdatetime = String(resdate).concat(" " + restime);
+    console.dir(resdate);
+    console.dir(restime);
+    console.dir(resdatetime);
+
+    // Construct Specific SQL Query yyyy-mm-dd
     var rid_query = "select r.rid from restaurants r where r.rname = '" + rname + "';";
     console.log(rid_query);
 
@@ -42,7 +47,7 @@ router.post('/', function (req, res, next) {
         });
     } else {
         var restaurant  = rest_data.rows[0];
-    var insert_query = sql_query + "(" + "DEFAULT, '" + restime + "'," + respax + "," + restaurant.rid + "," + custid + ");";
+    var insert_query = sql_query + "(" + "DEFAULT, '" + resdatetime + "'," + respax + "," + restaurant.rid + "," + custid + ");";
         pool.query(insert_query, (err, data) => {
             console.log(insert_query);
         if (err) {
