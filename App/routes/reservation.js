@@ -23,8 +23,12 @@ var sql_query = "insert into reserves (resid, restime, restpax, rid, custid) val
 router.post('/', function (req, res, next) {
     // Retrieve Information
     var rname = req.body.rName;
+    var restDate = req.body.date;
     var restime = req.body.resTime;
     var respax = req.body.resNum;
+
+    //change implementation of timing: not key in but drop bar, and conversion takes place
+    console.log("I'm here" + restDate.data);
 
     // Construct Specific SQL Query
     var rid_query = "select r.rid from restaurants r where r.rname = '" + rname + "';";
