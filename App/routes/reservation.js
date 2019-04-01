@@ -26,7 +26,21 @@ or ('0200'>= r.openTime and r.closeTime <= r.openTime and '0200' <= cast((cast(r
 or('0200' <= r.openTime and r.closeTime <= r.openTime and cast((cast('0200' as integer) + 2400) as char(4)) <= cast((cast(r.closeTime as integer) + 2400) as char(4))));
  */
 var check_query = "select 1 from restaurants r where ";
-var insert_query = "insert into reserves (resid, restime, restpax, rid, custid) values ";
+
+/*
+select rt.tableid
+from rtable rt
+where rt.rid = 1
+and rt.tableid not in(
+	select distinct r.tableid
+	from reserves r
+	where r.restime = '2019-03-19 18:00:00'
+	and r.rid = 1
+)
+limit 1;
+ */
+var tableid_query = "select rt.tableid from rtable rt where rt.rid = ";
+var insert_query = "insert into reserves values ";
 
 
 // POST
@@ -57,33 +71,60 @@ router.post('/', function (req, res, next) {
             });
         } else {
             var restaurant = rest_data.rows[0];
-            var check_if_valid_timing_query = check_query + restaurant.rid + "= r.rid and (('" + restime + "'>= r.openTime and '" + restime + "'<= r.closeTime) or('"
-    + restime + "'>= r.openTime and r.closeTime <= r.openTime and '" + restime + "'<= cast((cast(r.closeTime as integer) + 2400) as char(4))) or('"
-    + restime + "'<= r.openTime and r.closeTime <= r.openTime and cast((cast('" + restime + "' as integer) + 2400) as char(4)) <= cast((cast(r.closeTime as integer) + 2400) as char(4))));";
-            pool.query(check_if_valid_timing_query, (err, opening_hours_data) => {
-                console.log(check_if_valid_timing_query);
-    if(err || opening_hours_data.rows.length == 0) {
-                 res.render("error", {
-                     message: "Booking timing for " + rname + " not within opening hours." + err,
-                    error: {status: "", stack: ""}
+    //check_if_valid_timing_query checks if inserted time is within opening hours
+    var check_if_valid_timing_query = check_query + restaurant.rid + "= r.rid and (('" + restime + "'>= r.openTime and '" + restime + "'<= r.closeTime) or('"
+        + restime + "'>= r.openTime and r.closeTime <= r.openTime and '" + restime + "'<= cast((cast(r.closeTime as integer) + 2400) as char(4))) or('"
+        + restime + "'<= r.openTime and r.closeTime <= r.openTime and cast((cast('" + restime + "' as integer) + 2400) as char(4)) <= cast((cast(r.closeTime as integer) + 2400) as char(4))));";
+    pool.query(check_if_valid_timing_query, (err, opening_hours_data) => {
+        console.log(check_if_valid_timing_query);
+    if (err || opening_hours_data.rows.length == 0) {
+        res.render("reservation", {
+            message: "Booking timing for " + rname + " not within opening hours." + err,
+            error: {status: "", stack: ""}
         });
     } else {
-        //insert_into_reserves_query inserts into reserves table
-        var insert_into_reserves_query = insert_query +  "(" + "DEFAULT, '" + resdatetime + "'," + respax + "," + restaurant.rid + "," + custid + ");";
-        pool.query(insert_into_reserves_query, (err, data) => {
-            console.log(insert_into_reserves_query);
-        if (err) {
-            res.render('error', {message: err, error: {status: "", cstack: ""}});
+        /*
+select rt.tableid
+from rtable rt
+where rt.rid = 1
+and rt.tableid not in(
+	select distinct r.tableid
+	from reserves r
+	where r.restime = '2019-03-19 18:00:00'
+	and r.rid = 1
+)
+limit 1;
+ */
+        //get_table_id_query returns the first tableid that is available for the new booking
+        var get_table_id_query = tableid_query + restaurant.rid + "and rt.tableid not in (select distinct r.tableid from reserves r"
+        + " where r.restime = '" + resdatetime +"' and r.rid = " + restaurant.rid + ") limit 1;"
+        pool.query(get_table_id_query, (err, table_data) => {
+            console.log(get_table_id_query);
+        if (err || table_data.rows.length == 0) {
+            res.render('error', {message: "Booking for " + rname + " at " + resdatetime + " is full. Enter in another timing", error : {status: "", cstack: ""}});
         } else {
-            //res.redirect('/select?table=reserves')
-            res.redirect('/dashboard?user=' + custid);
+            var table = table_data.rows[0];
+            //insert_into_reserves_query inserts into reserves table
+            var insert_into_reserves_query = insert_query + "(" + "DEFAULT, '" + resdatetime + "'," + respax + "," + table.tableid + "," + restaurant.rid + "," + custid + ");";
+            pool.query(insert_into_reserves_query, (err, data) => {
+                console.log(insert_into_reserves_query);
+            if (err) {
+                res.render('error', {message: err, error: {status: "", cstack: ""}});
+            } else {
+                //res.redirect('/select?table=reserves')
+                res.redirect('/dashboard?user=' + custid);
+            }
+        })
+            ;
         }
-        });
-    }
-    });
+    })
+        ;
 
-        }
-    });
+    }
+})
+    ;
+}
+});
 });
 
 module.exports = router;
