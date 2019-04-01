@@ -22,11 +22,47 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
     /* SQL Query */
-    var s_rName = req.body.s_rName;
-	var rName_query = "SELECT * FROM restaurants r where r.rname = '" + s_rName + "';"
-	pool.query(rName_query, (err, data) => {
+    var num_conditions = 0
+
+    var search_rName = req.body.search_rName
+    search_rName = search_rName.toLowerCase();
+    var search_rRating = req.body.search_rRating;
+    var search_rLocation = req.body.search_rLocation.toLowerCase();
+    search_rLocation = search_rLocation.toLowerCase();
+
+	var search_query = "SELECT * FROM restaurants r"
+
+	if (search_rName === "") {
+	} else {
+	    search_query = search_query + " where LOWER(r.rname) = '" + search_rName + "'"
+	    num_conditions++
+	}
+
+	if (search_rRating === "") {
+	} else {
+	    if (num_conditions == 0) {
+	        search_query = search_query + " where r.rrating >= '" + search_rRating + "'"
+	        num_conditions++
+	    } else {
+	        search_query = search_query + " and r.rrating >= '" + search_rRating + "'"
+	        num_conditions++
+	    }
+	}
+
+	if (search_rLocation === "") {
+	} else {
+	    if (num_conditions == 0) {
+        	search_query = search_query + " where LOWER(r.rlocation) = '" + search_rLocation + "'"
+        	num_conditions++
+        } else {
+            search_query = search_query + " and LOWER(r.rlocation) = '" + search_rLocation + "'"
+            num_conditions++
+        }
+	}
+
+	pool.query(search_query, (err, data) => {
 		if (err) {
-			res.render('error', {message: "Restaurant table not found", error: {status: "", stack: ""}})
+			res.render('error', {message: "Table not found", error: {status: "", stack: ""}})
 		} else {
 			res.render('browse', { title: 'View Table', data: data.rows, fields: data.fields});
 		}
