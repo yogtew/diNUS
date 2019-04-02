@@ -19,8 +19,8 @@ create table Restaurants (
 	rname varchar(100),
 	rRating integer,
 	rLocation varchar(100),
-	openTime int,
-	closeTime int,
+	openTime char(4),
+	closeTime char(4),
 	primary key(rid)
 );
 
@@ -47,7 +47,7 @@ create table Reserves (
 	resid serial primary key,
 	restime timestamp,
 	restpax integer,
-	tableid integer default 2,
+	tableid integer,
 	rid integer,
 	custid integer,
 	foreign key (tableid, rid) references RTable (tableid, rid),
