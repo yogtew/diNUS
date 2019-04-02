@@ -66,15 +66,65 @@ DOCTYPE html>
     <!-- /.row -->
 
     <!-- Insert reservation details  -->
+    <body class = "form-group">
+        <p id="currentDate"></p>
+    </body>
+
 
     <form id="html_form" action="reservation" role="form" method="post">
         <div class="form-group">
             <label for="rName">Restaurant Name</label>
             <input type="text" class="form-control" id="rName" name="rName" aria-describedby="rNameHelp" placeholder="Enter restaurant name for booking">
         </div>
+        <div class = "form-group">
+            <label for = "resDate"> Reservation Date </label>
+            <input type="date" id = "resDate" name="resDate">
+            <script>
+                var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth()+1; //January is 0!
+                var yyyy = today.getFullYear();
+                if(dd<10){
+                    dd='0'+dd
+                }
+                if(mm<10){
+                    mm='0'+mm
+                }
+                today = yyyy+'-'+mm+'-'+dd;
+                document.getElementById("resDate").setAttribute("min", today);
+            </script>
+        </div>
         <div class="form-group">
-            <label for="resTime">Reservation Timing</label>
-            <input type="text" class="form-control" id="resTime" name="resTime" placeholder="Enter timing for reservation">
+            <label for = "resTime"> Reservation Time</label>
+            <input type = "text" list = "resTimings" name="resTime" id = "resTime" placeholder=" Enter reservation timing round up to half hour">
+            <datalist id = "resTimings">
+                <option value = "10:00">
+                <option value = "10:30">
+                <option value = "11:00">
+                <option value = "11:30">
+                <option value = "12:00">
+                <option value = "12:30">
+                <option value = "13:00">
+                <option value = "13:30">
+                <option value = "14:00">
+                <option value = "14:30">
+                <option value = "15:00">
+                <option value = "15:30">
+                <option value = "15:00">
+                <option value = "15:30">
+                <option value = "16:00">
+                <option value = "16:30">
+                <option value = "17:00">
+                <option value = "17:30">
+                <option value = "18:00">
+                <option value = "18:30">
+                <option value = "19:00">
+                <option value = "19:30">
+                <option value = "20:00">
+                <option value = "20:30">
+                <option value = "21:00">
+                <option value = "21:30">
+            </datalist>
         </div>
         <div class="form-group">
             <label for="resNum">Number of pax</label>

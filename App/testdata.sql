@@ -18,9 +18,9 @@ INSERT INTO Customers (custid, name, phone, points) VALUES
 (3, 'Charles Wong', 82347632, 0);
 
 INSERT INTO Restaurants(rid, rname, rRating, rLocation, openTime, closeTime) VALUES
-(1, 'McDolans', 8, 'Buona Vista', 600, 2200),
-(2, 'Dining Hall', 2, 'Riche Vue', 700, 2130),
-(3, 'Ameens', 8, 'Supper Stretch', 800, 0300);
+(1, 'McDolans', 8, 'Buona Vista', '0600', '2200'),
+(2, 'Dining Hall', 2, 'Riche Vue', '0700', '2130'),
+(3, 'Ameens', 8, 'Supper Stretch', '0800', '0300');
 
 INSERT INTO Reviews(rid, review, custid, rating) VALUES
 (1, 'Very good', 1, 7),
