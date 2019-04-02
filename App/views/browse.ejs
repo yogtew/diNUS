@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+		<!-- Page Title -->
+    <title>Browse Restaurants</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+
+        <!-- CSS for Styling -->
+    	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  </head>
+
+  <body>
+  	<a href="/">Back</a> &nbsp&nbsp <a href="/browse">All</a><br/>
+      <h1>Browse Restaurants</h1>
+
+      <table class="table">
+  		<thead>
+  		  <tr>
+  		    <% for(var i=0; i<fields.length; i++) { %>
+  			  <th scope="col"><%= fields[i].name%></th>
+  			  <% } %>
+  		  </tr>
+  		</thead>
+  		<tbody>
+  		  <% for(var i=0; i<data.length; i++) { %>
+  		  <tr>
+  		    <% for(var j=0; j<fields.length; j++) { %>
+  		    <td><%= data[i][fields[j].name]%></td>
+  		    <% } %>
+  		  </tr>
+  		<% } %>
+  	    </tbody>
+  	</table>
+
+      <form action="browse" method="post">
+        <div>
+          <p>Search Restaurant</p>
+          <input type="text" class="form-control" id="search_rName" name="search_rName" placeholder="Enter restaurant name to search">
+          <input type="text" class="form-control" id="search_rRating" name="search_rRating" placeholder="Enter minimum restaurant rating to search">
+          <input type="text" class="form-control" id="search_rLocation" name="search_rLocation" placeholder="Enter restaurant location to search">
+          <p></p>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+
+  </body>
+</html>
