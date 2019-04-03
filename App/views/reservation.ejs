@@ -2,7 +2,6 @@ DOCTYPE html>
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -50,35 +49,35 @@ DOCTYPE html>
 
 <!-- Page Content -->
 <div class="container">
-
     <!-- Heading Row -->
     <div class="row align-items-center my-5">
-        <div class="col-lg-8">
-            <img class="img-fluid rounded mb-4 mb-lg-0" src="http://placehold.it/900x400" alt="">
-        </div>
         <!-- /.col-lg-8 -->
         <div class="col-lg-8">
             <h1 class="font-weight-light">Make a reservation</h1>
             <p>To make a reservation, simply key in the restaurant name, timing, and number of pax!</p>
+            <% if (displayErrorMsg) { %>
+                <div class="alert alert-danger">
+                    <strong>  <%= message %> </strong>
+                </div>
+
+            <% }%>
         </div>
         <!-- /.col-md-4 -->
     </div>
     <!-- /.row -->
 
     <!-- Insert reservation details  -->
-    <body class = "form-group">
-        <p id="currentDate"></p>
-    </body>
-
-
-    <form id="html_form" action="reservation" role="form" method="post">
-        <div class="form-group">
+    <form id="html_form" name="reservation_form" action="reservation" role="form" method="post">
+            <div class="form-group">
             <label for="rName">Restaurant Name</label>
-            <input type="text" class="form-control" id="rName" name="rName" aria-describedby="rNameHelp" placeholder="Enter restaurant name for booking">
+            <input type="text" class="form-control" id="rName" name="rName" aria-describedby="rNameHelp" placeholder="Enter restaurant name for booking" required>
+                <script>
+                    document.getElementById("rName").setAttribute("value","<%=defaultrName%>");
+                </script>
         </div>
         <div class = "form-group">
             <label for = "resDate"> Reservation Date </label>
-            <input type="date" id = "resDate" name="resDate">
+            <input type="date" id = "resDate" name="resDate" required>
             <script>
                 var today = new Date();
                 var dd = today.getDate();
@@ -92,43 +91,74 @@ DOCTYPE html>
                 }
                 today = yyyy+'-'+mm+'-'+dd;
                 document.getElementById("resDate").setAttribute("min", today);
+                document.getElementById("resDate").setAttribute("value", "<%=defaultresDate%>");
             </script>
         </div>
         <div class="form-group">
             <label for = "resTime"> Reservation Time</label>
-            <input type = "text" list = "resTimings" name="resTime" id = "resTime" placeholder=" Enter reservation timing round up to half hour">
-            <datalist id = "resTimings">
-                <option value = "10:00">
-                <option value = "10:30">
-                <option value = "11:00">
-                <option value = "11:30">
-                <option value = "12:00">
-                <option value = "12:30">
-                <option value = "13:00">
-                <option value = "13:30">
-                <option value = "14:00">
-                <option value = "14:30">
-                <option value = "15:00">
-                <option value = "15:30">
-                <option value = "15:00">
-                <option value = "15:30">
-                <option value = "16:00">
-                <option value = "16:30">
-                <option value = "17:00">
-                <option value = "17:30">
-                <option value = "18:00">
-                <option value = "18:30">
-                <option value = "19:00">
-                <option value = "19:30">
-                <option value = "20:00">
-                <option value = "20:30">
-                <option value = "21:00">
-                <option value = "21:30">
-            </datalist>
+            <select name="resTime" id = "resTime" required>
+                <option value="00:00">00:00</option>
+                <option value="00:30">00:30</option>
+                <option value="01:00">01:00</option>
+                <option value="01:30">01:30</option>
+                <option value="02:00">02:00</option>
+                <option value="02:30">02:30</option>
+                <option value="03:00">03:00</option>
+                <option value="03:30">03:30</option>
+                <option value="04:00">04:00</option>
+                <option value="04:30">04:30</option>
+                <option value="05:00">05:00</option>
+                <option value="05:30">05:30</option>
+                <option value="06:00">06:00</option>
+                <option value="06:30">06:30</option>
+                <option value="07:00">07:00</option>
+                <option value="07:30">07:30</option>
+                <option value="08:00">08:00</option>
+                <option value="08:30">08:30</option>
+                <option value="09:00">09:00</option>
+                <option value="09:30">09:30</option>
+                <option value="10:00">10:00</option>
+                <option value="10:30">10:30</option>
+                <option value="11:00">11:00</option>
+                <option value="11:30">11:30</option>
+                <option value="12:00">12:00</option>
+                <option value="12:30">12:30</option>
+                <option value="13:00">13:00</option>
+                <option value="13:30">13:30</option>
+                <option value="14:00">14:00</option>
+                <option value="14:30">14:30</option>
+                <option value="15:00">15:00</option>
+                <option value="15:30">15:30</option>
+                <option value="16:00">16:00</option>
+                <option value="16:30">16:30</option>
+                <option value="17:00">17:00</option>
+                <option value="17:30">17:30</option>
+                <option value="18:00">18:00</option>
+                <option value="18:30">18:30</option>
+                <option value="19:00">19:00</option>
+                <option value="19:30">19:30</option>
+                <option value="20:00">20:00</option>
+                <option value="20:30">20:30</option>
+                <option value="21:00">21:00</option>
+                <option value="21:30">21:30</option>
+                <option value="22:00">22:00</option>
+                <option value="22:30">22:30</option>
+                <option value="23:00">23:00</option>
+                <option value="23:30">23:30</option>
+
+            </select>
+            <script>
+                /*
+                TODO: set value as default according to restime sent
+                 */
+            </script>
         </div>
         <div class="form-group">
             <label for="resNum">Number of pax</label>
-            <input type="text" class="form-control" id="resNum" name="resNum" placeholder="Enter number of pax for reservation">
+            <input type="number" class="form-control" id="resNum" name="resNum" placeholder="Enter number of pax for reservation" min="1" required>
+            <script>
+                document.getElementById("resNum").setAttribute("value", <%=defaultresNum%>);
+            </script>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>

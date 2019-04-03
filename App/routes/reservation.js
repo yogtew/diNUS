@@ -1,3 +1,8 @@
+/*
+TODO: make error message more apparent, highlight field that is incorrect
+TODO: non-trivial trigger
+TODO: add opening hours in error message when inputted is non-opening hours
+ */
 var express = require('express');
 var router = express.Router();
 
@@ -11,8 +16,15 @@ var custid;
 // GET
 router.get('/', function (req, res, next) {
     custid = req.query.user;
-    console.log(req.query.user);
-    res.render('reservation', {title: 'Making Reservation'});
+    res.render('reservation',
+        {title: 'Making Reservation',
+            displayErrorMsg: false,
+            message:"",
+            defaultrName: "",
+            defaultresDate: "",
+            defaultresTime: "",
+            defaultresNum: ""
+        });
 });
 
 /*
@@ -64,11 +76,16 @@ router.post('/', function (req, res, next) {
     console.log(rid_query);
 
     pool.query(rid_query, (err, rest_data) => {
-        if(err) {
-            res.render("error", {
-                message: "Restaurant " + rname + " not found" + error,
-                error: {status: "", stack: ""}
-            });
+        console.log(err);
+        if(err || rest_data.rows.length == 0) {
+        res.render('reservation', {
+            displayErrorMsg: true,
+            message: "Restaurant " + rname + " does not exist",
+            defaultrName: "",
+            defaultresDate: resdate,
+            defaultresTime: restime,
+            defaultresNum: respax
+        });
         } else {
             var restaurant = rest_data.rows[0];
     //check_if_valid_timing_query checks if inserted time is within opening hours
@@ -79,29 +96,28 @@ router.post('/', function (req, res, next) {
         console.log(check_if_valid_timing_query);
     if (err || opening_hours_data.rows.length == 0) {
         res.render("reservation", {
-            message: "Booking timing for " + rname + " not within opening hours." + err,
-            error: {status: "", stack: ""}
+            displayErrorMsg: true,
+            message: "Booking timing for " + rname + " not within opening hours.",
+            defaultrName: rname,
+            defaultresDate: resdate,
+            defaultresTime: "",
+            defaultresNum: respax
         });
     } else {
-        /*
-select rt.tableid
-from rtable rt
-where rt.rid = 1
-and rt.tableid not in(
-	select distinct r.tableid
-	from reserves r
-	where r.restime = '2019-03-19 18:00:00'
-	and r.rid = 1
-)
-limit 1;
- */
         //get_table_id_query returns the first tableid that is available for the new booking
-        var get_table_id_query = tableid_query + restaurant.rid + "and rt.tableid not in (select distinct r.tableid from reserves r"
+        var get_table_id_query = tableid_query + restaurant.rid + " and rt.tableid not in (select distinct r.tableid from reserves r"
         + " where r.restime = '" + resdatetime +"' and r.rid = " + restaurant.rid + ") limit 1;"
         pool.query(get_table_id_query, (err, table_data) => {
             console.log(get_table_id_query);
         if (err || table_data.rows.length == 0) {
-            res.render('error', {message: "Booking for " + rname + " at " + resdatetime + " is full. Enter in another timing", error : {status: "", cstack: ""}});
+            res.render('reservation', {
+                displayErrorMsg: true,
+                message: "Booking for " + rname + " at " + resdatetime + " is full. Enter in another timing",
+                defaultrName: rname,
+                defaultresDate: resdate,
+                defaultresTime: "",
+                defaultresNum: respax
+                });
         } else {
             var table = table_data.rows[0];
             //insert_into_reserves_query inserts into reserves table
