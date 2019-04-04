@@ -10,8 +10,29 @@
   </head>
 
   <body>
-  	<a href="/">Back</a> &nbsp&nbsp <a href="/browse">All</a><br/>
+  	<a href="/">Back</a>
       <h1>Browse Restaurants</h1>
+
+    <p><font size="+3"><b>Search Restaurants</b></font>&nbsp&nbsp&nbsp&nbspPlease input preferred restaurant attributes for search purposes below:</p>
+
+    <form action="browse" method="post" class="form-inline">
+      <label for="search_rName">Name:&nbsp</label>
+      <input id="search_rName" class="form-control mb-2 mr-sm-2 mb-sm-0"" name="search_rName" size="30"type="text">
+
+      <label for="search_rRating">Minimum rating:&nbsp</label>
+      <input type="number" class="form-control mb-2 mr-sm-2 mb-sm-0"" id="search_rRating" name="search_rRating" size = "30">
+
+      <label for="search_rLocation">Location:&nbsp</label>
+      <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0"" id="search_rLocation" name="search_rLocation" size = "30">
+
+      <label for="search_rTag">Tag:&nbsp</label>
+      <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0"" id="search_rTag" name="search_rTag" size = "30">
+
+      <button type="submit" class="btn btn-primary">Submit </button>
+    </form>
+
+    <br></br>
+    <p><font size="+3"><b>Search Results</b></font>&nbsp&nbsp <a href="/browse">Reset Search</a></p>
 
       <table class="table">
   		<thead>
@@ -31,17 +52,6 @@
   		<% } %>
   	    </tbody>
   	</table>
-
-      <form action="browse" method="post">
-        <div>
-          <p>Search Restaurant</p>
-          <input type="text" class="form-control" id="search_rName" name="search_rName" placeholder="Enter restaurant name to search">
-          <input type="text" class="form-control" id="search_rRating" name="search_rRating" placeholder="Enter minimum restaurant rating to search">
-          <input type="text" class="form-control" id="search_rLocation" name="search_rLocation" placeholder="Enter restaurant location to search">
-          <p></p>
-          <button type="submit" class="btn btn-primary">Submit</button>
-        </div>
-      </form>
 
   </body>
 </html>
