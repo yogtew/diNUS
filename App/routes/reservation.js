@@ -69,10 +69,13 @@ router.post('/', function (req, res, next) {
     console.dir(resdate);
     console.dir(restime);
     console.dir(resdatetime);
-    restime = String(restime).replace(':', '');
+    editedrestime = String(restime).replace(':', '');
+
+    // change rname to lower case
+    lowerrname = String(rname).toLowerCase();
 
     //rid_query checks if restaurant name can be found in existing restaurant table
-    var rid_query = "select r.rid from restaurants r where r.rname = '" + rname + "';";
+    var rid_query = "select r.rid from restaurants r where LOWER(r.rname) = '" + lowerrname + "';";
     console.log(rid_query);
 
     pool.query(rid_query, (err, rest_data) => {
@@ -89,9 +92,9 @@ router.post('/', function (req, res, next) {
         } else {
             var restaurant = rest_data.rows[0];
     //check_if_valid_timing_query checks if inserted time is within opening hours
-    var check_if_valid_timing_query = check_query + restaurant.rid + "= r.rid and (('" + restime + "'>= r.openTime and '" + restime + "'<= r.closeTime) or('"
-        + restime + "'>= r.openTime and r.closeTime <= r.openTime and '" + restime + "'<= cast((cast(r.closeTime as integer) + 2400) as char(4))) or('"
-        + restime + "'<= r.openTime and r.closeTime <= r.openTime and cast((cast('" + restime + "' as integer) + 2400) as char(4)) <= cast((cast(r.closeTime as integer) + 2400) as char(4))));";
+    var check_if_valid_timing_query = check_query + restaurant.rid + "= r.rid and (('" + editedrestime + "'>= r.openTime and '" + editedrestime + "'<= r.closeTime) or('"
+        + editedrestime + "'>= r.openTime and r.closeTime <= r.openTime and '" + editedrestime + "'<= cast((cast(r.closeTime as integer) + 2400) as char(4))) or('"
+        + editedrestime + "'<= r.openTime and r.closeTime <= r.openTime and cast((cast('" + editedrestime + "' as integer) + 2400) as char(4)) <= cast((cast(r.closeTime as integer) + 2400) as char(4))));";
     pool.query(check_if_valid_timing_query, (err, opening_hours_data) => {
         console.log(check_if_valid_timing_query);
     if (err || opening_hours_data.rows.length == 0) {
