@@ -11,7 +11,9 @@ create table Customers (
 	custid integer primary key,
 	name varchar(100) not null,
 	phone integer not null,
-	points integer not null
+	points integer not null,
+	username varchar(100) not null,
+	password varchar(100) not null
 );
 
 create table Restaurants (
@@ -81,4 +83,3 @@ create table CuisineTags (
 	primary key (rid, tag),
 	foreign key (rid) references Restaurants
 );
-
