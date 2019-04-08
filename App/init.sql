@@ -67,12 +67,10 @@ create table Food (
 );
 
 create table Preferences (
-	prefid integer,
+	custid integer primary key
 	cuisineType varchar(100),
 	pLocation varchar(100),
 	openingHours varchar(100),
-	custid integer,
-	primary key (prefid, custid),
 	foreign key (custid) references Customers(custid)
 	on delete cascade
 );

@@ -32,7 +32,8 @@ router.get('/', require('connect-ensure-login').ensureLoggedIn('/login'), functi
                         data: data.rows,
                         fields: data.fields,
                         username: user.name,
-                        points: user.points
+                        points: user.points,
+						isLoggedIn: req.user ? true:false
                     });
         		}
         	});

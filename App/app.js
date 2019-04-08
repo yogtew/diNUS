@@ -22,6 +22,7 @@ var browseRouter = require('./routes/browse');
 var reservationRouter = require('./routes/reservation');
 var restaurantAdminRouter = require('./routes/restaurantAdmin');
 var loginRouter = require('./routes/login');
+var logoutRouter = require('./routes/logout');
 
 const { Pool } = require('pg')
 const pool = new Pool({
@@ -50,13 +51,13 @@ passport.use(new Strategy(
     }));
 
 passport.serializeUser(function(user, cb) {
-    cb(null, user);
+    cb(null, user.custid);
     // cb(null, user.custid);
 });
 
 passport.deserializeUser(function(id, cb) {
-    return cb(null, id);
-    /*var query = "select * from customers where custid = '" + id + "'";
+    // return cb(null, id);
+    var query = "select * from customers where custid = '" + id + "'";
     pool.query(query, (err, user_data) => {
         console.log("query result", err, user_data.rows)
         if (err) {
@@ -68,7 +69,7 @@ passport.deserializeUser(function(id, cb) {
             return cb(null, false);
         }
         return cb(null, user_data.rows[0]);
-    })*/
+    })
 });
 
 var app = express();
@@ -100,6 +101,7 @@ app.use('/browse', browseRouter);
 app.use('/reservation', reservationRouter);
 app.use('/restaurantAdmin', restaurantAdminRouter);
 app.use('/login', loginRouter);
+app.use('/logout', logoutRouter);
 
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());

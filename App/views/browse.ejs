@@ -13,8 +13,11 @@
       <!-- Navigation -->
       <% include partials/header.ejs %>
 
-  	<a href="/">Back</a> &nbsp&nbsp <a href="/browse">All</a><br/>
+      <!-- Page Content -->
+      <div class="container">
+
       <h1>Browse Restaurants</h1>
+
 
       <table class="table">
   		<thead>
@@ -34,6 +37,7 @@
   		<% } %>
   	    </tbody>
   	</table>
+    <a href="/">Back</a> &nbsp&nbsp <a href="/browse">All</a><br/>
 
       <form action="browse" method="post">
         <div>
@@ -45,6 +49,8 @@
           <button type="submit" class="btn btn-primary">Submit</button>
         </div>
       </form>
+
+  </div>
 
   </body>
 </html>

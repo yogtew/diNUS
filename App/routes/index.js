@@ -15,7 +15,7 @@ router.get('/', function(req, res, next) {
 		if (err) {
 			res.render('error', {message: "Something went wrong", error: {status: "", stack: ""}})
 		} else {
-			res.render('login', { title: 'Express' , data: data.rows, fields: data.fields});
+			res.redirect('login');
 		}
 
 	});
