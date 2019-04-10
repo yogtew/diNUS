@@ -1,24 +1,34 @@
 -- Initialize database with test data
 
 -- Load data for testcase 1
+delete from Promotion cascade;
+delete from PaymentMode cascade;
 delete from OpeningHours cascade;
+delete from ReviewLikes cascade;
 DELETE FROM Reviews CASCADE;
 DELETE FROM Reserves CASCADE;
-DELETE FROM Customers CASCADE;
+DELETE FROM Customer CASCADE;
 delete from Menu cascade;
-delete from Foodtags cascade;
-delete from Foods cascade;
+delete from Tags cascade;
+delete from TagType cascade;
+delete from Food cascade;
 DELETE FROM RTable CASCADE;
-DELETE FROM Restaurants CASCADE;
+DELETE FROM Restaurant CASCADE;
 DELETE FROM Preferences CASCADE;
 
-
-INSERT INTO Customers (custid, custname, custphone, custpoints, custusername, custPassword) VALUES
+INSERT INTO Customer (custid, custname, custphone, custpoints, custusername, custPassword) VALUES
 (1, 'Alice Tan', 81234567, 0, 'aliceinwonderland', 'alicetrox123'),
 (2, 'Bernard Lee', 98512383, 0, 'bernardHappyFood', 'hamburgersrealcool'),
 (3, 'Charles Wong', 82347632, 0, 'smileyman', 'smileymaneats123!');
 
-INSERT INTO Restaurants(rid, rname, rRating, rLocation) VALUES
+insert into PaymentMode(cardid, custid, custname) values
+('1111111111111111', 1, 'Alice Tan'),
+('1111111111111112', 1, 'Alice Tan'),
+('1111111111111113', 2, 'Bernard Lee'),
+('1111111111111114', 3, 'Charles Wong');
+
+
+INSERT INTO Restaurant(rid, rname, rRating, rLocation) VALUES
 (1, 'McDolans', 8, 'Central'),
 (2, 'Dining Hall', 2, 'West'),
 (3, 'Ameens', 8, 'North');
@@ -49,6 +59,7 @@ insert into Reviews(reviewid, rid, custid, review, rating) values
 (2, 2, 2, 'Food too salty', 3),
 (3, 3, 1, 'Expensive', 5);
 
+
 INSERT INTO RTable(tableid, numSeats, rid) VALUES
 (1, 2, 1),
 (2, 2, 1),
@@ -66,7 +77,7 @@ INSERT INTO RTable(tableid, numSeats, rid) VALUES
 --INSERT INTO Reserves(resid, restime, tableid, rid, custid) VALUES
 --(1, '2019-03-19 18:00:00', 1, 1, 1);
 
-insert into Foods (foodid, foodname) values
+insert into Food (foodid, foodname) values
 (1, 'Fried Chicken Wings'),
 (2, 'Cheese fries'),
 (3, 'Baked potato'),
@@ -75,19 +86,30 @@ insert into Foods (foodid, foodname) values
 (6, 'Fishball Noodles'),
 (7, 'Pad Thai'),
 (8, 'Fish and Chips'),
-(9, 'Prata');
+(9, 'Prata'),
+(10, 'Laksa');
 
-
-insert into FoodTags (foodid, cuisinetag) values
+insert into TagType (tagid, tagtype) values
 (1, 'Western'),
-(2, 'Western'),
-(3, 'Western'),
-(4, 'Singaporean'),
-(5, 'Chinese'),
-(6, 'Chinese'),
-(7, 'Thai'),
-(8, 'Western'),
-(9, 'Indian');
+(2, 'Singaporean'),
+(3, 'Chinese'),
+(4, 'Thai'),
+(5, 'Indian'),
+(6, 'Halal'),
+(7, 'Spicy');
+
+insert into Tags (foodid, tagid) values
+(1, 1),
+(2, 1),
+(3, 1),
+(4, 2),
+(5, 3),
+(6, 3),
+(7, 4),
+(7, 7),
+(8, 1),
+(9, 5),
+(10, 7);
 
 
 insert into Menu(rid, foodid, price) values
@@ -101,3 +123,7 @@ insert into Menu(rid, foodid, price) values
 (2, 3, 1),
 (3, 9, 2),
 (3, 2, 4);
+
+insert into Promotion(promoid, rid, discount) values
+(1, 1, 30),
+(2, 2, 45);
