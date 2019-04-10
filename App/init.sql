@@ -133,7 +133,3 @@ create table Promotion (
 	discount integer,
 	foreign key (rid) references Restaurant
 );
-
-
-
-
