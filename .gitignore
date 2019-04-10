@@ -1,4 +1,8 @@
 startbootstrap-small-business-gh-pages
 .env
 App/.env
+<<<<<<< HEAD
+{
+=======
 App/node_modules/*/package.json
+>>>>>>> upstream/master
