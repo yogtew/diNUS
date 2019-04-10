@@ -1,7 +1,8 @@
 /*
-TODO: make error message more apparent, highlight field that is incorrect
-TODO: non-trivial trigger
-TODO: add opening hours in error message when inputted is non-opening hours
+TODO: implement based on seats/ number of pax
+TODO: triggers left to do - 1. increment customer loyalty points 2. check capacity
+TODO: show restaurant name, check why restaurant.rname is undefined
+
  */
 var express = require('express');
 var router = express.Router();
@@ -52,7 +53,7 @@ and rt.tableid not in(
 limit 1;
  */
 var tableid_query = "select rt.tableid from rtable rt where rt.rid = ";
-var insert_query = "insert into reserves values ";
+var insert_query = "insert into reserves (resid, restime,restpax, rid, custid) values";
 
 
 // POST
@@ -107,28 +108,19 @@ router.post('/', function (req, res, next) {
             defaultresNum: respax
         });
     } else {
-        //get_table_id_query returns the first tableid that is available for the new booking
-        var get_table_id_query = tableid_query + restaurant.rid + " and rt.tableid not in (select distinct r.tableid from reserves r"
-        + " where r.restime = '" + resdatetime +"' and r.rid = " + restaurant.rid + ") limit 1;"
-        pool.query(get_table_id_query, (err, table_data) => {
-            console.log(get_table_id_query);
-        if (err || table_data.rows.length == 0) {
-            res.render('reservation', {
-                displayErrorMsg: true,
-                message: "Booking for " + rname + " at " + resdatetime + " is full. Enter in another timing",
-                defaultrName: rname,
-                defaultresDate: resdate,
-                defaultresTime: "",
-                defaultresNum: respax
-                });
-        } else {
-            var table = table_data.rows[0];
             //insert_into_reserves_query inserts into reserves table
-            var insert_into_reserves_query = insert_query + "(" + "DEFAULT, '" + resdatetime + "'," + respax + "," + table.tableid + "," + restaurant.rid + "," + custid + ");";
+            var insert_into_reserves_query = insert_query + "(" + "DEFAULT, '" + resdatetime + "'," + respax + "," + restaurant.rid + "," + custid + ");";
             pool.query(insert_into_reserves_query, (err, data) => {
                 console.log(insert_into_reserves_query);
             if (err) {
-                res.render('error', {message: err, error: {status: "", cstack: ""}});
+                res.render('reservation', {
+                    displayErrorMsg: true,
+                    message: "Booking is already full at " + resdatetime + ", for restaurant " + restaurant.rname,
+                    defaultrName: rname,
+                    defaultresDate: resdate,
+                    defaultresTime: "",
+                    defaultresNum: respax
+            });
             } else {
                 //res.redirect('/select?table=reserves')
                 res.redirect('/dashboard?user=' + custid);
@@ -139,9 +131,6 @@ router.post('/', function (req, res, next) {
     })
         ;
 
-    }
-})
-    ;
 }
 });
 });
