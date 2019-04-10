@@ -87,6 +87,13 @@
       <% } %>
 
     </div>
+
+    <h1>Preferences</h1>
+    <div class="row">
+        <% for(var i = 0; i < data.prefs.length; i++) { %>
+            <input type="checkbox"><%= data.prefs[i]%></input>
+        <% } %>
+    </div>
     <!-- /.row -->
 
   </div>

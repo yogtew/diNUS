@@ -120,11 +120,11 @@ create table Tags(
 
 create table Menu (
 	rid integer,
-	foodid integer not null,
+	foodid integer,
 	price integer not null,
 	primary key (rid, foodid),
-	foreign key (rid) references Restaurants,
-	foreign key (foodid) references Foods
+	foreign key (rid) references Restaurant,
+	foreign key (foodid) references Food
 );
 
 create table Promotion (

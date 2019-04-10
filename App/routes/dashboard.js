@@ -17,18 +17,20 @@ router.get('/', require('connect-ensure-login').ensureLoggedIn('/login'), functi
             });
         } else {
             var user = user_data.rows[0];
-            var sql_query = 'SELECT Restaurants.rname, to_char(Reserves.restime, \'HH12:MI\') FROM Reserves natural join Restaurants where Reserves.custid = ' + uid
-        	db.query(sql_query, (err, data) => {
+            var res_query = 'SELECT Restaurants.rname, to_char(Reserves.restime, \'HH12:MI\') FROM Reserves natural join Restaurants where Reserves.custid = ' + uid
+        	db.query(res_query, (err, reservations) => {
         		if (err) {
         			res.render('error', {message: "Table \"" + req.query.table + "\" not found", error: {status: "", stack: ""}})
         		} else {
-                    console.log(data)
+					var pref_query = "select * from "
+					// db.query()
         			res.render('dashboard', {
                         title: 'View Table',
-                        data: data.rows,
-                        fields: data.fields,
+                        data: reservations.rows,
+                        fields: reservations.fields,
                         username: user.name,
                         points: user.points,
+						typePrefs: typePrefs,
 						isLoggedIn: req.user ? true:false
                     });
         		}
