@@ -18,9 +18,9 @@ DELETE FROM RTable CASCADE;
 DELETE FROM Restaurant CASCADE;
 
 INSERT INTO Customer (custid, custname, phone, points, username, pw) VALUES
-(1, 'Alice Tan', 81234567, 0, 'aliceinwonderland', 'alicetrox123'),
-(2, 'Bernard Lee', 98512383, 0, 'b', '1'),
-(3, 'Charles Wong', 82347632, 0, 'smileyman', 'smileymaneats123!');
+(default, 'Alice Tan', 81234567, 0, 'aliceinwonderland', 'alicetrox123'),
+(default, 'Bernard Lee', 98512383, 0, 'b', '1'),
+(default, 'Charles Wong', 82347632, 0, 'smileyman', 'smileymaneats123!');
 
 insert into PaymentMode(cardid, custid, custname) values
 ('1111111111111111', 1, 'Alice Tan'),

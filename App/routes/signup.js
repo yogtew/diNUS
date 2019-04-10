@@ -13,7 +13,7 @@ router.post('/',
 				isLoggedIn: req.user ? true : false
 			});
 		}, () => {
-			var query = "insert into Customers (custid, name, phone, points, username, password) VALUES (default, '" + req.body.custname + "', " + req.body.phone * 1 + ", 0, '" +req.body.username+"', '"+req.body.password+"')"
+			var query = "insert into Customer (custid, custname, phone, points, username, pw) VALUES (default, '" + req.body.custname + "', " + req.body.phone * 1 + ", 0, '" +req.body.username+"', '"+req.body.password+"')"
 			console.log(query)
 			db.query(query, (err, data) => {
 				if (err) {

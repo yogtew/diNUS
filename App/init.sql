@@ -17,7 +17,7 @@ drop table if exists LocationPreferences cascade;
 drop table if exists FoodPreferences cascade;
 
 create table Customer (
-	custid integer primary key,
+	custid serial primary key,
 	custname varchar(100) not null,
 	phone integer not null,
 	points integer not null,
