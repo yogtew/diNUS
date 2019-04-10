@@ -89,16 +89,23 @@ create table Reserves (
 	foreign key (custid) references Customers (custid)
 );
 
+create table Foods (
+	foodid integer primary key,
+	foodname varchar(100) not null
+)
+
 create table FoodTags (
 	foodid integer,
 	cuisineTag varchar(100),
-	unique(foodid, cuisineTag)
+	unique(foodid, cuisineTag),
+	foreign key foodid references Foods
 );
 
 create table Menu (
-	rid integer primary key,
+	rid integer,
 	foodid integer not null,
-	foodname varchar(100) not null,
 	price integer not null,
-	foreign key (rid) references Restaurants (rid)
+	unique key (rid, foodid),
+	foreign key (rid) references Restaurants,
+	foreign key (foodid) references Foods
 );
