@@ -16,6 +16,11 @@
   <!-- Custom styles for this template -->
   <link href="css/small-business.css" rel="stylesheet">
 
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
 </head>
 
 <body>
@@ -53,23 +58,48 @@
 
     <!-- Heading Row -->
     <div class="row align-items-center my-5">
-      <div class="col-lg-7">
-        <img class="img-fluid rounded mb-4 mb-lg-0" src="http://placehold.it/900x400" alt="">
-      </div>
-      <!-- /.col-lg-8 -->
       <div class="col-lg-5">
-        <h1 class="font-weight-light">Ameens - supper hangout spot near NUS</h1>
-        <p>Ameens is a local neighbourhood joint near NUS for students to relax and unwind after a busy day in school and to enjoy supper with their friends. We get crowded during the evenings so press the button below to reserve your place now!</p>
-        <a class="btn btn-primary" href="#">Reserve a table!</a>
+      <br>
+        <h1 class="font-weight-light">Ameens</h1>
+        <p>Ameens is a local neighbourhood joint near NUS for students to relax and unwind after a busy day in school
+        and to enjoy supper with their friends. We get crowded during the evenings so press the button below to reserve
+        your place now!</p>
       </div>
+       <div class="container">
+           <div class="row">
+               <div class='col-sm-6'>
+                   <div class="form-group">
+                       <input type="text" name="datetimes" />
+                   </div>
+               </div>
+               <script>
+               $(function() {
+                 $('input[name="datetimes"]').daterangepicker({
+                   timePicker: true,
+                   startDate: moment().startOf('hour'),
+                   endDate: moment().startOf('hour').add(32, 'hour'),
+                   locale: {
+                     format: 'M/DD hh:mm A'
+                   }
+                 });
+               });
+               </script>
+           </div>
+           <a class="btn btn-success bg-success" href="#">Reserve a table!</a>
+           <br>
+       </div>
       <!-- /.col-md-4 -->
+      <div class="col-lg-7">
+              <img class="img-fluid rounded mb-4 mb-lg-0" src="http://placehold.it/600x400" alt="">
+            </div>
+            <!-- /.col-lg-8 -->
     </div>
     <!-- /.row -->
 
     <!-- Call to Action Well -->
-    <div class="card text-white bg-secondary my-5 py-4 text-center">
+    <div class="card text-white bg-info my-5 py-4 text-center">
       <div class="card-body">
-        <p class="text-white m-0">Click below to view menu</p>
+        <p class="text-white m-0">Check out our menu below!</p>
       </div>
     </div>
 
@@ -78,8 +108,9 @@
       <div class="col-md-4 mb-5">
         <div class="card h-100">
           <div class="card-body">
-            <h2 class="card-title">Card One</h2>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>
+          // for i = the number of menus that exist in the restaurant, display all the menus in the form of cards below.
+            <h2 class="card-title">Menu One</h2>
+            <p class="card-text"> Menu Description </p>
           </div>
           <div class="card-footer">
             <a href="#" class="btn btn-primary btn-sm">More Info</a>
@@ -90,8 +121,8 @@
       <div class="col-md-4 mb-5">
         <div class="card h-100">
           <div class="card-body">
-            <h2 class="card-title">Card Two</h2>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod tenetur ex natus at dolorem enim! Nesciunt pariatur voluptatem sunt quam eaque, vel, non in id dolore voluptates quos eligendi labore.</p>
+            <h2 class="card-title">Menu Two</h2>
+            <p class="card-text"> Menu Description </p>
           </div>
           <div class="card-footer">
             <a href="#" class="btn btn-primary btn-sm">More Info</a>
@@ -102,8 +133,8 @@
       <div class="col-md-4 mb-5">
         <div class="card h-100">
           <div class="card-body">
-            <h2 class="card-title">Card Three</h2>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>
+            <h2 class="card-title">Menu Three</h2>
+            <p class="card-text"> Menu Description </p>
           </div>
           <div class="card-footer">
             <a href="#" class="btn btn-primary btn-sm">More Info</a>
