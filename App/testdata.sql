@@ -12,10 +12,10 @@ DELETE FROM Food CASCADE;
 DELETE FROM Preferences CASCADE;
 
 
-INSERT INTO Customers (custid, name, phone, points) VALUES
-(1, 'Alice Tan', 81234567, 0),
-(2, 'Bernard Lee', 98512383, 0),
-(3, 'Charles Wong', 82347632, 0);
+INSERT INTO Customers (custid, name, phone, points, username, password) VALUES
+(1, 'Alice Tan', 81234567, 0, 'alice123', 'password'),
+(2, 'Bernard Lee', 98512383, 0, 'b.lee', 'hunter2'),
+(3, 'Charles Wong', 82347632, 0, 'charleswongxd', 'donttellu');
 
 INSERT INTO Restaurants(rid, rname, rRating, rLocation, openTime, closeTime) VALUES
 (1, 'McDolans', 8, 'Buona Vista', '0600', '2200'),
