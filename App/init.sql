@@ -124,9 +124,9 @@ create table Menu (
 	rid integer,
 	foodid integer not null,
 	price integer not null,
-	unique (rid, foodid),
-	foreign key (rid) references Restaurant,
-	foreign key (foodid) references Food
+	primary key (rid, foodid),
+	foreign key (rid) references Restaurants,
+	foreign key (foodid) references Foods
 );
 
 create table Promotion (
@@ -135,7 +135,3 @@ create table Promotion (
 	discount integer,
 	foreign key (rid) references Restaurant
 );
-
-
-
-

@@ -14,6 +14,6 @@ router.post('/',
 	function(req, res) {
 		console.log("login success")
 		res.redirect('/dashboard');
-	});
+});
 
 module.exports = router;

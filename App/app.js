@@ -23,6 +23,7 @@ var reservationRouter = require('./routes/reservation');
 var restaurantAdminRouter = require('./routes/restaurantAdmin');
 var loginRouter = require('./routes/login');
 var logoutRouter = require('./routes/logout');
+var signupRouter = require('./routes/signup');
 
 const { Pool } = require('pg')
 const pool = new Pool({
@@ -102,6 +103,7 @@ app.use('/reservation', reservationRouter);
 app.use('/restaurantAdmin', restaurantAdminRouter);
 app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
+app.use('/signup', signupRouter);
 
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
