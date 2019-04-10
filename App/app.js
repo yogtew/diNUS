@@ -3,6 +3,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var passport = require('passport');
+var Strategy = require('passport-local').Strategy;
 require('dotenv').load();
 
 var indexRouter = require('./routes/index');
@@ -19,6 +21,56 @@ var dashboardRouter = require('./routes/dashboard');
 var browseRouter = require('./routes/browse');
 var reservationRouter = require('./routes/reservation');
 var restaurantAdminRouter = require('./routes/restaurantAdmin');
+var loginRouter = require('./routes/login');
+var logoutRouter = require('./routes/logout');
+
+const { Pool } = require('pg')
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL
+});
+
+passport.use(new Strategy(
+    function (username, password, cb) {
+        // console.log("user logging in with ", username, password)
+        var query = "select * from customers where username = '" + username + "'";
+        pool.query(query, (err, user_data) => {
+            // console.log("query result", err, user_data.rows)
+            if (err) {
+                // error
+                return cb(err)
+            }
+            if (user_data == false || user_data.rows.length == 0) {
+                // no such user
+                return cb(null, false);
+            }
+
+            var user = user_data.rows[0]
+            if (password != user.password) return cb(null, false)
+            return cb(null, user);
+        })
+    }));
+
+passport.serializeUser(function(user, cb) {
+    cb(null, user.custid);
+    // cb(null, user.custid);
+});
+
+passport.deserializeUser(function(id, cb) {
+    // return cb(null, id);
+    var query = "select * from customers where custid = '" + id + "'";
+    pool.query(query, (err, user_data) => {
+        console.log("query result", err, user_data.rows)
+        if (err) {
+            // error
+            return cb(err)
+        }
+        if (user_data == false || user_data.rows.length == 0) {
+            // no such user
+            return cb(null, false);
+        }
+        return cb(null, user_data.rows[0]);
+    })
+});
 
 var app = express();
 
@@ -31,6 +83,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(require('express-session')({ secret: 'cs2102', resave: false, saveUninitialized: false }));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -43,7 +99,9 @@ app.use('/restaurant', restaurantRouter);
 app.use('/dashboard', dashboardRouter);
 app.use('/browse', browseRouter);
 app.use('/reservation', reservationRouter);
-app.use('/resstaurantAdmin', restaurantAdminRouter);
+app.use('/restaurantAdmin', restaurantAdminRouter);
+app.use('/login', loginRouter);
+app.use('/logout', logoutRouter);
 
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
@@ -53,18 +111,18 @@ app.use('/insert', insertRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  next(createError(404));
+    next(createError(404));
 });
 
 // error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+    // render the error page
+    res.status(err.status || 500);
+    res.render('error');
 });
 
 module.exports = app;
