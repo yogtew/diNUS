@@ -1,7 +1,7 @@
 drop table if exists Reviews cascade;
 drop table if exists ReviewLikes cascade;
 drop table if exists Customers cascade;
-drop table if exists Food cascade;
+drop table if exists Foods cascade;
 drop table if exists Restaurants cascade;
 drop table if exists OpeningHours cascade;
 drop table if exists RTable cascade;
@@ -14,18 +14,17 @@ drop table if exists Franchises cascade;
 
 create table Customers (
 	custid integer primary key,
-	name varchar(100) not null,
-	phone integer not null,
-	points integer not null,
-	username varchar(100) not null,
-	password varchar(100) not null
+	custname varchar(100) not null,
+	custphone integer not null,
+	custpoints integer not null,
+	custusername varchar(100) not null,
+	custpassword varchar(100) not null
 );
 
 create table Preferences (
 	custid integer primary key,
 	cuisineTag varchar(100),
 	pLocation varchar(100),
-	openingHours varchar(100),
 	foreign key (custid) references Customers(custid)
 );
 
@@ -45,10 +44,10 @@ create table Restaurants (
 
 create table OpeningHours (
 	rid integer,
-	day integer,
-	openTime integer not null,
-	closeTime integer not null,
-	primary key(rid, day),
+	dayInWeek integer,
+	openTime char(4) not null,
+	closeTime char(4) not null,
+	primary key(rid, dayInWeek),
 	foreign key (rid) references Restaurants
 );
 
@@ -92,20 +91,20 @@ create table Reserves (
 create table Foods (
 	foodid integer primary key,
 	foodname varchar(100) not null
-)
+);
 
 create table FoodTags (
 	foodid integer,
 	cuisineTag varchar(100),
 	unique(foodid, cuisineTag),
-	foreign key foodid references Foods
+	foreign key (foodid) references Foods
 );
 
 create table Menu (
 	rid integer,
 	foodid integer not null,
 	price integer not null,
-	unique key (rid, foodid),
+	unique (rid, foodid),
 	foreign key (rid) references Restaurants,
 	foreign key (foodid) references Foods
 );
