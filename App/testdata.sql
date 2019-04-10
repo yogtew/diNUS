@@ -33,6 +33,9 @@ INSERT INTO Restaurant(rid, rname, rRating, rLocation) VALUES
 (2, 'YIH Thai', 2, 'South'),
 (3, 'Ameens', 8, 'North');
 
+insert into Reserves(resid, cardid, restime, respax, tableid, rid, custid) VALUES
+(default, 1111111111111111, )
+
 insert into OpeningHours(rid, dayInWeek, openTime, closeTime) values
 (1, 1, '0600', '2200'),
 (1, 2, '0600', '2200'),

@@ -91,7 +91,7 @@ router.post('/', function(req, res, next) {
 		if (err) {
 			res.render('error', {message: "Table not found", error: {status: "", stack: ""}})
 		} else {
-			res.render('browse', { title: 'View Table', data: data.rows, fields: data.fields});
+			res.render('browse', { title: 'View Table', data: data.rows, fields: data.fields, isLoggedIn: req.user ? true:false});
 		}
 	});
 });
