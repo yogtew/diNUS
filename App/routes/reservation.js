@@ -17,7 +17,7 @@ var custid;
 
 // GET
 router.get('/', function (req, res, next) {
-    custid = req.query.user;
+    custid = req.user.custid;
     res.render('reservation',
         {title: 'Making Reservation',
             displayErrorMsg: false,
@@ -25,7 +25,8 @@ router.get('/', function (req, res, next) {
             defaultrName: "",
             defaultresDate: "",
             defaultresTime: "",
-            defaultresNum: ""
+            defaultresNum: "",
+            defaultcardid: ""
         });
 });
 
@@ -39,7 +40,7 @@ and (('0200'>= r.openTime and '0200'<= r.closeTime)
 or ('0200'>= r.openTime and r.closeTime <= r.openTime and '0200' <= cast((cast(r.closeTime as integer) + 2400) as char(4)))
 or('0200' <= r.openTime and r.closeTime <= r.openTime and cast((cast('0200' as integer) + 2400) as char(4)) <= cast((cast(r.closeTime as integer) + 2400) as char(4))));
  */
-var check_query = "select 1 from restaurants r where ";
+var check_query = "select 1 from restaurant r where ";
 
 /*
 select rt.tableid
@@ -54,9 +55,10 @@ and rt.tableid not in(
 limit 1;
  */
 var tableid_query = "select rt.tableid from rtable rt where rt.rid = ";
-var insert_query = "insert into reserves (resid, restime,restpax, rid, custid) values";
+var insert_query = "insert into reserves (resid, cardid, restime,respax, rid, custid) values";
 var openTime_query = "(select openTime from openingHours where dayInWeek = ";
 var closeTime_query = "(select closeTime from openingHours where dayInWeek = ";
+var cardid_query = "select 1 from PaymentMode pm where pm.cardid = '";
 
 // POST
 router.post('/', function (req, res, next) {
@@ -65,6 +67,7 @@ router.post('/', function (req, res, next) {
     var resdate = req.body.resDate;
     var restime = req.body.resTime;
     var respax = req.body.resNum;
+    var cardid = req.body.cardid;
 
 
     //conversion of date and time into sql's date and time format yyyy-mm-dd
@@ -78,7 +81,7 @@ router.post('/', function (req, res, next) {
     lowerrname = String(rname).toLowerCase();
 
     //rid_query checks if restaurant name can be found in existing restaurant table
-    var rid_query = "select r.rid from restaurants r where LOWER(r.rname) = '" + lowerrname + "';";
+    var rid_query = "select r.rid from restaurant r where LOWER(r.rname) = '" + lowerrname + "';";
     console.log(rid_query);
 
     pool.query(rid_query, (err, rest_data) => {
@@ -90,7 +93,8 @@ router.post('/', function (req, res, next) {
             defaultrName: "",
             defaultresDate: resdate,
             defaultresTime: restime,
-            defaultresNum: respax
+            defaultresNum: respax,
+            defaultcardid: cardid
         });
         } else {
             var restaurant = rest_data.rows[0];
@@ -118,31 +122,55 @@ router.post('/', function (req, res, next) {
             defaultrName: rname,
             defaultresDate: resdate,
             defaultresTime: "",
-            defaultresNum: respax
+            defaultresNum: respax,
+            defaultcardid: cardid
         });
     } else {
             //insert_into_reserves_query inserts into reserves table
-            var insert_into_reserves_query = insert_query + "(" + "DEFAULT, '" + resdatetime + "'," + respax + "," + restaurant.rid + "," + custid + ");";
-            pool.query(insert_into_reserves_query, (err, data) => {
-                console.log(insert_into_reserves_query);
-            if (err) {
-                res.render('reservation', {
+            var check_valid_card_id_query = cardid_query + cardid + "' and pm.custid = " + custid + ";";
+            console.log(check_valid_card_id_query);
+            var insert_into_reserves_query = insert_query + "(" + "DEFAULT, '" + cardid + "','" + resdatetime + "'," + respax + "," + restaurant.rid + "," + custid + ");";
+            console.log(insert_into_reserves_query);
+            pool.query(check_valid_card_id_query, (err, card_id_data) => {
+            if (isNaN(custid) || err || card_id_data.rows.length == 0) {
+                    res.render('reservation', {
                     displayErrorMsg: true,
-                    message: "Booking is already full at " + resdatetime + ", for restaurant " + restaurant.rname,
+                    message: "Your card details are wrong, please fill up again" + err,
                     defaultrName: rname,
                     defaultresDate: resdate,
-                    defaultresTime: "",
-                    defaultresNum: respax
+                    defaultresTime: restime,
+                    defaultresNum: respax,
+                    defaultcardid: ""
             });
             } else {
                 //res.redirect('/select?table=reserves')
-                res.redirect('/dashboard?user=' + custid);
-            }
+                var insert_into_reserves_query = insert_query + "(" + "DEFAULT, '" + cardid + "','" + resdatetime + "'," + respax + "," + restaurant.rid + "," + custid + ");";
+                console.log(insert_into_reserves_query);
+                check_valid_card_id_query = cardid_query + cardid + "' and pm.custid = " + custid + ";";
+                console.log(check_valid_card_id_query);
+                pool.query(insert_into_reserves_query, (err, data) => {
+                if (err ) {
+                    res.render('reservation', {
+                        displayErrorMsg: true,
+                        message: "Booking is already full at " + resdatetime + ", for restaurant " + restaurant.rname + err,
+                        defaultrName: rname,
+                        defaultresDate: resdate,
+                        defaultresTime: "",
+                        defaultresNum: respax,
+                        defaultcardid: cardid
+                    });
+                } else {
+                    res.redirect('/dashboard');
+
+                }
         })
             ;
         }
     })
         ;
+    }
+        })
+            ;
 
 }
 });
