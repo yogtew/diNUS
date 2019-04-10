@@ -28,7 +28,6 @@ insert into PaymentMode(cardid, custid, custname) values
 ('1111111111111113', 2, 'Bernard Lee'),
 ('1111111111111114', 3, 'Charles Wong');
 
-
 INSERT INTO Restaurant(rid, rname, rRating, rLocation) VALUES
 (1, 'Dining Hall', 8, 'Central'),
 (2, 'YIH Thai', 2, 'South'),
