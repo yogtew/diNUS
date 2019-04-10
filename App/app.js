@@ -35,7 +35,7 @@ passport.use(new Strategy(
         console.log("user logging in with ", username, password)
         var query = "select * from customer where username = '" + username + "'";
         pool.query(query, (err, user_data) => {
-            console.log("query result", err, user_data.rows)
+            console.log("query result", err, user_data)
             if (err) {
                 // error
                 return cb(err)
