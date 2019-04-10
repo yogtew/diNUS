@@ -6,33 +6,48 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
 
         <!-- CSS for Styling -->
-    	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
   </head>
 
   <body>
-  	<a href="/">Back</a>
-      <h1>Browse Restaurants</h1>
+  <!-- Navigation -->
+  <% include partials/header.ejs %>
 
-    <p><font size="+3"><b>Search Restaurants</b></font>&nbsp&nbsp&nbsp&nbspPlease input preferred restaurant attributes for search purposes below:</p>
+  <!-- Page Content -->
+  <div class="container">
+  <br/>
+  <h1>Browse Restaurants</h1>
+  <p?<font size="+3"><b>Search Restaurants</b></font>&nbsp&nbsp&nbsp&nbspPlease input preferred restaurant attributes for search purposes below:</p>
 
-    <form action="browse" method="post" class="form-inline">
-      <label for="search_rName">Name:&nbsp</label>
-      <input id="search_rName" class="form-control mb-2 mr-sm-2 mb-sm-0"" name="search_rName" size="30"type="text">
 
-      <label for="search_rRating">Minimum rating:&nbsp</label>
-      <input type="number" class="form-control mb-2 mr-sm-2 mb-sm-0"" id="search_rRating" name="search_rRating" size = "30">
+  <%# The search based on manual input. %>
+  <form action="browse" method="post" class="form-inline">
+    <label for="search_rName">Name:&nbsp</label>
+    <input id="search_rName" class="form-control mb-2 mr-sm-2 mb-sm-0"" name="search_rName" size="30"type="text">
 
-      <label for="search_rLocation">Location:&nbsp</label>
-      <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0"" id="search_rLocation" name="search_rLocation" size = "30">
+    <label for="search_rRating">Minimum rating:&nbsp</label>
+    <input type="number" class="form-control mb-2 mr-sm-2 mb-sm-0"" id="search_rRating" name="search_rRating" size = "30">
 
-      <label for="search_rTag">Tag:&nbsp</label>
-      <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0"" id="search_rTag" name="search_rTag" size = "30">
+    <label for="search_rLocation">Location:&nbsp</label>
+    <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0"" id="search_rLocation" name="search_rLocation" size = "30">
 
-      <button type="submit" class="btn btn-primary">Submit </button>
-    </form>
+    <label for="search_rTag">Tag:&nbsp</label>
+    <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0"" id="search_rTag" name="search_rTag" size = "30">
 
-    <br></br>
-    <p><font size="+3"><b>Search Results</b></font>&nbsp&nbsp <a href="/browse">Reset Search</a></p>
+    <button type="submit" class="btn btn-primary">Submit </button>
+  </form>
+  </br>
+
+
+  <%# The search based on preferences button. %>
+  <form action="browsePreferences" method="get" class="form-inline">
+    <button type="submit" class="btn btn-primary">Search using your Preferences </button>
+  </form>
+
+
+  <%# The search results screen. %>
+  <br/>
+  <p><font size="+3"><b>Search Results</b></font>&nbsp&nbsp <a href="/browse">Reset Search</a></p>
 
       <table class="table">
   		<thead>
@@ -52,6 +67,5 @@
   		<% } %>
   	    </tbody>
   	</table>
-
   </body>
 </html>

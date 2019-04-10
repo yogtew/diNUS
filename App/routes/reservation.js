@@ -1,3 +1,10 @@
+/*
+TODO: refine opening hours
+TODO: implement based on seats/ number of pax
+TODO: triggers left to do - 1. increment customer loyalty points 2. check capacity
+TODO: show restaurant name, check why restaurant.rname is undefined
+
+ */
 var express = require('express');
 var router = express.Router();
 
@@ -11,8 +18,15 @@ var custid;
 // GET
 router.get('/', function (req, res, next) {
     custid = req.query.user;
-    console.log(req.query.user);
-    res.render('reservation', {title: 'Making Reservation'});
+    res.render('reservation',
+        {title: 'Making Reservation',
+            displayErrorMsg: false,
+            message:"",
+            defaultrName: "",
+            defaultresDate: "",
+            defaultresTime: "",
+            defaultresNum: ""
+        });
 });
 
 /*
@@ -40,8 +54,9 @@ and rt.tableid not in(
 limit 1;
  */
 var tableid_query = "select rt.tableid from rtable rt where rt.rid = ";
-var insert_query = "insert into reserves values ";
-
+var insert_query = "insert into reserves (resid, restime,restpax, rid, custid) values";
+var openTime_query = "(select openTime from openingHours where dayInWeek = ";
+var closeTime_query = "(select closeTime from openingHours where dayInWeek = ";
 
 // POST
 router.post('/', function (req, res, next) {
@@ -57,59 +72,68 @@ router.post('/', function (req, res, next) {
     console.dir(resdate);
     console.dir(restime);
     console.dir(resdatetime);
-    restime = String(restime).replace(':', '');
+    editedrestime = String(restime).replace(':', '');
+
+    // change rname to lower case
+    lowerrname = String(rname).toLowerCase();
 
     //rid_query checks if restaurant name can be found in existing restaurant table
-    var rid_query = "select r.rid from restaurants r where r.rname = '" + rname + "';";
+    var rid_query = "select r.rid from restaurants r where LOWER(r.rname) = '" + lowerrname + "';";
     console.log(rid_query);
 
     pool.query(rid_query, (err, rest_data) => {
-        if(err) {
-            res.render("error", {
-                message: "Restaurant " + rname + " not found" + error,
-                error: {status: "", stack: ""}
-            });
+        console.log(err);
+        if(err || rest_data.rows.length == 0) {
+        res.render('reservation', {
+            displayErrorMsg: true,
+            message: "Restaurant " + rname + " does not exist",
+            defaultrName: "",
+            defaultresDate: resdate,
+            defaultresTime: restime,
+            defaultresNum: respax
+        });
         } else {
             var restaurant = rest_data.rows[0];
-    //check_if_valid_timing_query checks if inserted time is within opening hours
-    var check_if_valid_timing_query = check_query + restaurant.rid + "= r.rid and (('" + restime + "'>= r.openTime and '" + restime + "'<= r.closeTime) or('"
-        + restime + "'>= r.openTime and r.closeTime <= r.openTime and '" + restime + "'<= cast((cast(r.closeTime as integer) + 2400) as char(4))) or('"
-        + restime + "'<= r.openTime and r.closeTime <= r.openTime and cast((cast('" + restime + "' as integer) + 2400) as char(4)) <= cast((cast(r.closeTime as integer) + 2400) as char(4))));";
+            var date = new Date(resdate);
+            console.log(date.getDay());
+
+            check_open_time_query = openTime_query + date.getDay() + " and rid = " + restaurant.rid + ")";
+            console.log(check_open_time_query);
+            check_close_time_query = closeTime_query + date.getDay() + " and rid = " + restaurant.rid + ")";
+            console.log(check_close_time_query);
+
+
+            var check_if_valid_timing_query = check_query + restaurant.rid + "= r.rid and (('" + editedrestime + "'>= " + check_open_time_query + " and '" + editedrestime + "'<= " + check_close_time_query + ") or('"
+                + editedrestime + "'>= " + check_open_time_query + " and " + check_close_time_query +" <= " + check_open_time_query +  " and '" + editedrestime + "'<= cast((cast(" + check_close_time_query + " as integer) + 2400) as char(4))) or('"
+                + editedrestime + "'<= " + check_open_time_query + " and " + check_close_time_query + " <= " + check_open_time_query + " and cast((cast('" + editedrestime + "' as integer) + 2400) as char(4)) <= cast((cast(" + check_close_time_query + " as integer) + 2400) as char(4))));";
+
+            //check_if_valid_timing_query checks if inserted time is within opening hours
+    console.log(check_if_valid_timing_query);
     pool.query(check_if_valid_timing_query, (err, opening_hours_data) => {
         console.log(check_if_valid_timing_query);
     if (err || opening_hours_data.rows.length == 0) {
         res.render("reservation", {
-            message: "Booking timing for " + rname + " not within opening hours." + err,
-            error: {status: "", stack: ""}
+            displayErrorMsg: true,
+            message: "Booking timing for " + rname + " not within opening hours.",
+            defaultrName: rname,
+            defaultresDate: resdate,
+            defaultresTime: "",
+            defaultresNum: respax
         });
     } else {
-        /*
-select rt.tableid
-from rtable rt
-where rt.rid = 1
-and rt.tableid not in(
-	select distinct r.tableid
-	from reserves r
-	where r.restime = '2019-03-19 18:00:00'
-	and r.rid = 1
-)
-limit 1;
- */
-        //get_table_id_query returns the first tableid that is available for the new booking
-        var get_table_id_query = tableid_query + restaurant.rid + "and rt.tableid not in (select distinct r.tableid from reserves r"
-        + " where r.restime = '" + resdatetime +"' and r.rid = " + restaurant.rid + ") limit 1;"
-        pool.query(get_table_id_query, (err, table_data) => {
-            console.log(get_table_id_query);
-        if (err || table_data.rows.length == 0) {
-            res.render('error', {message: "Booking for " + rname + " at " + resdatetime + " is full. Enter in another timing", error : {status: "", cstack: ""}});
-        } else {
-            var table = table_data.rows[0];
             //insert_into_reserves_query inserts into reserves table
-            var insert_into_reserves_query = insert_query + "(" + "DEFAULT, '" + resdatetime + "'," + respax + "," + table.tableid + "," + restaurant.rid + "," + custid + ");";
+            var insert_into_reserves_query = insert_query + "(" + "DEFAULT, '" + resdatetime + "'," + respax + "," + restaurant.rid + "," + custid + ");";
             pool.query(insert_into_reserves_query, (err, data) => {
                 console.log(insert_into_reserves_query);
             if (err) {
-                res.render('error', {message: err, error: {status: "", cstack: ""}});
+                res.render('reservation', {
+                    displayErrorMsg: true,
+                    message: "Booking is already full at " + resdatetime + ", for restaurant " + restaurant.rname,
+                    defaultrName: rname,
+                    defaultresDate: resdate,
+                    defaultresTime: "",
+                    defaultresNum: respax
+            });
             } else {
                 //res.redirect('/select?table=reserves')
                 res.redirect('/dashboard?user=' + custid);
@@ -120,9 +144,6 @@ limit 1;
     })
         ;
 
-    }
-})
-    ;
 }
 });
 });

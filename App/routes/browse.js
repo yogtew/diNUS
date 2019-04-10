@@ -15,7 +15,12 @@ router.get('/', function(req, res, next) {
 		if (err) {
 			res.render('error', {message: "Restaurant table not found", error: {status: "", stack: ""}})
 		} else {
-			res.render('browse', { title: 'View Table', data: data.rows, fields: data.fields});
+			res.render('browse', {
+				title: 'View Table',
+				data: data.rows,
+				fields: data.fields,
+				isLoggedIn: req.user ? true:false
+			});
 		}
 	});
 });
