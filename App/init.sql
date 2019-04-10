@@ -13,6 +13,8 @@ drop table if exists Menu cascade;
 drop table if exists Tags cascade;
 drop table if exists TagType cascade;
 drop table if exists Franchise cascade;
+drop table if exists LocationPreferences cascade;
+drop table if exists FoodPreferences cascade;
 
 create table Customer (
 	custid integer primary key,
@@ -24,11 +26,23 @@ create table Customer (
 	unique(custid, custname)
 );
 
-create table Preferences (
-	custid integer primary key,
-	foodTag varchar(100),
+create table TagType(
+	tagid integer primary key,
+	tagtype varchar(100)
+);
+
+create table LocationPreferences (
+	custid integer,
 	pLocation varchar(100),
+	primary key (custid, pLocation),
 	foreign key (custid) references Customer(custid)
+);
+
+create table FoodPreferences (
+	custid integer,
+	tagid integer,
+	primary key (custid, tagid),
+	foreign key (tagid) references TagType
 );
 
 create table Franchise (
@@ -103,11 +117,6 @@ create table Reserves (
 create table Food (
 	foodid serial primary key,
 	foodname varchar(100) not null
-);
-
-create table TagType(
-	tagid integer primary key,
-	tagtype varchar(100)
 );
 
 create table Tags(
