@@ -1,10 +1,6 @@
 var express = require('express');
 var router = express.Router();
-
-const { Pool } = require('pg')
-const pool = new Pool({
-	connectionString: process.env.DATABASE_URL
-});
+var db = require('../db')
 
 
 /* GET users listing. */
@@ -12,7 +8,7 @@ router.get('/', require('connect-ensure-login').ensureLoggedIn('/login'), functi
 	console.log(req)
     var uid = req.user.custid
     var user_query = "select * from customers where customers.custid = " + uid;
-    pool.query(user_query, (err, user_data) => {
+    db.query(user_query, (err, user_data) => {
         console.log(user_data)
         if (err || user_data.rows.length == 0) {
             res.render("error", {
@@ -22,7 +18,7 @@ router.get('/', require('connect-ensure-login').ensureLoggedIn('/login'), functi
         } else {
             var user = user_data.rows[0];
             var sql_query = 'SELECT Restaurants.rname, to_char(Reserves.restime, \'HH12:MI\') FROM Reserves natural join Restaurants where Reserves.custid = ' + uid
-        	pool.query(sql_query, (err, data) => {
+        	db.query(sql_query, (err, data) => {
         		if (err) {
         			res.render('error', {message: "Table \"" + req.query.table + "\" not found", error: {status: "", stack: ""}})
         		} else {

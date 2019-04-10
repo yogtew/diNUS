@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
@@ -15,7 +14,6 @@
 
   <!-- Custom styles for this template -->
   <link href="css/small-business.css" rel="stylesheet">
-
 </head>
 
 <body>
@@ -28,9 +26,6 @@
 
     <!-- Heading Row -->
     <div class="row align-items-center my-5">
-      <div class="col-lg-12">
-        <img class="img-fluid rounded mb-4 mb-lg-0" src="http://placehold.it/1200x600" alt="">
-      </div>
       <!-- /.col-lg-8 -->
       <div class="col-lg-1"></div>
       <div class="col-lg-10">
@@ -50,8 +45,8 @@
           </div>
         </div>
     <% } else { %>
-        <div class="card text-white bg-secondary my-5 py-4">
-          <div class="card-body">
+        <div class="row my-5 py-4">
+          <div class="col-lg-5 py-4">
               <h1>Login</h1>
               <form id="html_form" action="login" role="form" method="post">
       			<div class="form-group">
@@ -64,6 +59,32 @@
       			</div>
       			<button type="submit" class="btn btn-primary">Submit</button>
       		</form>
+        </div>
+        <div class="col-lg-1 py-4"></div>
+            <div class="col-lg-5 py-4">
+            <h1>Sign Up</h1>
+            <% if (typeof isError != "undefined") {%><div class="alert alert-<%=isError?'danger':'success' %>"><%= msg %></div><% } %>
+            <% if (typeof isError != "undefined") %>
+            <form id="html_form" action="signup" role="form" method="post">
+                <div class="form-group">
+                    <label for="user">Full Name</label>
+                    <input type="text" class="form-control" id="user" name="custname" placeholder="e.g. Alice Tan">
+                </div>
+                <div class="form-group">
+                    <label for="user">Contact No.</label>
+                    <input type="text" class="form-control" id="user" name="phone" placeholder="e.g. 6777 3777">
+                </div>
+                <div class="form-group">
+                    <label for="user">Username</label>
+                    <input type="text" class="form-control" id="user" name="username" placeholder="e.g. alice123">
+                </div>
+              <div class="form-group">
+                  <label for="password">Password</label>
+                  <input type="password" class="form-control" id="pw" name="password">
+              </div>
+              <button type="submit" class="btn btn-primary">Sign up</button>
+          </form>
+      </div>
           </div>
         </div>
     <% } %>
