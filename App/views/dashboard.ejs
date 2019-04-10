@@ -59,6 +59,7 @@
                             <% for(var j in fields) { %>
                                 <td><%= data[i][fields[j].name]%></td>
                             <% }%>
+                            <td><input class="btn btn-primary" value="Edit"></input></td>
                         </tr>
                     <% }%>
                 </tbody>
@@ -69,29 +70,10 @@
       </div>
     </div>
 
-    <!-- Content Row -->
-    <h1>Favourite Restaurants</h1>
-    <div class="row">
-        <% for(var i = 0; i < 3; i++) { %>
-      <div class="col-md-4 mb-5">
-        <div class="card h-100">
-          <div class="card-body">
-            <h2 class="card-title">adj</h2>
-            <p class="card-text">Test</p>
-          </div>
-          <div class="card-footer">
-            <a href="#" class="btn btn-primary btn-sm">More Info</a>
-          </div>
-        </div>
-      </div>
-      <% } %>
-
-    </div>
-
     <h1>Preferences</h1>
     <div class="row">
-        <% for(var i = 0; i < data.prefs.length; i++) { %>
-            <input type="checkbox"><%= data.prefs[i]%></input>
+        <% for(var i = 0; i < typePrefs.length; i++) { %>
+            <input type="checkbox"><%= typePrefs[i]%></input>
         <% } %>
     </div>
     <!-- /.row -->

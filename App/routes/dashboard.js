@@ -23,7 +23,7 @@ router.get('/', require('connect-ensure-login').ensureLoggedIn('/login'), functi
             console.log(req.query.table);
             var user = user_data.rows[0];
             var sql_query = 'SELECT Restaurant.rname, to_char(Reserves.restime, \'HH12:MI\') FROM Reserves natural join Restaurant where Reserves.custid = ' + uid
-        	pool.query(sql_query, (err, data) => {
+        	pool.query(sql_query, (err, reservations) => {
         		if (err) {
         			res.render('error', {message: "Table \"" + req.query.table + "\" not found", error: {status: "", stack: ""}})
         		} else {
@@ -33,9 +33,9 @@ router.get('/', require('connect-ensure-login').ensureLoggedIn('/login'), functi
                         title: 'View Table',
                         data: reservations.rows,
                         fields: reservations.fields,
-                        username: user.name,
+                        username: user.custname,
                         points: user.points,
-						typePrefs: typePrefs,
+						typePrefs: [],
 						isLoggedIn: req.user ? true:false
                     });
         		}
