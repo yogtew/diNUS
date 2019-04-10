@@ -10,7 +10,7 @@ const pool = new Pool({
 
 router.get('/', function(req, res, next) {
 	/* SQL Query */
-	var sql_query = 'SELECT rname as "Name", rLocation as "Location", rrating as "Rating", opentime as "Opening Time", closetime as "Closing Time" FROM restaurants'
+	var sql_query = 'SELECT distinct rname as "Name", rLocation as "Location", rRating as "Rating" FROM restaurant r'
 	pool.query(sql_query, (err, data) => {
 		if (err) {
 			res.render('error', {message: "Restaurant table not found", error: {status: "", stack: ""}})
@@ -26,19 +26,15 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
-    /* SQL Query */
     var num_conditions = 0
-
     var search_rName = req.body.search_rName
     search_rName = search_rName.toLowerCase();
     var search_rRating = req.body.search_rRating;
     var search_rLocation = req.body.search_rLocation.toLowerCase();
     search_rLocation = search_rLocation.toLowerCase();
-    var search_rTag = req.body.search_rTag;
-    search_rTag = search_rTag.toLowerCase();
 
-	var search_query = 'SELECT distinct rname as "Name", rLocation as "Location", rrating as "Rating", opentime as "Opening Time", closetime as "Closing Time" '
-	 + ' FROM (restaurants r inner join cuisinetags ct ON r.rid = ct.rid) as r'
+    /* SQL Query */
+	var search_query = 'SELECT distinct rname as "Name", rLocation as "Location", rrating as "Rating" FROM restaurant r'
 	if (search_rName === "") {
 	} else {
 	    search_query = search_query + " where LOWER(r.rname) like '%" + search_rName + "%'"
@@ -48,37 +44,24 @@ router.post('/', function(req, res, next) {
 	if (search_rRating === "") {
 	} else {
 	    if (num_conditions == 0) {
-	        search_query = search_query + " where r.rrating >= '" + search_rRating + "'"
-	        num_conditions++
+	        search_query = search_query + " where"
 	    } else {
-	        search_query = search_query + " and r.rrating >= '" + search_rRating + "'"
-	        num_conditions++
+	        search_query = search_query + " and"
 	    }
+	    search_query = search_query + " r.rrating >= '" + search_rRating + "'"
+	    num_conditions++
 	}
 
 	if (search_rLocation === "") {
 	} else {
 	    if (num_conditions == 0) {
-        	search_query = search_query + " where LOWER(r.rlocation) = '" + search_rLocation + "'"
-        	num_conditions++
-        } else {
-            search_query = search_query + " and LOWER(r.rlocation) = '" + search_rLocation + "'"
-            num_conditions++
-        }
+	        search_query = search_query + " where"
+	    } else {
+	        search_query = search_query + " and"
+	    }
+	    search_query = search_query + " LOWER(r.rlocation) = '" + search_rLocation + "'"
+        num_conditions++
 	}
-
-	if (search_rTag === "") {
-	} else {
-	    if (num_conditions == 0) {
-        	search_query = search_query + " where LOWER(r.tag) = '" + search_rTag + "'"
-        	num_conditions++
-        } else {
-            search_query = search_query + " and LOWER(r.tag) = '" + search_rTag + "'"
-            num_conditions++
-        }
-	}
-
-	//search_query = search_query + ' group by rname'
 
 	pool.query(search_query, (err, data) => {
 		if (err) {
