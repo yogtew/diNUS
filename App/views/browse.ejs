@@ -21,7 +21,7 @@
 
 
   <%# The search based on manual input. %>
-  <form action="browse" method="post" class="form-inline">
+  <form action="browse" method="post" class="form">
     <label for="search_rName">Name:&nbsp</label>
     <input id="search_rName" class="form-control mb-2 mr-sm-2 mb-sm-0"" name="search_rName" size="30"type="text">
 
@@ -38,11 +38,13 @@
   </form>
   </br>
 
-
+  <% /* %>
   <%# The search based on preferences button. %>
-  <form action="browsePreferences" method="get" class="form-inline">
+  <form action="browse" method="get" class="form-inline">
+    <input type="hidden" name="usePreferences" value=1></input>
     <button type="submit" class="btn btn-primary">Search using your Preferences </button>
   </form>
+  <% */%>
 
 
   <%# The search results screen. %>

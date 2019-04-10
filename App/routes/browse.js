@@ -9,20 +9,28 @@ const pool = new Pool({
 
 
 router.get('/', function(req, res, next) {
+    if (req.user) {
+        var uid = req.user.custid
+        var user_query = 'SELECT * from Preferences where custid = ' + uid
+    } else {
 	/* SQL Query */
-	var sql_query = 'SELECT distinct rname as "Name", rLocation as "Location", rRating as "Rating" FROM restaurant r'
-	pool.query(sql_query, (err, data) => {
-		if (err) {
-			res.render('error', {message: "Restaurant table not found", error: {status: "", stack: ""}})
-		} else {
-			res.render('browse', {
-				title: 'View Table',
-				data: data.rows,
-				fields: data.fields,
-				isLoggedIn: req.user ? true:false
-			});
-		}
-	});
+        var sql_query = 'SELECT distinct rname as "Name", rLocation as "Location", rRating as "Rating" FROM restaurant r'
+        pool.query(sql_query, (err, data) => {
+            if (err) {
+                res.render('error', {message: "Restaurant table not found", error: {status: "", stack: ""}})
+            } else {
+                res.render('browse', {
+                    title: 'View Table',
+                    data: data.rows,
+                    fields: data.fields,
+                    isLoggedIn: req.user ? true:false
+                });
+            }
+        });
+    }
+
+
+
 });
 
 router.post('/', function(req, res, next) {
