@@ -1,6 +1,5 @@
 drop trigger if exists reservation_timing_check on reserves;
 
-
 create or replace function check_reservation_timing()
 returns trigger as
 $$
@@ -9,6 +8,7 @@ begin
 	select rt.tableid into tableidavail
 	from rtable rt
 	where rt.rid = new.rid
+	and rt.numSeats >= new.respax
 	and rt.tableid not in(
 	select distinct r.tableid
 	from reserves r
@@ -23,11 +23,12 @@ if tableidavail is null then
 	raise exception 'Booking is already full';
 	return null;
 else
-	return (new.resid, new.restime, new.restpax, tableidavail, new.rid, new.custid);
+	return (new.resid, new.cardid, new.restime, new.respax, tableidavail, new.rid, new.custid);
 	end if;
 end;
 	$$
 language plpgsql;
+
 
 create trigger reservation_timing_check
 before insert or update

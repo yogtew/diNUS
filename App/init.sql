@@ -17,10 +17,10 @@ drop table if exists Franchise cascade;
 create table Customer (
 	custid integer primary key,
 	custname varchar(100) not null,
-	custphone integer not null,
-	custpoints integer not null,
-	custusername varchar(100) not null,
-	custpassword varchar(100) not null,
+	phone integer not null,
+	points integer not null,
+	username varchar(100) not null,
+	pw varchar(100) not null,
 	unique(custid, custname)
 );
 
@@ -90,7 +90,7 @@ create table Reserves (
 	resid serial primary key,
 	cardid char(16),
 	restime timestamp,
-	restpax integer,
+	respax integer,
 	tableid integer,
 	rid integer,
 	custid integer,
@@ -117,6 +117,8 @@ create table Tags(
 	foreign key (foodid) references Food,
 	primary key (foodid, tagid)
 );
+
+
 
 create table Menu (
 	rid integer,

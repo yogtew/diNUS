@@ -4,7 +4,7 @@ const pool = new Pool({
 });
 
 function verify(username, password, cb) {
-    var query = "select * from customers where username = '" + username + "'";
+    var query = "select * from customer where username = '" + username + "'";
     pool.query(query, (err, user_data) => {
         if (err) {
             return cb(err)
