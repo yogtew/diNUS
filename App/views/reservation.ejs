@@ -181,6 +181,21 @@ DOCTYPE html>
                 document.getElementById("resNum").setAttribute("value", <%=defaultresNum%>);
             </script>
         </div>
+        <div class="form-group row">
+                <label>Card Number</label>
+                <input type="text" class="form-control"
+                <% if (displayErrorMsg && defaultcardid === "") { %>
+                       class = "text-danger"
+                        <%}%>
+                       placeholder="xxxx-xxxx-xxxx-xxxx" name="cardid" id="cardid" value="" minLength = "16" maxlength="16">
+            <% if (displayErrorMsg && defaultcardid === "") { %>
+            <div class="col-sm-5">
+                <small id="cardidError" class="text-danger">
+                    <%=message%>
+                </small>
+            </div>
+            <% }%>
+        </div>
             <div class="form-group row">
             <button type="submit" class="btn btn-primary">Submit</button>
             </div>

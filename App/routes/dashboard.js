@@ -9,9 +9,9 @@ const pool = new Pool({
 
 /* GET users listing. */
 router.get('/', require('connect-ensure-login').ensureLoggedIn('/login'), function(req, res, next) {
-	console.log(req)
+	console.log(req);
     var uid = req.user.custid
-    var user_query = "select * from customers where customers.custid = " + uid;
+    var user_query = "select * from customer where customer.custid = " + uid;
     pool.query(user_query, (err, user_data) => {
         console.log(user_data)
         if (err || user_data.rows.length == 0) {
@@ -20,8 +20,9 @@ router.get('/', require('connect-ensure-login').ensureLoggedIn('/login'), functi
                 error: {status: "", stack: ""}
             });
         } else {
+            console.log(req.query.table);
             var user = user_data.rows[0];
-            var sql_query = 'SELECT Restaurants.rname, to_char(Reserves.restime, \'HH12:MI\') FROM Reserves natural join Restaurants where Reserves.custid = ' + uid
+            var sql_query = 'SELECT Restaurant.rname, to_char(Reserves.restime, \'HH12:MI\') FROM Reserves natural join Restaurant where Reserves.custid = ' + uid
         	pool.query(sql_query, (err, data) => {
         		if (err) {
         			res.render('error', {message: "Table \"" + req.query.table + "\" not found", error: {status: "", stack: ""}})
@@ -31,7 +32,7 @@ router.get('/', require('connect-ensure-login').ensureLoggedIn('/login'), functi
                         title: 'View Table',
                         data: data.rows,
                         fields: data.fields,
-                        username: user.name,
+                        username: user.custname,
                         points: user.points,
 						isLoggedIn: req.user ? true:false
                     });

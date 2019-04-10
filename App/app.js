@@ -23,6 +23,7 @@ var reservationRouter = require('./routes/reservation');
 var restaurantAdminRouter = require('./routes/restaurantAdmin');
 var loginRouter = require('./routes/login');
 var logoutRouter = require('./routes/logout');
+var signupRouter = require('./routes/signup');
 
 const { Pool } = require('pg')
 const pool = new Pool({
@@ -31,10 +32,10 @@ const pool = new Pool({
 
 passport.use(new Strategy(
     function (username, password, cb) {
-        // console.log("user logging in with ", username, password)
-        var query = "select * from customers where username = '" + username + "'";
+        console.log("user logging in with ", username, password)
+        var query = "select * from customer where username = '" + username + "'";
         pool.query(query, (err, user_data) => {
-            // console.log("query result", err, user_data.rows)
+            console.log("query result", err, user_data.rows)
             if (err) {
                 // error
                 return cb(err)
@@ -45,7 +46,7 @@ passport.use(new Strategy(
             }
 
             var user = user_data.rows[0]
-            if (password != user.password) return cb(null, false)
+            if (password != user.pw) return cb(null, false)
             return cb(null, user);
         })
     }));
@@ -57,7 +58,7 @@ passport.serializeUser(function(user, cb) {
 
 passport.deserializeUser(function(id, cb) {
     // return cb(null, id);
-    var query = "select * from customers where custid = '" + id + "'";
+    var query = "select * from customer where custid = '" + id + "'";
     pool.query(query, (err, user_data) => {
         console.log("query result", err, user_data.rows)
         if (err) {
@@ -102,6 +103,7 @@ app.use('/reservation', reservationRouter);
 app.use('/restaurantAdmin', restaurantAdminRouter);
 app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
+app.use('/signup', signupRouter);
 
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
