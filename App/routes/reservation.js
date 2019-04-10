@@ -1,4 +1,5 @@
 /*
+TODO: refine opening hours
 TODO: implement based on seats/ number of pax
 TODO: triggers left to do - 1. increment customer loyalty points 2. check capacity
 TODO: show restaurant name, check why restaurant.rname is undefined
@@ -54,7 +55,8 @@ limit 1;
  */
 var tableid_query = "select rt.tableid from rtable rt where rt.rid = ";
 var insert_query = "insert into reserves (resid, restime,restpax, rid, custid) values";
-
+var openTime_query = "(select openTime from openingHours where dayInWeek = ";
+var closeTime_query = "(select closeTime from openingHours where dayInWeek = ";
 
 // POST
 router.post('/', function (req, res, next) {
@@ -92,10 +94,21 @@ router.post('/', function (req, res, next) {
         });
         } else {
             var restaurant = rest_data.rows[0];
-    //check_if_valid_timing_query checks if inserted time is within opening hours
-    var check_if_valid_timing_query = check_query + restaurant.rid + "= r.rid and (('" + editedrestime + "'>= r.openTime and '" + editedrestime + "'<= r.closeTime) or('"
-        + editedrestime + "'>= r.openTime and r.closeTime <= r.openTime and '" + editedrestime + "'<= cast((cast(r.closeTime as integer) + 2400) as char(4))) or('"
-        + editedrestime + "'<= r.openTime and r.closeTime <= r.openTime and cast((cast('" + editedrestime + "' as integer) + 2400) as char(4)) <= cast((cast(r.closeTime as integer) + 2400) as char(4))));";
+            var date = new Date(resdate);
+            console.log(date.getDay());
+
+            check_open_time_query = openTime_query + date.getDay() + " and rid = " + restaurant.rid + ")";
+            console.log(check_open_time_query);
+            check_close_time_query = closeTime_query + date.getDay() + " and rid = " + restaurant.rid + ")";
+            console.log(check_close_time_query);
+
+
+            var check_if_valid_timing_query = check_query + restaurant.rid + "= r.rid and (('" + editedrestime + "'>= " + check_open_time_query + " and '" + editedrestime + "'<= " + check_close_time_query + ") or('"
+                + editedrestime + "'>= " + check_open_time_query + " and " + check_close_time_query +" <= " + check_open_time_query +  " and '" + editedrestime + "'<= cast((cast(" + check_close_time_query + " as integer) + 2400) as char(4))) or('"
+                + editedrestime + "'<= " + check_open_time_query + " and " + check_close_time_query + " <= " + check_open_time_query + " and cast((cast('" + editedrestime + "' as integer) + 2400) as char(4)) <= cast((cast(" + check_close_time_query + " as integer) + 2400) as char(4))));";
+
+            //check_if_valid_timing_query checks if inserted time is within opening hours
+    console.log(check_if_valid_timing_query);
     pool.query(check_if_valid_timing_query, (err, opening_hours_data) => {
         console.log(check_if_valid_timing_query);
     if (err || opening_hours_data.rows.length == 0) {
