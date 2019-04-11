@@ -19,7 +19,6 @@
   <h1>Browse Restaurants</h1>
   <p?<font size="+3"><b>Search Restaurants</b></font>&nbsp&nbsp&nbsp&nbspPlease input preferred restaurant attributes for search purposes below:</p>
 
-
   <%# The search based on manual input. %>
   <form action="browse" method="post" class="form">
     <label for="search_rName">Name:&nbsp</label>
@@ -38,18 +37,9 @@
   </form>
   </br>
 
-  <% /* %>
-  <%# The search based on preferences button. %>
-  <form action="browse" method="get" class="form-inline">
-    <input type="hidden" name="usePreferences" value=1></input>
-    <button type="submit" class="btn btn-primary">Search using your Preferences </button>
-  </form>
-  <% */%>
-
-
   <%# The search results screen. %>
   <br/>
-  <p><font size="+3"><b>Search Results</b></font>&nbsp&nbsp <a href="/browse">Reset Search</a></p>
+  <p><font size="+3"><b>Search Results</b></font>&nbsp&nbsp <a href="/browse">Search based on Preferences</a>&nbsp&nbsp <a href="/browse">See all Restaurants</a></p>
 
       <table class="table">
   		<thead>
@@ -65,6 +55,11 @@
   		    <% for(var j=0; j<fields.length; j++) { %>
   		    <td><%= data[i][fields[j].name]%></td>
   		    <% } %>
+  		      		                                <form action = "./reservation" method = "get">
+                                                   <td>
+                                                       <input class="btn btn-primary" role = "form" value="See Restaurant"  id = "restaurantbutton"  type = "submit" ></input>
+                                                        <td>
+                                                    </form>
   		  </tr>
   		<% } %>
   	    </tbody>

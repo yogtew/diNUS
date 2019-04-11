@@ -25,6 +25,7 @@ var restaurantAdminRouter = require('./routes/restaurantAdmin');
 var loginRouter = require('./routes/login');
 var logoutRouter = require('./routes/logout');
 var signupRouter = require('./routes/signup');
+var promotionRouter = require('./routes/promotion');
 
 const { Pool } = require('pg')
 const pool = new Pool({
@@ -106,6 +107,7 @@ app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
 app.use('/signup', signupRouter);
 app.use('/reservation-edit', editReservationRouter);
+app.use('/promotion', promotionRouter);
 
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
