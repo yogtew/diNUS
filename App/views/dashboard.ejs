@@ -59,8 +59,9 @@
                             <% for(var j in fields) { %>
                                 <td><%= data[i][fields[j].name]%></td>
                             <% }%>
-                            <form action = "" method = "post">
+                            <form action = "reservation-edit" method = "get">
                            <td>
+                               <input type="hidden" name = "resid" value="<%= data[i].resid %>"></input>
                                <input class="btn btn-primary" role = "form" value="Edit"  id = "editbutton"  type = "submit" ></input>
                                 <td>
                             </form>

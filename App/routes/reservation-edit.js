@@ -16,6 +16,8 @@ var custid;
 // GET
 router.get('/', function (req, res, next) {
     custid = req.user.custid;
+    var resid = req.query.resid;
+    console.log("RESID", resid)
     res.render('reservation-edit',
         {title: 'Editing Reservation',
             displayErrorMsg: false,

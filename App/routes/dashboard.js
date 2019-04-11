@@ -22,7 +22,7 @@ router.get('/', require('connect-ensure-login').ensureLoggedIn('/login'), functi
         } else {
             console.log(req.query.table);
             var user = user_data.rows[0];
-            var sql_query = 'SELECT Restaurant.rname, to_char(Reserves.restime, \'HH12:MI\') FROM Reserves natural join Restaurant where Reserves.custid = ' + uid
+            var sql_query = 'SELECT Restaurant.rname as "Restaurant Name", to_char(Reserves.restime, \'HH12:MI\') as "Time", resid FROM Reserves natural join Restaurant where Reserves.custid = ' + uid
         	pool.query(sql_query, (err, reservations) => {
         		if (err) {
         			res.render('error', {message: "Table \"" + req.query.table + "\" not found", error: {status: "", stack: ""}})
