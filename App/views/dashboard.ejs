@@ -59,7 +59,12 @@
                             <% for(var j in fields) { %>
                                 <td><%= data[i][fields[j].name]%></td>
                             <% }%>
-                            <td><input class="btn btn-primary" value="Edit"></input></td>
+                            <form action = "" method = "post">
+                           <td>
+                               <input class="btn btn-primary" role = "form" value="Edit"  id = "editbutton"  type = "submit" ></input>
+                                <td>
+                            </form>
+
                         </tr>
                     <% }%>
                 </tbody>

@@ -1,4 +1,7 @@
-drop trigger if exists reservation_timing_check on reserves;
+drop trigger if exists check_reservation_timing on reserves;
+drop trigger if exists increment_loyalty_points on reserves;
+drop trigger if exists decrement_loyalty_points on reserves;
+
 
 create or replace function check_reservation_timing()
 returns trigger as
@@ -30,8 +33,51 @@ end;
 language plpgsql;
 
 
-create trigger reservation_timing_check
+create trigger check_reservation_timing
 before insert or update
 on reserves
 for each row
 execute procedure check_reservation_timing();
+
+
+create or replace function increment_loyalty_points()
+returns trigger as
+$$
+begin
+update Customer
+SET points = points + 10
+where  custid = new.custid;
+return old;
+end;
+$$
+language plpgsql;
+
+
+create trigger increment_loyalty_points
+after insert
+on reserves
+for each row
+execute procedure increment_loyalty_points();
+
+
+/*
+create or replace function decrement_loyalty_points()
+returns trigger as
+$$
+update
+update Customer
+SET column1 = value1,
+where
+condition;
+
+end;
+$$
+language plpgsql;
+
+
+create trigger decrement_loyalty_points
+before delete
+on reserves
+for each row
+execute procedure decrement_loyalty_points();
+*/

@@ -28,6 +28,7 @@ router.get('/', require('connect-ensure-login').ensureLoggedIn('/login'), functi
         			res.render('error', {message: "Table \"" + req.query.table + "\" not found", error: {status: "", stack: ""}})
         		} else {
 					var pref_query = "select * from "
+                    console.log(reservations.fields);
 					// db.query()
         			res.render('dashboard', {
                         title: 'View Table',
@@ -42,6 +43,12 @@ router.get('/', require('connect-ensure-login').ensureLoggedIn('/login'), functi
         	});
         }
     })
+});
+
+//need pass resid here!!! or do query and pass all fields
+router.post('/', function (req, res, next) {
+    res.redirect('reservation-edit');
+
 });
 
 module.exports = router;

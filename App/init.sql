@@ -23,7 +23,7 @@ create table Customer (
 	points integer not null,
 	username varchar(100) not null,
 	pw varchar(100) not null,
-	unique(custid, custname)
+	unique(username)
 );
 
 create table TagType(

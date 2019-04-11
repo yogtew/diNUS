@@ -20,6 +20,7 @@ var restaurantRouter = require('./routes/restaurant');
 var dashboardRouter = require('./routes/dashboard');
 var browseRouter = require('./routes/browse');
 var reservationRouter = require('./routes/reservation');
+var editReservationRouter = require('./routes/reservation-edit');
 var restaurantAdminRouter = require('./routes/restaurantAdmin');
 var loginRouter = require('./routes/login');
 var logoutRouter = require('./routes/logout');
@@ -104,6 +105,7 @@ app.use('/restaurantAdmin', restaurantAdminRouter);
 app.use('/login', loginRouter);
 app.use('/logout', logoutRouter);
 app.use('/signup', signupRouter);
+app.use('/reservation-edit', editReservationRouter);
 
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
