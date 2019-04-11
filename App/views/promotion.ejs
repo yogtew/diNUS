@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+		<!-- Page Title -->
+    <title>Promotion</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+
+        <!-- CSS for Styling -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  </head>
+
+  <body>
+    <!-- Navigation -->
+    <% include partials/header.ejs %>
+
+    <!-- Page Content -->
+      <div class="container">
+      <br/>
+      <h1>Available Promotions</h1>
+<%# The search results screen. %>
+  <br/>
+        <table class="table">
+  		<thead>
+  		  <tr>
+  		    <% for(var i=0; i<fields.length; i++) { %>
+  			  <th scope="col"><%= fields[i].name%></th>
+  			  <% } %>
+  		  </tr>
+  		</thead>
+  		<tbody>
+  		  <% for(var i=0; i<data.length; i++) { %>
+  		  <tr>
+  		    <% for(var j=0; j<fields.length; j++) { %>
+  		    <td><%= data[i][fields[j].name]%></td>
+  		    <% } %>
+  		                                <form action = "" method = "get">
+                                       <td>
+                                           <input class="btn btn-primary" role = "form" value="Claim"  id = "claimbutton"  type = "submit" ></input>
+                                            <td>
+                                        </form>
+  		  </tr>
+  		<% } %>
+  	    </tbody>
+  	</table>
+  </body>
+</html>
