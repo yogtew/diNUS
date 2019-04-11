@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Small Business - Start Bootstrap Template</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="css/small-business.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <% include partials/header.ejs %>
+
+  <!-- Page Content -->
+  <div class="container">
+
+    <!-- Heading Row -->
+    <div class="row align-items-center my-5">
+      <div class="col-lg-3">
+        <img class="img-fluid rounded mb-4 mb-lg-0" src="http://placehold.it/200x200" alt="">
+      </div>
+      <!-- /.col-lg-8 -->
+      <div class="col-lg-9">
+        <h1 class="font-weight-light"><%= username%></h1>
+        <h2 class="font-weight-light">Points: <%= points%></h2>
+      </div>
+      <!-- /.col-md-4 -->
+    </div>
+    <!-- /.row -->
+
+    <!-- Call to Action Well -->
+    <div class="card text-black my-5 py-4">
+      <div class="card-body">
+          <% if (data.length > 0) { %>
+            <h2> Reservations </h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <% for(var i in fields) { %>
+                            <th><%= fields[i].name%></th>
+                        <% }%>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for(var i in data) { %>
+                        <tr>
+                            <% for(var j in fields) { %>
+                                <td><%= data[i][fields[j].name]%></td>
+                            <% }%>
+                            <form action = "reservation-edit" method = "get">
+                           <td>
+                               <input type="hidden" name = "resid" value="<%= data[i].resid %>"></input>
+                               <input class="btn btn-primary" role = "form" value="Edit"  id = "editbutton"  type = "submit" ></input>
+                                <td>
+                            </form>
+
+                        </tr>
+                    <% }%>
+                </tbody>
+            </table>
+        <% } else {%>
+            <h2> No Reservations</h2>
+        <% } %>
+      </div>
+    </div>
+
+    <h1>Preferences</h1>
+    <div class="row">
+        <% for(var i = 0; i < typePrefs.length; i++) { %>
+            <input type="checkbox"><%= typePrefs[i]%></input>
+        <% } %>
+    </div>
+    <!-- /.row -->
+
+  </div>
+  <!-- /.container -->
+
+  <!-- Footer -->
+  <footer class="py-5 bg-dark">
+    <div class="container">
+      <p class="m-0 text-center text-white">Copyright &copy; Your Website 2019</p>
+    </div>
+    <!-- /.container -->
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
