@@ -36,13 +36,16 @@ create table LocationPreferences (
 	pLocation varchar(100),
 	primary key (custid, pLocation),
 	foreign key (custid) references Customer(custid)
+	on delete cascade
 );
 
 create table FoodPreferences (
 	custid integer,
 	tagid integer,
 	primary key (custid, tagid),
-	foreign key (tagid) references TagType
+	foreign key (tagid) references TagType,
+	foreign key (custid) references Customer(custid)
+	on delete cascade
 );
 
 create table Franchise (
@@ -76,6 +79,7 @@ create table Reviews (
 	rating integer not null,
 	foreign key (rid) references Restaurant,
 	foreign key (custid) references Customer
+	on delete set null
 );
 
 create table ReviewLikes (
@@ -96,8 +100,8 @@ create table RTable (
 create table PaymentMode (
 	cardid char(16) primary key,
 	custid integer not null,
-	custname varchar(100) not null,
-	foreign key (custid, custname) references Customer(custid, custname)
+	unique(cardid, custid),
+	foreign key (custid) references Customer(custid)
 );
 
 create table Reserves (
