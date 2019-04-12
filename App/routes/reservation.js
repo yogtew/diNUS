@@ -13,7 +13,7 @@ const pool = new Pool({
 var custid;
 
 // GET
-router.get('/', function (req, res, next) {
+router.get('/', require('connect-ensure-login').ensureLoggedIn('/login'), function (req, res, next) {
     custid = req.user.custid;
     res.render('reservation',
         {title: 'Making Reservation',

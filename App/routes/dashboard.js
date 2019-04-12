@@ -22,17 +22,22 @@ router.get('/', require('connect-ensure-login').ensureLoggedIn('/login'), functi
 					db.query(queries.getCombinedFoodPreferences, [user.custid.toString()], (err, foodPrefs) => {
 						db.query(queries.getCombinedLocPreferences, [user.custid.toString()], (err, locationPrefs) => {
 							// console.log(locationPrefs)
+                            db.query(queries.getCardNo, [uid], (err, data) => {
+                                if (handleError(err, res)) return;
+                                var cardNo = data.rows[0].cardid
+                                res.render('dashboard', {
+                                    title: 'View Table',
+                                    data: reservations.rows,
+                                    fields: reservations.fields,
+                                    username: user.custname,
+                                    points: user.points,
+                                    foodPrefs: foodPrefs.rows,
+                                    locPrefs: locationPrefs.rows,
+                                    storedNo: cardNo,
+                                    isLoggedIn: req.user ? true : false
+                                });
+                            })
 
-							res.render('dashboard', {
-								title: 'View Table',
-								data: reservations.rows,
-								fields: reservations.fields,
-								username: user.custname,
-								points: user.points,
-								foodPrefs: foodPrefs.rows,
-								locPrefs: locationPrefs.rows,
-								isLoggedIn: req.user ? true : false
-							});
 						})
 					});
 				}
@@ -58,6 +63,8 @@ router.post('/', function(req, res, next) {
 		return;
 	}
 
+	var cardNo = req.body.cardNo;
+
 	var uid = req.user.custid.toString();
 	db.query(queries.clearFoodPrefsForUser, [uid], (err, data) => {
 		if (handleError(err, res)) return;
@@ -79,8 +86,11 @@ router.post('/', function(req, res, next) {
 				console.log(queries.setLocPrefsForUser + expand(locTags.length, 2), locPrefs)
 				db.query(queries.setLocPrefsForUser + expand(locTags.length, 2), locPrefs, (err, data) => {
 					if (handleError(err, res)) return;
-					console.log(foodPrefs, locPrefs)
-					res.redirect("dashboard");
+					    console.log(queries.updateCardNoForUser, [cardNo,uid])
+                        db.query(queries.updateCardNoForUser, [cardNo,uid], (err, data) => {
+                            console.log(foodPrefs, locPrefs)
+                            res.redirect("dashboard");
+                        })
 				})
 			})
 		})

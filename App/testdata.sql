@@ -31,9 +31,8 @@ insert into Customer (custid, custname, phone, points, username, pw) values
 
 insert into PaymentMode(cardid, custid) values
 ('1111111111111111', 1),
-('1111111111111112', 1),
-('1111111111111113', 2),
-('1111111111111114', 3);
+('1111111111111112', 2),
+('1111111111111113', 3);
 
 
 --non-franchise restaurant
