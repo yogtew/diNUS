@@ -58,6 +58,7 @@ create table Restaurant (
 	rid serial primary key,
 	franchiseid integer,
 	rname varchar(100),
+	rDesc varchar(1000),
 	rRating integer,
 	rLocation varchar(100),
 	foreign key (franchiseid) references Franchise
