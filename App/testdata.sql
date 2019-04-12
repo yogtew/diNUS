@@ -51,7 +51,7 @@ insert into Customer (custid, custname, phone, points, username, pw) values
 
 insert into PaymentMode(custid, cardid) values
 (1, '4249608075505230'),
-(2, '1526707000218079'),
+(2, '1111111111111112'),
 (3, '3494274673589607'),
 (4, '2241934993541458'),
 (5, '3146473049352559'),
