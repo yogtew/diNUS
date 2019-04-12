@@ -187,44 +187,32 @@ DOCTYPE html>
         })();
     </script>
 
-        <div class="card-body">
-            <p class="text-white m-0">This call to action card is a great place to showcase some important information or display a clever tagline!</p>
-        </div>
-    </div>
-
-    <!-- Content Row -->
-    <div class="row">
-        <div class="col-md-6 mb-5">
-            <div class="card h-50">
-                <div class="card-body">
-                    <h2 class="card-title">Restaurants </h2>
-                    <p class="card-text"> For more information on the restaurants, opening hours, location and cuisine</p>
-                </div>
-                <div class="card-footer">
-                    <a href="#" class="btn btn-primary btn-sm">Click here!</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6 mb-5">
-            <div class="card h-50">
-                <div class="card-body">
-                    <h2 class="card-title">My past reservations </h2>
-                    <p class="card-text"> Here are my past reservations</p>
-                </div>
-                <div class="card-footer">
-                    <a href="#" class="btn btn-primary btn-sm">Click here!</a>
-                </div>
-            </div>
-        </div>
-
-    </div>
-    <!-- /.row -->
-
-</div>
 <!-- /.container -->
+    <div>
+    <% if (displayAlternatives) { %>
+    <p><font size="+3"><b>Other Booking Options</b>
+    <table class="table">
+        <thead>
+        <tr>
+            <% for(var i=0; i<fields.length; i++) { %>
+                <th scope="col"><%= fields[i].name%></th>
+            <% } %>
+        </tr>
+        </thead>
+        <tbody>
+        <% for(var i=0; i<data.length; i++) { %>
+        <tr>
+            <% for(var j=0; j<fields.length; j++) { %>
+                <td><%= data[i][fields[j].name]%></td>
+            <% } %>
+        </tr>
+        <% } %>
+        </tbody>
+    </table>
+            <% } %>
+    </div>
 
-<!-- Footer -->
+            <!-- Footer -->
 <footer class="py-5 bg-dark">
     <div class="container">
         <p class="m-0 text-center text-white">Copyright &copy; Your Website 2019</p>

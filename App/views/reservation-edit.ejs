@@ -43,7 +43,7 @@ DOCTYPE html>
 
     <!-- Insert reservation details  -->
     <div class="container">
-        <form id="html_form" name="reservation_form" action="reservation" role="form" method="post">
+        <form id="html_form" name="reservation_form" action="reservation-edit" role="form" method="post">
             <div class="form-group row">
                 <label for="rName"
                 <% if (displayErrorMsg && defaultrName === "") { %>
@@ -172,10 +172,9 @@ DOCTYPE html>
                 <% }%>
             </div>
             <div class="form-group row">
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary" id ="editbutton" value="edit">Edit</button>
             </div>
         </form>
-
         <script>
             (function() {
                 window.addEventListener('load', function() {
@@ -186,51 +185,17 @@ DOCTYPE html>
                 }, false);
             })();
         </script>
-
-        <div class="card-body">
-            <p class="text-white m-0">This call to action card is a great place to showcase some important information or display a clever tagline!</p>
-        </div>
     </div>
 
-    <!-- Content Row -->
-    <div class="row">
-        <div class="col-md-6 mb-5">
-            <div class="card h-50">
-                <div class="card-body">
-                    <h2 class="card-title">Restaurants </h2>
-                    <p class="card-text"> For more information on the restaurants, opening hours, location and cuisine</p>
-                </div>
-                <div class="card-footer">
-                    <a href="#" class="btn btn-primary btn-sm">Click here!</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6 mb-5">
-            <div class="card h-50">
-                <div class="card-body">
-                    <h2 class="card-title">My past reservations </h2>
-                    <p class="card-text"> Here are my past reservations</p>
-                </div>
-                <div class="card-footer">
-                    <a href="#" class="btn btn-primary btn-sm">Click here!</a>
-                </div>
-            </div>
-        </div>
-
+    <div>
+    <form id="html_form2" name="reservation_form" action="reservation-edit" role="form" method="post">
+            <input type="hidden" name = "choice" value="delete"></input>
+            <button type="submit" class="btn btn-secondary" id ="deletebutton" value="delete">Delete</button>
+        </form>
     </div>
-    <!-- /.row -->
 
 </div>
-<!-- /.container -->
 
-<!-- Footer -->
-<footer class="py-5 bg-dark">
-    <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; Your Website 2019</p>
-    </div>
-    <!-- /.container -->
-</footer>
 
 <!-- Bootstrap core JavaScript -->
 <script src="vendor/jquery/jquery.min.js"></script>

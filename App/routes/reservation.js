@@ -1,7 +1,7 @@
 /*
+TODO: Add test data.,
 TODO: Interesting query to show another franchise is available at that timing
 TODO: Interesting query to find the next available timing for the particular outlet
-TODO: Edit Reservation view and page
  */
 var express = require('express');
 var router = express.Router();
@@ -19,6 +19,7 @@ router.get('/', function (req, res, next) {
     res.render('reservation',
         {title: 'Making Reservation',
             displayErrorMsg: false,
+            displayAlternatives: false,
             message:"",
             defaultrName: "",
             defaultresDate: "",
@@ -52,7 +53,78 @@ and rt.tableid not in(
 )
 limit 1;
  */
-var tableid_query = "select rt.tableid from rtable rt where rt.rid = ";
+
+/*
+with sameRestaurantOpeningHours as(
+	select substring(closeTime from 1 for 2) || ':' || substring(closeTime from 3 for 2)
+	from OpeningHours
+	where rid = 7
+), sameRestaurantNextAvaiableTime as (
+select (select r.rname from Restaurant r where r.rid = res.rid), res.restime + interval '1h'
+from Reserves res
+where res.rid = 7
+and res.restime >= '2019-03-19 19:30:00'
+and res.restime <= '2019-03-19 23:30:00'
+and exists (
+		select 1
+		from RTable rt
+		where rt.rid = res.rid
+		and rt.tableid = res.tableid
+		and rt.numSeats >= 2
+		and rt.tableid not in(
+		select distinct res1.tableid
+		from reserves res1
+		where (res1.restime <= cast(res.restime as timestamp) + interval '1h'
+		and cast(res1.restime as timestamp) + interval '1h' > cast(res.restime as timestamp) + interval '1h')
+		or (res1.restime >  cast(res.restime as timestamp) + interval '1h'
+		and cast(res1.restime as timestamp) - interval '1h' <= cast(res.restime as timestamp) + interval '1h')
+		and res1.rid = res.rid
+		)
+		)),
+franchisedRestaurants as(
+	select r.rid
+	from Restaurant r
+	where r.franchiseid = (select r2.franchiseid from Restaurant r2 where r2.rid = 7)
+),
+franchisedRestaurantSameTime as (
+	select r.rname, cast('2019-03-19 19:30:00' as timestamp)
+	from Restaurant r
+	where r.rid in (select * from franchisedRestaurants)
+	and exists (
+		select 1
+		from RTable rt
+		where rt.rid = r.rid
+		and rt.numSeats >= 2
+		and (r.rid not in(select res1.rid from Reserves res1)
+		or rt.tableid not in(
+		select distinct res.tableid
+		from reserves res
+		where (res.restime <= '2019-03-19 19:30:00'
+		and cast(res.restime as timestamp) + interval '1h' > '2019-03-19 19:30:00')
+		or (res.restime >  '2019-03-19 19:30:00'
+		and cast(res.restime as timestamp) - interval '1h' <= '2019-03-19 19:30:00')
+		and r.rid = res.rid))
+		)
+	)
+select *
+from franchisedRestaurantSameTime
+union
+select *
+from sameRestaurantNextAvaiableTime;
+ */
+
+var get_franchise_restaurants = "with franchisedRestaurants as(select r.rid from Restaurant r where r.franchiseid = (select r2.franchiseid from Restaurant r2 where r2.rid = ";
+var check_franchise_query = ")), franchisedRestaurantSameTime as (select r.rname, cast('";
+var check_franchise_query2 = "' as timestamp)from Restaurant r where r.rid in (select * from franchisedRestaurants) and exists (select 1 from RTable rt where rt.rid = r.rid and rt.numSeats >=";
+var check_franchise_query3 = " and (r.rid not in(select res1.rid from Reserves res1) or rt.tableid not in( select distinct res.tableid from reserves res where (res.restime <= '";
+var check_franchise_query4 = "' and cast(res.restime as timestamp) + interval '1h' > '";
+var check_franchise_query5 = "') or (res.restime >  '";
+var check_franchise_query6 = "' and cast(res.restime as timestamp) - interval '1h' <= '";
+var check_franchise_query7 = "') and r.rid = res.rid))))\n" +
+    "select *\n" +
+    "from franchisedRestaurantSameTime;";
+
+
 var insert_query = "insert into reserves (resid, cardid, restime,respax, rid, custid) values";
 var openTime_query = "(select openTime from openingHours where dayInWeek = ";
 var closeTime_query = "(select closeTime from openingHours where dayInWeek = ";
@@ -87,6 +159,7 @@ router.post('/', function (req, res, next) {
         if(err || rest_data.rows.length == 0) {
         res.render('reservation', {
             displayErrorMsg: true,
+            displayAlternatives: false,
             message: "Restaurant " + rname + " does not exist",
             defaultrName: "",
             defaultresDate: resdate,
@@ -116,6 +189,7 @@ router.post('/', function (req, res, next) {
     if (err || opening_hours_data.rows.length == 0) {
         res.render("reservation", {
             displayErrorMsg: true,
+            displayAlternatives: false,
             message: "Booking timing for " + rname + " not within opening hours.",
             defaultrName: rname,
             defaultresDate: resdate,
@@ -131,6 +205,7 @@ router.post('/', function (req, res, next) {
             if (isNaN(custid) || err || card_id_data.rows.length == 0) {
                     res.render('reservation', {
                     displayErrorMsg: true,
+                    displayAlternatives: false,
                     message: "Your card details are wrong, please fill up again. Ensure that the card ID is one entered in your user Preferences." + err,
                     defaultrName: rname,
                     defaultresDate: resdate,
@@ -144,15 +219,39 @@ router.post('/', function (req, res, next) {
                 console.log(insert_into_reserves_query);
                 pool.query(insert_into_reserves_query, (err, data) => {
                 if (err ) {
-                    res.render('reservation', {
-                        displayErrorMsg: true,
-                        message: "Booking is already full at " + resdatetime + ", for restaurant " + restaurant.rname  + err,
-                        defaultrName: rname,
-                        defaultresDate: resdate,
-                        defaultresTime: "",
-                        defaultresNum: respax,
-                        defaultcardid: cardid
+
+                    var check_alternative_reserves_query = get_franchise_restaurants + restaurant.rid + check_franchise_query + resdatetime + check_franchise_query2 + respax + check_franchise_query3 + resdatetime + check_franchise_query4 + resdatetime + check_franchise_query5 + resdatetime + check_franchise_query6 + resdatetime + check_franchise_query7;
+                    console.log(check_alternative_reserves_query);
+                    pool.query(check_alternative_reserves_query, (err, data) => {
+                        if (err || data.rows.length == 0) {
+                        res.render('reservation', {
+                            displayErrorMsg: true,
+                            displayAlternatives: false,
+                            message: "Booking is already full at " + resdatetime + ", for restaurant " + restaurant.rname,
+                            defaultrName: rname,
+                            defaultresDate: resdate,
+                            defaultresTime: "",
+                            defaultresNum: respax,
+                            defaultcardid: cardid
+                        });
+                    } else {
+                        res.render('reservation', {
+                            displayErrorMsg: true,
+                            displayAlternatives: true,
+                            message: "Booking is already full at " + resdatetime + ", for restaurant " + restaurant.rname,
+                            defaultrName: rname,
+                            defaultresDate: resdate,
+                            defaultresTime: "",
+                            defaultresNum: respax,
+                            defaultcardid: cardid,
+                            title: 'Alternative reservations',
+                            data: data.rows,
+                            fields: data.fields
+                        });
+                    }
                     });
+
+
                 } else {
                     res.redirect('/dashboard');
 
