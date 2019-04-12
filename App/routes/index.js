@@ -10,15 +10,16 @@ const pool = new Pool({
 var query = "select table_name from information_schema.tables where table_schema = 'public';"
 // var query = "select * from restaurants limit 3";
 router.get('/', function(req, res, next) {
-	pool.query(query, (err, data) => {
-	    console.log(data)
+	res.redirect('login');
+	/*pool.query(query, (err, data) => {
+	    // console.log(data)
 		if (err) {
 			res.render('error', {message: "Something went wrong", error: {status: "", stack: ""}})
 		} else {
 			res.redirect('login');
 		}
 
-	});
+	});*/
 });
 
 module.exports = router;
