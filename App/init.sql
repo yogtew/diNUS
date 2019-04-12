@@ -104,6 +104,7 @@ create table PaymentMode (
 	custid integer not null,
 	unique(cardid, custid),
 	foreign key (custid) references Customer(custid)
+	on delete cascade
 );
 
 create table Reserves (
