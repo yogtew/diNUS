@@ -1,22 +1,22 @@
 -- Initialize database with test data
 
 delete from PaymentMode cascade;
-DELETE FROM LocationPreferences CASCADE;
-DELETE FROM FoodPreferences CASCADE;
+delete FROM LocationPreferences cascade;
+delete FROM FoodPreferences cascade;
 delete from Promotion cascade;
 delete from OpeningHours cascade;
 delete from ReviewLikes cascade;
-DELETE FROM Reviews CASCADE;
-DELETE FROM Reserves CASCADE;
-DELETE FROM Customer CASCADE;
+delete FROM Reviews cascade;
+delete FROM Reserves cascade;
+delete FROM Customer cascade;
 delete from Menu cascade;
 delete from Tags cascade;
 delete from TagType cascade;
 delete from Food cascade;
-DELETE FROM RTable CASCADE;
-DELETE FROM Restaurant CASCADE;
+delete FROM RTable cascade;
+delete FROM Restaurant cascade;
 
-INSERT INTO Customer (custid, custname, phone, points, username, pw) VALUES
+insert into Customer (custid, custname, phone, points, username, pw) values
 (default, 'Alice Tan', 81234567, 0, 'aliceinwonderland', 'alicetrox123'),
 (default, 'Bernard Lee', 98512383, 0, 'b', '1'),
 (default, 'Charles Wong', 82347632, 0, 'smileyman', 'smileymaneats123!');
@@ -29,7 +29,7 @@ insert into PaymentMode(cardid, custid) values
 
 
 --non-franchise restaurant
-INSERT INTO Restaurant(rid, rname, rRating, rLocation) VALUES
+insert into Restaurant(rid, rname, rRating, rLocation) values
 (1, 'Dining Hall', 8, 'Central'),
 (2, 'YIH Thai', 2, 'South'),
 (3, 'Ameens', 8, 'North');
@@ -90,7 +90,7 @@ insert into Reviews(reviewid, rid, custid, review, rating) values
 (2, 2, 2, 'Food too salty', 3),
 (3, 3, 1, 'Expensive', 5);
 
-INSERT INTO RTable(tableid, numSeats, rid) VALUES
+insert into RTable(tableid, numSeats, rid) values
 (1, 2, 1),
 (2, 2, 1),
 (1, 2, 2),

@@ -1,5 +1,4 @@
 /*
-TODO: Interesting query to show another franchise is available at that timing
 TODO: Interesting query to find the next available timing for the particular outlet
  */
 var express = require('express');
@@ -12,7 +11,6 @@ const pool = new Pool({
 
 
 
-// GET
 var custid;
 var resid;
 router.get('/', function (req, res, next) {
@@ -60,31 +58,7 @@ router.get('/', function (req, res, next) {
 
 });
 
-/*
---normal consideration:
--- opening hour:0800 closing hour:0000 (+2400) reservation time: 2300
---opening hour:0800 closing hour: 0400 (+2400) reservation time: 0300 (+2400)
-select 1 from restaurants r
-where 3 = r.rid
-and (('0200'>= r.openTime and '0200'<= r.closeTime)
-or ('0200'>= r.openTime and r.closeTime <= r.openTime and '0200' <= cast((cast(r.closeTime as integer) + 2400) as char(4)))
-or('0200' <= r.openTime and r.closeTime <= r.openTime and cast((cast('0200' as integer) + 2400) as char(4)) <= cast((cast(r.closeTime as integer) + 2400) as char(4))));
- */
 var check_query = "select 1 from restaurant r where ";
-
-/*
-select rt.tableid
-from rtable rt
-where rt.rid = 1
-and rt.tableid not in(
-	select distinct r.tableid
-	from reserves r
-	where r.restime = '2019-03-19 18:00:00'
-	and r.rid = 1
-)
-limit 1;
- */
-
 var update_query = "update Reserves set rid = ";
 var delete_query = "delete from Reserves where resid = ";
 var openTime_query = "(select openTime from openingHours where dayInWeek = ";
@@ -121,6 +95,7 @@ router.post('/', function (req, res, next) {
 
         console.log(clicked);
         console.log("custid" + custid);
+
         //conversion of date and time into sql's date and time format yyyy-mm-dd
         var resdatetime = String(resdate).concat(" " + restime);
         console.dir(resdate);
@@ -131,7 +106,7 @@ router.post('/', function (req, res, next) {
         // change rname to lower case
         lowerrname = String(rname).toLowerCase();
 
-        //rid_query checks if restaurant name can be found in existing restaurant table
+        //query: check if restaurant name is valid can be found in table
         var rid_query = "select * from restaurant r where LOWER(r.rname) = '" + lowerrname + "';";
         console.log(rid_query);
 
@@ -152,17 +127,17 @@ router.post('/', function (req, res, next) {
             var date = new Date(resdate);
             console.log(date.getDay());
 
+
             check_open_time_query = openTime_query + date.getDay() + " and rid = " + restaurant.rid + ")";
             console.log(check_open_time_query);
             check_close_time_query = closeTime_query + date.getDay() + " and rid = " + restaurant.rid + ")";
             console.log(check_close_time_query);
 
-
+            //query: check opening hours
             var check_if_valid_timing_query = check_query + restaurant.rid + "= r.rid and (('" + editedrestime + "'>= " + check_open_time_query + " and '" + editedrestime + "'<= " + check_close_time_query + ") or('"
                 + editedrestime + "'>= " + check_open_time_query + " and " + check_close_time_query + " <= " + check_open_time_query + " and '" + editedrestime + "'<= cast((cast(" + check_close_time_query + " as integer) + 2400) as char(4))) or('"
                 + editedrestime + "'<= " + check_open_time_query + " and " + check_close_time_query + " <= " + check_open_time_query + " and cast((cast('" + editedrestime + "' as integer) + 2400) as char(4)) <= cast((cast(" + check_close_time_query + " as integer) + 2400) as char(4))));";
 
-            //check_if_valid_timing_query checks if inserted time is within opening hours
             console.log(check_if_valid_timing_query);
             pool.query(check_if_valid_timing_query, (err, opening_hours_data) => {
                 console.log(check_if_valid_timing_query);
@@ -177,7 +152,8 @@ router.post('/', function (req, res, next) {
                     defaultcardid: cardid
                 });
             } else {
-                //insert_into_reserves_query inserts into reserves table
+
+                // query: check if cardid details are valid
                 var check_valid_card_id_query = cardid_query + cardid + "' and pm.custid = " + custid + ";";
                 console.log(check_valid_card_id_query);
                 pool.query(check_valid_card_id_query, (err, card_id_data) => {
@@ -196,7 +172,7 @@ router.post('/', function (req, res, next) {
                 }
             else
                 {
-                    //res.redirect('/select?table=reserves')
+                    // update reserves, trigger check_reservation_timing and increment_loyalty_points
                     var update_reservation_query = update_query + restaurant.rid + ", restime = '" + resdatetime + "', respax = " + respax + ", cardid = " + cardid
                         + " where resid = " + resid + ";";
                     console.log(update_reservation_query);

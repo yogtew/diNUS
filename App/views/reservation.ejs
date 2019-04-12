@@ -46,7 +46,7 @@ DOCTYPE html>
     <form id="html_form" name="reservation_form" action="reservation" role="form" method="post">
             <div class="form-group row">
             <label for="rName"
-            <% if (displayErrorMsg && defaultrName === "") { %>
+            <% if (displayDetailedErrorMsg && defaultrName === "") { %>
                     class = "text-danger"
                     <%}%>
             >Restaurant Name:&nbsp</label>
@@ -54,7 +54,7 @@ DOCTYPE html>
                 <script>
                     document.getElementById("rName").setAttribute("value","<%=defaultrName%>");
                 </script>
-                <% if (displayErrorMsg && defaultrName === "") { %>
+                <% if (displayDetailedErrorMsg && defaultrName === "") { %>
                 <div class="col-sm-5">
                     <small id="rNameError" class="text-danger">
                         <%=message%>
@@ -83,7 +83,7 @@ DOCTYPE html>
         </div>
         <div class="form-group row">
             <label for = "resTime"
-            <% if (displayErrorMsg && defaultresTime === "") { %>
+            <% if (displayDetailedErrorMsg && defaultresTime === "") { %>
                    class = "text-danger"
                 <%}%>
             > Reservation Time:&nbsp</label>
@@ -141,7 +141,7 @@ DOCTYPE html>
             <script>
                 document.getElementById("resTime").value = "<%=defaultresTime%>";
             </script>
-            <% if (displayErrorMsg && defaultresTime === "") { %>
+            <% if (displayDetailedErrorMsg && defaultresTime === "") { %>
             <div class="col-sm-5">
                 <small id="resTimeError" class="text-danger">
                     <%=message%>
@@ -159,11 +159,11 @@ DOCTYPE html>
         <div class="form-group row">
                 <label>Card Number</label>
                 <input type="text" class="form-control"
-                <% if (displayErrorMsg && defaultcardid === "") { %>
+                <% if (displayDetailedErrorMsg && defaultcardid === "") { %>
                        class = "text-danger"
                         <%}%>
                        placeholder="xxxx-xxxx-xxxx-xxxx" name="cardid" id="cardid" value="" minLength = "16" maxlength="16">
-            <% if (displayErrorMsg && defaultcardid === "") { %>
+            <% if (displayDetailedErrorMsg && defaultcardid === "") { %>
             <div class="col-sm-5">
                 <small id="cardidError" class="text-danger">
                     <%=message%>
