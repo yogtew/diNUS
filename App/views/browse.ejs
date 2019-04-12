@@ -57,20 +57,12 @@
   		    %>
   		    <td><%= data[i][fields[j].name]%></td>
   		    <% } %>
-<<<<<<< HEAD
-  		      		                                <form action = "./reservation" method = "get">
-                                                   <td>
-                                                       <input class="btn btn-primary" role = "form" value="Make Reservation"  id = "restaurantbutton"  type = "submit" ></input>
-                                                        <td>
-                                                    </form>
-=======
             <form action = "./restaurant" method = "get">
            <td>
                <input class="btn btn-primary" role = "form" value="See Restaurant"  id = "restaurantbutton"  type = "submit" ></input>
                <input type ="hidden" name="rid" value = "<%=data[i].rid %>"> </input>
                 <td>
             </form>
->>>>>>> upstream/master
   		  </tr>
   		<% } %>
   	    </tbody>

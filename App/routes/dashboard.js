@@ -86,14 +86,11 @@ router.post('/', function(req, res, next) {
 				console.log(queries.setLocPrefsForUser + expand(locTags.length, 2), locPrefs)
 				db.query(queries.setLocPrefsForUser + expand(locTags.length, 2), locPrefs, (err, data) => {
 					if (handleError(err, res)) return;
-                        db.query(queries.updateCardNoForUser, [cardNo,uid]), (err, data) => {
+					    console.log(queries.updateCardNoForUser, [cardNo,uid])
+                        db.query(queries.updateCardNoForUser, [cardNo,uid], (err, data) => {
                             console.log(foodPrefs, locPrefs)
                             res.redirect("dashboard");
-                        }
-
-
-
-
+                        })
 				})
 			})
 		})
