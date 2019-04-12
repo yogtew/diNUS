@@ -10,4 +10,5 @@ module.exports = {
     clearLocPrefsForUser: "delete from LocationPreferences where custid = $1",
     setFoodPrefsForUser: "insert into FoodPreferences(custid, tagid) values ",
     setLocPrefsForUser: "insert into LocationPreferences(custid, plocation) values "
+    getAvgReservations = "with ReservationData as (select B.rname as resName, cast(extract(month from A.restime) as int) as nameOfMonth, count(*) as numOfReservations from reserves A natural join restaurant B where rid = $1 group by (extract(month from A.restime), B.rid)) select RD.resName, RD.nameOfMonth, Avg(RD.numOfReservations) over W as avgReservations from ReservationData RD window W as(partition by RD.resName order by RD.nameOfMonth rows 2 preceding)"
 }
