@@ -15,13 +15,13 @@ router.get('/', function(req, res, next) {
         'with RestaurantMenu as (select r.rid, r.rname, r.rrating, r.rlocation, m.foodid from Restaurant r inner join Menu m on r.rid = m.rid), ' +
         'RestaurantMenuTags as (select rm.rid, rm.rname, rm.rrating, rm.rlocation, rm.foodid, t.tagid from RestaurantMenu rm inner join Tags t on rm.foodid = t.foodid), ' +
         'RestaurantMenuTagsTagType as (select rmt.rid, rmt.rname, rmt.rrating, rmt.rlocation, rmt.foodid, rmt.tagid, tt.tagtype from RestaurantMenuTags rmt inner join TagType tt on rmt.tagid = tt.tagid), ' +
-        'RestaurantTagTypeCount as (select rname, rlocation, tagtype, count(*) from RestaurantMenuTagsTagType group by rname, rlocation, tagtype order by count(*) desc), ' +
+        'RestaurantTagTypeCount as (select rid, rname, rlocation, tagtype, count(*) from RestaurantMenuTagsTagType group by rid, rname, rlocation, tagtype order by count(*) desc), ' +
         'RestaurantFilteredForLocation as (select * from RestaurantTagTypeCount a where a.rlocation in (select plocation from LocationPreferences where custid=' + uid + ')), ' +
         'CustFoodPreference as (select custid, fp.tagid, tagtype from FoodPreferences fp inner join TagType tt on (fp.custid=' + uid + ' and fp.tagid = tt.tagid))' +
         'select rname as "Name", rlocation as "Location", tagtype as "Tag", count as "No. of Items" from RestaurantFilteredForLocation b where b.tagtype  in (select tagtype from CustFoodPreference where custid=' + uid + ')'
         pool.query(user_query, (err, data) => {
                     if (err) {
-                        res.render('error', {message: "Restaurant Table not found", error: {status: "", stack: ""}})
+                        res.render('error', {message: "Restaurant table not found 1" + err, error: {status: "", stack: ""}})
                     } else {
                         res.render('browse', {
                             title: 'View Table',
@@ -33,10 +33,10 @@ router.get('/', function(req, res, next) {
                 });
     } else {
 	/* SQL Query */
-        var sql_query = 'SELECT distinct rname as "Name", rLocation as "Location", rRating as "Rating" FROM restaurant r'
+        var sql_query = 'SELECT distinct rname as "Name", rLocation as "Location", rRating as "Rating", rid FROM restaurant r'
         pool.query(sql_query, (err, data) => {
             if (err) {
-                res.render('error', {message: "Restaurant Table not found", error: {status: "", stack: ""}})
+                res.render('error', {message: "Restaurant table not found 2", error: {status: "", stack: ""}})
             } else {
                 res.render('browse', {
                     title: 'View Table',

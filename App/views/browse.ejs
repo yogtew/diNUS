@@ -52,14 +52,25 @@
   		<tbody>
   		  <% for(var i=0; i<data.length; i++) { %>
   		  <tr>
-  		    <% for(var j=0; j<fields.length; j++) { %>
+  		    <% for(var j=0; j<fields.length; j++) {
+  		        if (fields[i] == "rid") continue;
+  		    %>
   		    <td><%= data[i][fields[j].name]%></td>
   		    <% } %>
+<<<<<<< HEAD
   		      		                                <form action = "./reservation" method = "get">
                                                    <td>
                                                        <input class="btn btn-primary" role = "form" value="Make Reservation"  id = "restaurantbutton"  type = "submit" ></input>
                                                         <td>
                                                     </form>
+=======
+            <form action = "./restaurant" method = "get">
+           <td>
+               <input class="btn btn-primary" role = "form" value="See Restaurant"  id = "restaurantbutton"  type = "submit" ></input>
+               <input type ="hidden" name="rid" value = "<%=data[i].rid %>"> </input>
+                <td>
+            </form>
+>>>>>>> upstream/master
   		  </tr>
   		<% } %>
   	    </tbody>
