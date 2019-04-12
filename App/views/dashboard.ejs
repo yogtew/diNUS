@@ -59,12 +59,12 @@
                             <% for(var j in fields) { %>
                                 <td><%= data[i][fields[j].name]%></td>
                             <% }%>
-                            <form action = "reservation-edit" method = "get">
-                           <td>
-                               <input type="hidden" name = "resid" value="<%= data[i].resid %>"></input>
-                               <input class="btn btn-primary" role = "form" value="Edit"  id = "editbutton"  type = "submit" ></input>
-                                <td>
-                            </form>
+                            <td>
+                                <a href="#">
+                                <input type="hidden" name = "resid" value="<%= data[i].resid %>"></input>
+                                <input class="btn btn-primary" role = "form" value="Edit"  id = "editbutton"  type = "submit" ></input>
+                                </a>
+                            <td>
 
                         </tr>
                     <% }%>
@@ -77,11 +77,31 @@
     </div>
 
     <h1>Preferences</h1>
-    <div class="row">
-        <% for(var i = 0; i < typePrefs.length; i++) { %>
-            <input type="checkbox"><%= typePrefs[i]%></input>
-        <% } %>
-    </div>
+    <form action="dashboard" method="POST">
+        <div class="row">
+                <div class="card col-lg-4 py-3">
+                    <h2> Food</h2>
+                    <ul class="list-unstyled">
+                        <% for(var i = 0; i < foodPrefs.length; i++) { %>
+                            <li><input type="checkbox" name="tag<%= foodPrefs[i].tagid%>" id="tag<%= foodPrefs[i].tagid%>" <%=foodPrefs[i].checked?"checked":""%>/>
+                                <label for="tag<%= foodPrefs[i].tagid%>"><%=foodPrefs[i].tagtype%></label>
+                            </li>
+                        <% } %>
+                    </ul>
+                </div>
+                <div class="card col-lg-6 py-3">
+                    <h2> Locations</h2>
+                    <ul class="list-unstyled">
+                        <% for(var i = 0; i < locPrefs.length; i++) { %>
+                            <li><input type="checkbox" name="loc<%= locPrefs[i].location%>" id="loc<%= locPrefs[i].location%>" <%=locPrefs[i].checked?"checked":""%>/>
+                                <label for="loc<%= locPrefs[i].location%>"><%=locPrefs[i].location%></label>
+                            </li>
+                        <% } %>
+                    </ul>
+                </div>
+        </div>
+        <input class="btn btn-primary" role = "form" value="Update"  id = "editbutton"  type = "submit" ></input>
+    </form>
     <!-- /.row -->
 
   </div>

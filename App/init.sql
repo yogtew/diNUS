@@ -15,6 +15,7 @@ drop table if exists TagType cascade;
 drop table if exists Franchise cascade;
 drop table if exists LocationPreferences cascade;
 drop table if exists FoodPreferences cascade;
+drop table if exists Locations cascade;
 
 create table Customer (
 	custid serial primary key,
@@ -148,3 +149,7 @@ create table Promotion (
 	discount integer,
 	foreign key (rid) references Restaurant
 );
+
+create table Locations (
+	location varchar(100) primary key
+)
