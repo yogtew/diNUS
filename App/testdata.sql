@@ -31,16 +31,15 @@ insert into Customer (custid, custname, phone, points, username, pw) values
 
 insert into PaymentMode(cardid, custid) values
 ('1111111111111111', 1),
-('1111111111111112', 1),
-('1111111111111113', 2),
-('1111111111111114', 3);
+('1111111111111112', 2),
+('1111111111111113', 3);
 
 
 --non-franchise restaurant
-insert into Restaurant(rid, rname, rRating, rLocation) values
-(1, 'Dining Hall', 8, 'Central'),
-(2, 'YIH Thai', 2, 'South'),
-(3, 'Ameens', 8, 'North');
+insert into Restaurant(rid, rname, rDesc, rRating, rLocation) values
+(1, 'Dining Hall', 'Come eat at NUS Dining Halls for a delicious home-cooked meal!', 8, 'Central'),
+(2, 'YIH Thai','Thai food', 2, 'South'),
+(3, 'Ameens', 'Fat foood', 8, 'North');
 
 insert into Franchise(franchiseid, franchiseName) values
 (1, 'McDonalds'),
@@ -50,12 +49,12 @@ insert into Franchise(franchiseid, franchiseName) values
 (5, 'Pepper Lunch');
 
 --franchise restaurant
-insert into Restaurant(rid, franchiseid, rname, rRating, rLocation) values
-(4, 1, 'McDonalds North', 7, 'North' ),
-(5, 1, 'McDonalds South', 8, 'South' ),
-(6, 1, 'McDonalds West', 5, 'West' ),
-(7, 2, 'KFC Central', 3, 'Central' ),
-(8, 2, 'KFC South', 3, 'South' );
+insert into Restaurant(rid, franchiseid, rname, rDesc, rRating, rLocation) values
+(4, 1, 'McDonalds North', 'get macs in the north', 7, 'North' ),
+(5, 1, 'McDonalds South', 'get macs in the south', 8, 'South' ),
+(6, 1, 'McDonalds West', 'get macs in the west', 5, 'West' ),
+(7, 2, 'KFC Central', 'get kfc in the central', 3, 'Central' ),
+(8, 2, 'KFC South', 'get kfc in the south', 3, 'South' );
 
 
 insert into OpeningHours(rid, dayInWeek, openTime, closeTime) values

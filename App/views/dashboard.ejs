@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Small Business - Start Bootstrap Template</title>
+  <title>User Dashboard</title>
 
   <!-- Bootstrap core CSS -->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -98,6 +98,10 @@
                             </li>
                         <% } %>
                     </ul>
+                </div>
+                <div class="card col-lg-6 py-3">
+                    <h2> Payment Mode</h2>
+                    <input type="text" name="cardNo" value="<%=storedNo %>"/>
                 </div>
         </div>
         <input class="btn btn-primary" role = "form" value="Update"  id = "editbutton"  type = "submit" ></input>

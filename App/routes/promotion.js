@@ -5,13 +5,13 @@ const { Pool } = require('pg')
 const pool = new Pool({
 	connectionString: process.env.DATABASE_URL
 });
+const queries = require('../queries');
 
 var data;
 var fields;
 router.get('/', function(req, res, next) {
   	/* SQL Query */
-          var sql_query = 'SELECT p.promoid as "Promo Number", r.rname as "Restaurant Name", p.discount as "Discount (%)" FROM promotion p inner join restaurant r on p.rid = r.rid'
-          pool.query(sql_query, (err, returned_data) => {
+          pool.query(queries.getPromotions, (err, returned_data) => {
                   data = returned_data.rows;
                   fields = returned_data.fields;
                   console.log(data.fields);
