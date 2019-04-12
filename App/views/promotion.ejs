@@ -31,10 +31,11 @@
   		  <% for(var i=0; i<data.length; i++) { %>
   		  <tr>
   		    <% for(var j=0; j<fields.length; j++) { %>
-  		    <td><%= data[i][fields[j].name]%></td>
+                  <td><%= data[i][fields[j].name]%></td>
   		    <% } %>
-  		                                <form action = "" method = "get">
+  		                                <form action = "promotion" method = "post">
                                        <td>
+                                           <input type="hidden" name = "promoid" value="<%= data[i]["Promo Number"] %>"> </input>
                                            <input class="btn btn-primary" role = "form" value="Claim"  id = "claimbutton"  type = "submit" ></input>
                                             <td>
                                         </form>

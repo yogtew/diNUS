@@ -1,23 +1,22 @@
 -- Initialize database with test data
 
--- Load data for testcase 1
-DELETE FROM LocationPreferences CASCADE;
-DELETE FROM FoodPreferences CASCADE;
-delete from Promotion cascade;
 delete from PaymentMode cascade;
+delete FROM LocationPreferences cascade;
+delete FROM FoodPreferences cascade;
+delete from Promotion cascade;
 delete from OpeningHours cascade;
 delete from ReviewLikes cascade;
-DELETE FROM Reviews CASCADE;
-DELETE FROM Reserves CASCADE;
-DELETE FROM Customer CASCADE;
+delete FROM Reviews cascade;
+delete FROM Reserves cascade;
+delete FROM Customer cascade;
 delete from Menu cascade;
 delete from Tags cascade;
 delete from TagType cascade;
 delete from Food cascade;
-DELETE FROM RTable CASCADE;
-DELETE FROM Restaurant CASCADE;
+delete FROM RTable cascade;
+delete FROM Restaurant cascade;
 
-INSERT INTO Customer (custid, custname, phone, points, username, pw) VALUES
+insert into Customer (custid, custname, phone, points, username, pw) values
 (default, 'Alice Tan', 81234567, 0, 'aliceinwonderland', 'alicetrox123'),
 (default, 'Bernard Lee', 98512383, 0, 'b', '1'),
 (default, 'Charles Wong', 82347632, 0, 'smileyman', 'smileymaneats123!');
@@ -28,13 +27,28 @@ insert into PaymentMode(cardid, custid, custname) values
 ('1111111111111113', 2, 'Bernard Lee'),
 ('1111111111111114', 3, 'Charles Wong');
 
-INSERT INTO Restaurant(rid, rname, rRating, rLocation) VALUES
+
+--non-franchise restaurant
+insert into Restaurant(rid, rname, rRating, rLocation) values
 (1, 'Dining Hall', 8, 'Central'),
 (2, 'YIH Thai', 2, 'South'),
 (3, 'Ameens', 8, 'North');
 
-insert into Reserves(resid, cardid, restime, respax, tableid, rid, custid) VALUES
-(default, 1111111111111111, )
+insert into Franchise(franchiseid, franchiseName) values
+(1, 'McDonalds'),
+(2, 'KFC'),
+(3, 'Hot Tomato'),
+(4, 'S11'),
+(5, 'Pepper Lunch');
+
+--franchise restaurant
+insert into Restaurant(rid, franchiseid, rname, rRating, rLocation) values
+(4, 1, 'McDonalds North', 7, 'North' ),
+(5, 1, 'McDonalds South', 8, 'South' ),
+(6, 1, 'McDonalds West', 5, 'West' ),
+(7, 2, 'KFC Central', 3, 'Central' ),
+(8, 2, 'KFC South', 3, 'South' );
+
 
 insert into OpeningHours(rid, dayInWeek, openTime, closeTime) values
 (1, 1, '0600', '2200'),
@@ -55,14 +69,28 @@ insert into OpeningHours(rid, dayInWeek, openTime, closeTime) values
 (3, 3, '0800', '0300'),
 (3, 4, '0800', '0300'),
 (3, 5, '0800', '0300'),
-(3, 6, '0800', '0300');
+(3, 6, '0800', '0300'),
+(7, 1, '0600', '2200'),
+(7, 2, '0600', '2200'),
+(7, 3, '0600', '2200'),
+(7, 4, '0600', '2200'),
+(7, 5, '0600', '2200'),
+(7, 6, '0600', '2330'),
+(7, 0, '0600', '2330'),
+(8, 1, '0600', '2200'),
+(8, 2, '0600', '2200'),
+(8, 3, '0600', '2200'),
+(8, 4, '0600', '2200'),
+(8, 5, '0600', '2200'),
+(8, 6, '0600', '2330'),
+(8, 0, '0600', '2330');
 
 insert into Reviews(reviewid, rid, custid, review, rating) values
 (1, 1, 1, 'Very good', 7),
 (2, 2, 2, 'Food too salty', 3),
 (3, 3, 1, 'Expensive', 5);
 
-INSERT INTO RTable(tableid, numSeats, rid) VALUES
+insert into RTable(tableid, numSeats, rid) values
 (1, 2, 1),
 (2, 2, 1),
 (1, 2, 2),
@@ -74,7 +102,10 @@ INSERT INTO RTable(tableid, numSeats, rid) VALUES
 (2, 4, 3),
 (3, 6, 3),
 (4, 8, 3),
-(5, 10,3);
+(5, 10,3),
+(1, 2, 7),
+(1, 4, 8);
+
 
 insert into Food (foodid, foodname) values
 (1, 'Halal Malay Veggie'),
