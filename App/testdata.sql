@@ -37,8 +37,8 @@ insert into PaymentMode(cardid, custid) values
 
 
 --non-franchise restaurant
-insert into Restaurant(rid, rname, rRating, rLocation) values
-(1, 'Dining Hall', 8, 'Central'),
+insert into Restaurant(rid, rname, rDesc, rRating, rLocation) values
+(1, 'Dining Hall', 'Come eat at NUS Dining Halls for a delicious home-cooked meal!', 8, 'Central'),
 (2, 'YIH Thai', 2, 'South'),
 (3, 'Ameens', 8, 'North');
 
@@ -50,7 +50,7 @@ insert into Franchise(franchiseid, franchiseName) values
 (5, 'Pepper Lunch');
 
 --franchise restaurant
-insert into Restaurant(rid, franchiseid, rname, rRating, rLocation) values
+insert into Restaurant(rid, franchiseid, rname, rDesc, rRating, rLocation) values
 (4, 1, 'McDonalds North', 7, 'North' ),
 (5, 1, 'McDonalds South', 8, 'South' ),
 (6, 1, 'McDonalds West', 5, 'West' ),
