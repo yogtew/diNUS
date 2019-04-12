@@ -9,5 +9,7 @@ module.exports = {
     clearFoodPrefsForUser: "delete from FoodPreferences where custid = $1",
     clearLocPrefsForUser: "delete from LocationPreferences where custid = $1",
     setFoodPrefsForUser: "insert into FoodPreferences(custid, tagid) values ",
-    setLocPrefsForUser: "insert into LocationPreferences(custid, plocation) values "
+    setLocPrefsForUser: "insert into LocationPreferences(custid, plocation) values ",
+    updateCardNoForUser: "update PaymentMode set cardid=$1 where custid=$2",
+    getCardNo: 'select cardid from PaymentMode where PaymentMode.custid=$1'
 }
