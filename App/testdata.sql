@@ -21,11 +21,11 @@ INSERT INTO Customer (custid, custname, phone, points, username, pw) VALUES
 (default, 'Bernard Lee', 98512383, 0, 'b', '1'),
 (default, 'Charles Wong', 82347632, 0, 'smileyman', 'smileymaneats123!');
 
-insert into PaymentMode(cardid, custid, custname) values
-('1111111111111111', 1, 'Alice Tan'),
-('1111111111111112', 1, 'Alice Tan'),
-('1111111111111113', 2, 'Bernard Lee'),
-('1111111111111114', 3, 'Charles Wong');
+insert into PaymentMode(cardid, custid) values
+('1111111111111111', 1),
+('1111111111111112', 1),
+('1111111111111113', 2),
+('1111111111111114', 3);
 
 
 --non-franchise restaurant
