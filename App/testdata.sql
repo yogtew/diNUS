@@ -15,6 +15,14 @@ delete from TagType cascade;
 delete from Food cascade;
 delete FROM RTable cascade;
 delete FROM Restaurant cascade;
+delete from Locations cascade;
+
+insert into Locations (location) VALUES
+    ('North'),
+    ('South'),
+    ('East'),
+    ('West'),
+    ('Central');
 
 insert into Customer (custid, custname, phone, points, username, pw) values
 (default, 'Alice Tan', 81234567, 0, 'aliceinwonderland', 'alicetrox123'),

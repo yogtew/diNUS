@@ -9,7 +9,7 @@ const pool = new Pool({
 
 
 router.get('/', function(req, res, next) {
-    if (req.user) {
+    if (req.user && !(req.query.usePref && req.query.usePref == "false")) {
         var uid = req.user.custid
         var user_query =
         'with RestaurantMenu as (select r.rid, r.rname, r.rrating, r.rlocation, m.foodid from Restaurant r inner join Menu m on r.rid = m.rid), ' +

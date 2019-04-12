@@ -19,7 +19,8 @@ module.exports = {
     test: function() {
         console.log("DB Test")
     },
-    query: function(query, cb) {
-        pool.query(query, cb)
+    query: function(query, p1, p2) {
+        if (!p2) pool.query(query, p1);
+        else pool.query(query, p1, p2);
     }
 }
