@@ -36,11 +36,6 @@
            <br>
        </div>
       <!-- /.col-md-4 -->
-      <div class="col-lg-7">
-              <img class="img-fluid rounded mb-4 mb-lg-0" src="http://placehold.it/600x400" alt="">
-            </div>
-            <!-- /.col-lg-8 -->
-    </div>
     <!-- /.row -->
 
     <!-- Call to Action Well -->
@@ -90,6 +85,24 @@
       <!-- /.col-md-4 -->
 
     </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <% for(var i in avgFields) { %>
+                    <th><%= avgFields[i].name%></th>
+                <% }%>
+            </tr>
+        </thead>
+        <tbody>
+            <% for(var i in avgData) { %>
+                <tr>
+                    <% for(var j in avgFields) { %>
+                        <td><%= avgData[i][avgFields[j].name]%></td>
+                    <% }%>
+                </tr>
+            <% }%>
+        </tbody>
+    </table>
     <!-- /.row -->
 
   </div>
