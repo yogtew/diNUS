@@ -10,24 +10,32 @@ const pool = new Pool({
     connectionString: process.env.DATABASE_URL
 });
 
+const db = require("../db");
+const queries = require("../queries")
+
 var custid;
 
 // GET
 router.get('/', require('connect-ensure-login').ensureLoggedIn('/login'), function (req, res, next) {
     custid = req.user.custid;
-    res.render('reservation',
-        {title: 'Making Reservation',
-            displayErrorMsg: false,
-            displayDetailedErrorMsg: false,
-            displayAlternatives: false,
-            message:"",
-            defaultrName: "",
-            defaultresDate: "",
-            defaultresTime: "",
-            defaultresNum: "",
-            defaultcardid: "",
-            isLoggedIn: req.user ? true : false
-        });
+    var rid = req.query.rid || 0
+    db.queryOrPass(rid, queries.getRestaurantById, [rid], (err, data) => {
+        var rname = (data && data.rowCount > 0)?data.rows[0].rname:""
+        res.render('reservation',
+            {title: 'Making Reservation',
+                displayErrorMsg: false,
+                displayDetailedErrorMsg: false,
+                displayAlternatives: false,
+                message:"",
+                defaultrName: rname,
+                defaultresDate: "",
+                defaultresTime: "",
+                defaultresNum: "",
+                defaultcardid: "",
+                isLoggedIn: req.user ? true : false
+            });
+    })
+
 });
 
 /*TODO: replace with queries.sql*/

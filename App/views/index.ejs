@@ -1,36 +1,110 @@
 <!DOCTYPE html>
-<html>
-  <head>
-		<!-- Page Title -->
-    <title>CS2102 Starter Guide</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-		
-		<!-- CSS for Styling -->
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-		
-		<!-- JavaScript for Interactivity -->
-		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-  </head>
-  <body>
-    <h1>diNUS Landing Page</h1>
-	<form action="select" method="get">
-		<select name="table">
-			<% for(var i = 0; i < data.length; i++) {%>
-			<option value = "<%= data[i].table_name%>"><%= data[i].table_name%></option>
-			<% }%>
-		</select>
-		<input type="submit" value="Select"></input>
-	</form>
-	<br/>
-	<form action="insert" method="get">
-		<select name="table">
-			<% for(var i = 0; i < data.length; i++) {%>
-			<option value = "<%= data[i].table_name%>"><%= data[i].table_name%></option>
-			<% }%>
-		</select>
-		<input type="submit" value="Insert"></input>
-	</form>
-  </body>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>diNUS - Login</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="css/small-business.css" rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <% include partials/header.ejs %>
+
+  <!-- Page Content -->
+  <div class="container">
+
+    <!-- Heading Row -->
+    <div class="row align-items-center my-5">
+      <!-- /.col-lg-8 -->
+      <div class="col-lg-1"></div>
+      <div class="col-lg-10">
+        <br>
+        <h1 class="font-weight-light">diNUS Restaurant Reservation System</h1>
+        <p>The diNUS Restaurant reservation is a great way to browse for restaurants near you, book tables easily and avail great discounts. Log in or Sign up now to start browsing for restaurants! </p>
+        <a class="btn btn-primary" href="/browse">Browse Available Restaurants</a>
+      </div>
+      <!-- /.col-md-4 -->
+    </div>
+    <!-- /.row -->
+
+    <!-- Call to Action Well -->
+    <% if (typeof isLogged != "undefined" && isLoggedIn) {%>
+        <div class="card text-white bg-secondary my-5 py-4">
+          <div class="card-body">
+              <h1>Already logged in</h1>
+          </div>
+        </div>
+    <% } else { %>
+        <div class="row my-5 py-4">
+          <div class="col-lg-5 py-4">
+              <h1>Login</h1>
+              <form id="html_form" action="login" role="form" method="post">
+      			<div class="form-group">
+      				<label for="user">User Name</label>
+      				<input type="text" class="form-control" id="user" name="username" placeholder="Username">
+      			</div>
+      			<div class="form-group">
+      				<label for="password">Password</label>
+      				<input type="password" class="form-control" id="pw" name="password" placeholder = "Password">
+      			</div>
+      			<button type="submit" class="btn btn-primary">Submit</button>
+      		</form>
+        </div>
+        <div class="col-lg-1 py-4"></div>
+            <div class="col-lg-5 py-4">
+            <h1>Sign Up</h1>
+            <% if (typeof isError != "undefined") {%><div class="alert alert-<%=isError?'danger':'success' %>"><%= msg %></div><% } %>
+            <% if (typeof isError != "undefined") %>
+            <form id="html_form" action="signup" role="form" method="post">
+                <div class="form-group">
+                    <label for="user">Full Name</label>
+                    <input type="text" class="form-control" id="user" name="custname" placeholder="e.g. Alice Tan">
+                </div>
+                <div class="form-group">
+                    <label for="user">Contact No.</label>
+                    <input type="text" class="form-control" id="user" name="phone" placeholder="e.g. 6777 3777">
+                </div>
+                <div class="form-group">
+                    <label for="user">Username</label>
+                    <input type="text" class="form-control" id="user" name="username" placeholder="e.g. alice123">
+                </div>
+              <div class="form-group">
+                  <label for="password">Password</label>
+                  <input type="password" class="form-control" id="pw" name="password" placeholder = "Password">
+              </div>
+              <button type="submit" class="btn btn-primary">Sign up</button>
+          </form>
+      </div>
+          </div>
+        </div>
+    <% } %>
+
+  </div>
+  <!-- /.container -->
+
+  <!-- Footer -->
+  <footer class="py-5 bg-dark">
+    <div class="container">
+      <p class="m-0 text-center text-white">Copyright &copy; Your Website 2019</p>
+    </div>
+    <!-- /.container -->
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
 </html>

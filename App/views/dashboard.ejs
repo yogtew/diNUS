@@ -60,7 +60,7 @@
                                 <td><%= data[i][fields[j].name]%></td>
                             <% }%>
                             <td>
-                                <a href="#">
+                                <a href="reservation-edit?resid=<%= data[i].resid %>">
                                 <input type="hidden" name = "resid" value="<%= data[i].resid %>"></input>
                                 <input class="btn btn-primary" role = "form" value="Edit"  id = "editbutton"  type = "submit" ></input>
                                 </a>

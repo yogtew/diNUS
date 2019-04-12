@@ -10,7 +10,8 @@ const pool = new Pool({
 var query = "select table_name from information_schema.tables where table_schema = 'public';"
 // var query = "select * from restaurants limit 3";
 router.get('/', function(req, res, next) {
-	res.redirect('login');
+	res.render("index")
+	// res.redirect('login');
 	/*pool.query(query, (err, data) => {
 	    // console.log(data)
 		if (err) {

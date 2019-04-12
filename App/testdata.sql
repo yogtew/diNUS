@@ -27,12 +27,52 @@ insert into Locations (location) VALUES
 insert into Customer (custid, custname, phone, points, username, pw) values
 (default, 'Alice Tan', 81234567, 0, 'aliceinwonderland', 'alicetrox123'),
 (default, 'Bernard Lee', 98512383, 0, 'b', '1'),
-(default, 'Charles Wong', 82347632, 0, 'smileyman', 'smileymaneats123!');
+(default, 'Charles Wong', 82347632, 0, 'smileyman', 'smileymaneats123!'),
+(default, 'Skye Stark', 86614219, 114, 'skye48', '54091'),
+(default, 'Marques Moore', 93223996, 193, 'marques68', '28112'),
+(default, 'Aydin Garrison', 80944612, 103, 'aydin4', '91763'),
+(default, 'Madison Davis', 92773200, 141, 'madison2', '44978'),
+(default, 'King Mcmahon', 95321247, 45, 'king34', '148366'),
+(default, 'Hezekiah Scott', 98947026, 141, 'hezekiah72', '163841'),
+(default, 'Kathryn Cross', 86443063, 86, 'kathryn9', '97663'),
+(default, 'Aidan Hernandez', 95072853, 71, 'aidan38', '137024'),
+(default, 'Justus Lowe', 87012495, 37, 'justus12', '86447'),
+(default, 'Sanaa Serrano', 89869567, 154, 'sanaa5', '107946'),
+(default, 'Arely Zuniga', 83467234, 7, 'arely21', '152584'),
+(default, 'Elle Quinn', 85520505, 159, 'elle79', '147504'),
+(default, 'Yaretzi Morse', 89802967, 183, 'yaretzi1', '139499'),
+(default, 'Dayami Preston', 80237168, 73, 'dayami83', '75249'),
+(default, 'Marcos Mckee', 85786413, 73, 'marcos92', '134077'),
+(default, 'Marvin Henry', 88989200, 80, 'marvin85', '87165'),
+(default, 'Adalyn Park', 90279334, 34, 'adalyn43', '58845'),
+(default, 'Leila Frank', 83752503, 75, 'leila95', '102025'),
+(default, 'Ainsley Vazquez', 85729686, 144, 'ainsley84', '74479'),
+(default, 'Harley Villa', 81323033, 195, 'harley33', '122815');
 
-insert into PaymentMode(cardid, custid) values
-('1111111111111111', 1),
-('1111111111111112', 2),
-('1111111111111113', 3);
+insert into PaymentMode(custid, cardid) values
+(1, '4249608075505230'),
+(2, '1111111111111112'),
+(3, '3494274673589607'),
+(4, '2241934993541458'),
+(5, '3146473049352559'),
+(6, '4350773800657797'),
+(7, '5180439148347532'),
+(8, '4310312454749584'),
+(9, '5749903053392569'),
+(10, '4383807559100821'),
+(11, '1723433554656601'),
+(12, '4575942947379097'),
+(13, '1836609790497286'),
+(14, '9795211157346621'),
+(15, '9734667857813030'),
+(16, '6908589735248908'),
+(17, '1556761163334255'),
+(18, '1514651960695513'),
+(19, '4559917621502849'),
+(20, '5335773088006830'),
+(21, '8513957823758297'),
+(22, '1357159583783902'),
+(23, '4789624568569524');
 
 
 --non-franchise restaurant
