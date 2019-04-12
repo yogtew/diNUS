@@ -10,7 +10,7 @@ const queries = require('../queries');
 var data;
 var fields;
 var custid;
-router.get('/', function(req, res, next) {
+router.get('/', require('connect-ensure-login').ensureLoggedIn('/login'), function(req, res, next) {
   	/* SQL Query */
             custid = req.user.custid;
           pool.query(queries.getPromotions, (err, returned_data) => {

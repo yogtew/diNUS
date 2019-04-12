@@ -1,8 +1,9 @@
 module.exports = {
+    getRestaurantById: "select * from restaurant where rid = $1",
     getTagTypes: "select * from TagType",
     getUserById: "select * from customer where custid = $1",
     getFoodPreferences: "select * from FoodPreferences where custid = $1",
-    getReservations: 'select Restaurant.rname as "Restaurant Name", to_char(Reserves.restime, \'HH12:MI\') as "Time", resid FROM Reserves natural join Restaurant where Reserves.custid = $1',
+    getReservations: 'select Restaurant.rname as "Restaurant Name", to_char(Reserves.restime, \'DD Mon HH12:MI am\') as "Time", resid FROM Reserves natural join Restaurant where Reserves.custid = $1',
     getCombinedFoodPreferences: "select T.tagid, T.tagtype, custid is not null as checked from TagType T left join (select * from FoodPreferences where custid = $1) F on F.tagid = T.tagid;",
     getCombinedLocPreferences: "select L.location, custid is not null as checked from Locations L left join (select * from LocationPreferences where custid = $1) P on P.plocation = L.location;",
     getLocationPreferences: "select * from LocationPreferences where custid = $1",
