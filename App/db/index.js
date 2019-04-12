@@ -22,5 +22,12 @@ module.exports = {
     query: function(query, p1, p2) {
         if (!p2) pool.query(query, p1);
         else pool.query(query, p1, p2);
+    },
+    queryOrPass: function(condition, q, p1, cb) {
+        if (condition) {
+            this.query(q, p1, cb)
+        } else {
+            cb();
+        }
     }
 }

@@ -67,7 +67,7 @@ router.post('/', function(req, res, next) {
 			foodPrefs.push(x)
 		})
 		console.log(queries.setFoodPrefsForUser + expand(foodTags.length, 2), foodPrefs)
-		db.query(queries.setFoodPrefsForUser + expand(foodTags.length, 2), foodPrefs, (err, data) => {
+		db.queryOrPass(foodTags.length > 0, queries.setFoodPrefsForUser + expand(foodTags.length, 2), foodPrefs, (err, data) => {
 			if (handleError(err, res)) return;
 			db.query(queries.clearLocPrefsForUser, [uid], (err, data) => {
 				if (handleError(err, res)) return;
@@ -77,7 +77,7 @@ router.post('/', function(req, res, next) {
 					locPrefs.push(x)
 				})
 				console.log(queries.setLocPrefsForUser + expand(locTags.length, 2), locPrefs)
-				db.query(queries.setLocPrefsForUser + expand(locTags.length, 2), locPrefs, (err, data) => {
+				db.queryOrPass(locTags.length > 0, queries.setLocPrefsForUser + expand(locTags.length, 2), locPrefs, (err, data) => {
 					if (handleError(err, res)) return;
 					console.log(foodPrefs, locPrefs)
 					res.redirect("dashboard");
