@@ -86,12 +86,22 @@ router.post('/', function(req, res, next) {
 				console.log(queries.setLocPrefsForUser + expand(locTags.length, 2), locPrefs)
 				db.queryOrPass(locTags.length > 0, queries.setLocPrefsForUser + expand(locTags.length, 2), locPrefs, (err, data) => {
 					if (handleError(err, res)) return;
-					    console.log(queries.updateCardNoForUser, [cardNo,uid])
-                        db.query(queries.updateCardNoForUser, [cardNo,uid], (err, data) => {
-                            // console.log(foodPrefs, locPrefs)
-                            console.log(queries.updateCardNoForUser, [cardNo, uid])
-                            res.redirect("dashboard");
-                        })
+					    db.query(queries.checkIfUserHasCardNo, [uid], (err, data) => {
+					        if (data.rows.length == 0) {
+                                console.log(queries.insertCardNoForUser, [cardNo,uid])
+                                db.query(queries.insertCardNoForUser, [cardNo,uid], (err, data) => {
+                                // console.log(foodPrefs, locPrefs)
+                                console.log(queries.insertCardNoForUser, [cardNo, uid])
+                                res.redirect("dashboard");
+                                })} else {
+                                                        console.log(queries.updateCardNoForUser, [cardNo,uid])
+                                                        db.query(queries.updateCardNoForUser, [cardNo,uid], (err, data) => {
+                                                        // console.log(foodPrefs, locPrefs)
+                                                        console.log(queries.updateCardNoForUser, [cardNo, uid])
+                                                        res.redirect("dashboard");
+                                                        });
+                                }
+                                })
 				})
 			})
 		})
