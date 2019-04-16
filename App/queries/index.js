@@ -12,8 +12,10 @@ module.exports = {
     setFoodPrefsForUser: "insert into FoodPreferences(custid, tagid) values ",
     setLocPrefsForUser: "insert into LocationPreferences(custid, plocation) values ",
     getAvgReservations: "with ReservationData as (select B.rname as resName, cast(extract(month from A.restime) as int) as nameOfMonth, cast(count(*) as int) as numOfReservations from reserves A natural join restaurant B where rid = $1 group by (extract(month from A.restime), B.rid)) select RD.resName, RD.nameOfMonth, Avg(RD.numOfReservations) over W as avgReservations from ReservationData RD window W as(partition by RD.resName order by RD.nameOfMonth rows 2 preceding)",
-    updateCardNoForUser: "insert into PaymentMode values ($2, $1) on conflict ($2) do update set cardid = $1",
-    getCardNo: 'select cardid from PaymentMode where PaymentMode.custid=$1',
+    checkIfUserHasCardNo: "select 1 from PaymentMode where custid = $1",
+    updateCardNoForUser: "update PaymentMode set cardid = $1 where custid = $2",
+    insertCardNoForUser: "insert into PaymentMode values ($1, $2)",
+    getCardNo: 'select cardid from PaymentMode where PaymentMode.custid=$1',        //card no is $1
     getPromotions: 'SELECT p.promoid as "Promo Number", r.rname as "Restaurant Name", p.discount as "Discount (%)" FROM promotion p inner join restaurant r on p.rid = r.rid',
     browseAll: 'SELECT distinct rname as "Name", rLocation as "Location", rRating as "Rating", rid FROM restaurant r',
     browseBasedonUserPreference: 'with RestaurantMenu as (select r.rid, r.rname, r.rrating, r.rlocation, m.foodid from Restaurant r inner join Menu m on r.rid = m.rid), ' +
