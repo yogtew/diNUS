@@ -94,12 +94,12 @@ router.post('/', function(req, res, next) {
                                 console.log(queries.insertCardNoForUser, [cardNo, uid])
                                 res.redirect("dashboard");
                                 })} else {
-                                                        console.log(queries.updateCardNoForUser, [cardNo,uid])
-                                                        db.query(queries.updateCardNoForUser, [cardNo,uid], (err, data) => {
-                                                        // console.log(foodPrefs, locPrefs)
-                                                        console.log(queries.updateCardNoForUser, [cardNo, uid])
-                                                        res.redirect("dashboard");
-                                                        });
+                                    console.log(queries.updateCardNoForUser, [cardNo,uid])
+                                    db.query(queries.updateCardNoForUser, [cardNo,uid], (err, data) => {
+                                    // console.log(foodPrefs, locPrefs)
+                                    console.log(queries.updateCardNoForUser, [cardNo, uid])
+                                    res.redirect("dashboard");
+                                    });
                                 }
                                 })
 				})
