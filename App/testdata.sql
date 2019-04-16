@@ -1,5 +1,3 @@
--- Initialize database with test data
-
 delete from PaymentMode cascade;
 delete FROM LocationPreferences cascade;
 delete FROM FoodPreferences cascade;
@@ -78,8 +76,12 @@ insert into PaymentMode(custid, cardid) values
 --non-franchise restaurant
 insert into Restaurant(rid, rname, rDesc, rRating, rLocation) values
 (1, 'Dining Hall', 'Come eat at NUS Dining Halls for a delicious home-cooked meal!', 8, 'Central'),
-(2, 'YIH Thai','Thai food', 2, 'South'),
-(3, 'Ameens', 'Fat foood', 8, 'North');
+(2, 'YIH Thai','Thai food at Yusof Ishak House', 2, 'South'),
+(3, 'Ameens', 'Indian foood', 8, 'North'),
+(9, 'YIH Chinese', 'YIH Chinese Stall', 6, 'South'),
+(10, 'Tea Party', 'Pasta at University Sports Centre', 10, 'South'),
+(11, 'Biz Western', 'The uncle takes orders real quick.', 7, 'South'),
+(12, 'Deck Mala', 'Spicy', 7, 'South');
 
 insert into Franchise(franchiseid, franchiseName) values
 (1, 'McDonalds'),
@@ -94,8 +96,9 @@ insert into Restaurant(rid, franchiseid, rname, rDesc, rRating, rLocation) value
 (5, 1, 'McDonalds South', 'get macs in the south', 8, 'South' ),
 (6, 1, 'McDonalds West', 'get macs in the west', 5, 'West' ),
 (7, 2, 'KFC Central', 'get kfc in the central', 3, 'Central' ),
-(8, 2, 'KFC South', 'get kfc in the south', 3, 'South' );
-
+(8, 2, 'KFC South', 'get kfc in the south', 5, 'South' ),
+(13, 2, 'KFC North', 'get kfc in the north', 6, 'North' ),
+(14, 2, 'KFC East', 'get kfc in the east', 8, 'East' );
 
 insert into OpeningHours(rid, dayInWeek, openTime, closeTime) values
 (1, 1, '0600', '2200'),
@@ -130,12 +133,21 @@ insert into OpeningHours(rid, dayInWeek, openTime, closeTime) values
 (8, 4, '0600', '2200'),
 (8, 5, '0600', '2200'),
 (8, 6, '0600', '2330'),
-(8, 0, '0600', '2330');
-
-insert into Reviews(reviewid, rid, custid, review, rating) values
-(1, 1, 1, 'Very good', 7),
-(2, 2, 2, 'Food too salty', 3),
-(3, 3, 1, 'Expensive', 5);
+(8, 0, '0600', '2330'),
+(9, 1, '0600', '2200'),
+(9, 2, '0600', '2200'),
+(9, 3, '0600', '2200'),
+(9, 4, '0600', '2200'),
+(9, 5, '0600', '2200'),
+(9, 6, '0600', '2330'),
+(9, 0, '0600', '2330'),
+(10, 1, '0600', '2200'),
+(10, 2, '0600', '2200'),
+(10, 3, '0600', '2200'),
+(10, 4, '0600', '2200'),
+(10, 5, '0600', '2200'),
+(10, 6, '0600', '2330'),
+(10, 0, '0600', '2330');
 
 insert into RTable(tableid, numSeats, rid) values
 (1, 2, 1),
@@ -150,8 +162,18 @@ insert into RTable(tableid, numSeats, rid) values
 (3, 6, 3),
 (4, 8, 3),
 (5, 10,3),
+(1, 4, 4),
+(1, 4, 5),
+(1, 4, 6),
 (1, 2, 7),
-(1, 4, 8);
+(2, 2, 7),
+(1, 4, 8),
+(2, 4, 8),
+(1, 4, 9),
+(2, 4, 9),
+(1, 4, 10),
+(2, 4, 10);
+
 
 
 insert into Food (foodid, foodname) values
@@ -166,7 +188,23 @@ insert into Food (foodid, foodname) values
 (9, 'Thai Green Curry'),
 (10, 'Thai Fried Rice'),
 (11, 'Thai Tom Yum'),
-(12, 'Cheese Fries');
+(12, 'Cheese Fries'),
+(13, 'Pinky Pasta'),
+(14, 'Bacon Aglio'),
+(15, 'Mushroom Aglio'),
+(16, 'Aglio Olio'),
+(17, 'Carbonara'),
+(18, 'Chicken Chop'),
+(19, 'Chicken Burger'),
+(20, 'Fish and Chips'),
+(21, 'Fish Burger'),
+(22, 'Mala Set 1'),
+(23, 'Mala Set 2'),
+(24, 'Mala Set 3'),
+(25, 'Ban Mian'),
+(26, 'You Mian'),
+(27, 'Ja Jiang Mian'),
+(28, 'Dumpling Soup');
 
 insert into TagType (tagid, tagtype) values
 (1, 'Western'),
@@ -198,7 +236,32 @@ insert into Tags (foodid, tagid) values
 (10, 5),
 (11, 5),
 (12, 1),
-(12, 6);
+(12, 6),
+(13, 1),
+(14, 1),
+(15, 1),
+(16, 1),
+(17, 1),
+(15, 7),
+(16, 7),
+(18, 1),
+(19, 1),
+(20, 1),
+(21, 1),
+(18, 6),
+(19, 6),
+(20, 6),
+(21, 6),
+(22, 4),
+(23, 4),
+(24, 4),
+(23, 6),
+(24, 7),
+(25, 4),
+(26, 4),
+(27, 4),
+(28, 4),
+(28, 7);
 
 insert into Menu(rid, foodid, price) values
 (1, 1, 1),
@@ -212,7 +275,23 @@ insert into Menu(rid, foodid, price) values
 (2, 9, 1),
 (2, 10, 1),
 (2, 11, 1),
-(3, 12, 1);
+(3, 12, 1),
+(9, 25, 3),
+(9, 26, 3),
+(9, 27, 4),
+(9, 28, 4),
+(10, 13, 6),
+(10, 14, 4),
+(10, 15, 4),
+(10, 16, 4),
+(10, 17, 5),
+(11, 18, 3),
+(11, 19, 2),
+(11, 20, 4),
+(11, 21, 2),
+(12, 22, 5),
+(12, 23, 4),
+(12, 24, 3);
 
 insert into Promotion(promoid, rid, discount) values
 (1, 1, 30),
@@ -229,3 +308,8 @@ insert into FoodPreferences (custid, tagid) values
 insert into LocationPreferences(custid, plocation) values
 (1, 'Central'),
 (1, 'North');
+
+-- both  tables are booked on '2019-04-24 18:30' at KFC Central
+insert into Reserves(resid, cardid, restime, respax, tableid, rid, custid) values
+(DEFAULT, '4249608075505230', '2019-04-24 18:00', 1, 1, 7, 2),
+(DEFAULT, '1111111111111112', '2019-04-24 18:30', 1, 1, 7, 1);
