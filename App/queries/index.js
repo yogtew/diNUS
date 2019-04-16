@@ -17,6 +17,7 @@ module.exports = {
     insertCardNoForUser: "insert into PaymentMode values ($1, $2)",
     getCardNo: 'select cardid from PaymentMode where PaymentMode.custid=$1',        //card no is $1
     getPromotions: 'SELECT p.promoid as "Promo Number", r.rname as "Restaurant Name", p.discount as "Discount (%)" FROM promotion p inner join restaurant r on p.rid = r.rid',
+    getMenu: "select * from (Menu M inner join Food F on M.foodid = F.foodid) inner join (Tags T inner join TagType TT on T.tagid = TT.tagid) on M.foodid = T.foodid where rid = $1",
     browseAll: 'SELECT distinct rname as "Name", rLocation as "Location", rRating as "Rating", rid FROM restaurant r',
     browseBasedonUserPreference: 'with RestaurantMenu as (select r.rid, r.rname, r.rrating, r.rlocation, m.foodid from Restaurant r inner join Menu m on r.rid = m.rid), ' +
                                          'RestaurantMenuTags as (select rm.rid, rm.rname, rm.rrating, rm.rlocation, rm.foodid, t.tagid from RestaurantMenu rm inner join Tags t on rm.foodid = t.foodid), ' +
