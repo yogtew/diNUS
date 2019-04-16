@@ -24,7 +24,7 @@ router.get('/', require('connect-ensure-login').ensureLoggedIn('/login'), functi
 							// console.log(locationPrefs)
                             db.query(queries.getCardNo, [uid], (err, data) => {
                                 if (handleError(err, res)) return;
-                                var cardNo = data.rows[0].cardid
+                                var cardNo = data.rowCount > 0 ? data.rows[0].cardid : ""
                                 res.render('dashboard', {
                                     title: 'View Table',
                                     data: reservations.rows,
@@ -88,7 +88,8 @@ router.post('/', function(req, res, next) {
 					if (handleError(err, res)) return;
 					    console.log(queries.updateCardNoForUser, [cardNo,uid])
                         db.query(queries.updateCardNoForUser, [cardNo,uid], (err, data) => {
-                            console.log(foodPrefs, locPrefs)
+                            // console.log(foodPrefs, locPrefs)
+                            console.log(queries.updateCardNoForUser, [cardNo, uid])
                             res.redirect("dashboard");
                         })
 				})
