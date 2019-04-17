@@ -29,5 +29,15 @@ module.exports = {
         } else {
             cb();
         }
+    },
+    handleError: function(err, res) {
+        if (err) {
+            res.render('error', {
+                message: err,
+                error: { status: "", stack: "" }
+            })
+            return true
+        }
+        return false
     }
 }
